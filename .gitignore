@@ -1,0 +1,28 @@
+## Ignore Atmel Studio temporary files and build results
+# https://www.microchip.com/mplab/avr-support/atmel-studio-7
+
+# Atmel Studio is powered by an older version of Visual Studio,
+# so most of the project and solution files are the same as VS files,
+# only prefixed by an `at`.
+
+#Build Directories
+
+#Build Results
+RoboArm/RoboArm/Debug/*.o
+RoboArm/RoboArm/Debug/*.d
+RoboArm/RoboArm/Debug/*.eep
+RoboArm/RoboArm/Debug/*.elf
+RoboArm/RoboArm/Debug/*.hex
+RoboArm/RoboArm/Debug/*.map
+RoboArm/RoboArm/Debug/*.srec
+
+RoboArm/RoboArm/Release/*.o
+RoboArm/RoboArm/Release/*.d
+RoboArm/RoboArm/Release/*.eep
+RoboArm/RoboArm/Release/*.elf
+RoboArm/RoboArm/Release/*.hex
+RoboArm/RoboArm/Release/*.map
+RoboArm/RoboArm/Release/*.srec
+
+#User Specific Files
+RoboArm/*.atsuo
