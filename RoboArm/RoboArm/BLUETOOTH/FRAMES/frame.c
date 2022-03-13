@@ -21,7 +21,7 @@ frame_t *SendingFrame = NULL;												/* ramka nadawcza							*/
 /* LOCAL:	*/
 char *StartCode = "SF";														/* kod pocz¹tku ramki						*/
 char *EndCode = "EF";														/* kod koñca ramki							*/
-char *FrameTypes[4] = { "STATUS", "MOVE", "TASK", "JOB" };					/* typy ramek								*/
+char *FrameTypes[6] = { "STATUS", "MOVE", "TASK", "ETASK", "JOB", "EJOB" };	/* typy ramek								*/
 
 /*----------------------------------------------------------------------------------------------------------------------*/
 
@@ -47,18 +47,19 @@ frame_t *Frame_Init(frame_t *frame)
 	return frame;
 }
 
-uint8_t Frame_Fill(buffer_t *buffer)
+uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame)
 {
-	strcpy(ReceivingFrame->StartCode, Buffer_GetString(buffer));			/* pobranie kodu ramki						*/
-	if (!(strncmp(StartCode, ReceivingFrame->StartCode, 2)))				/* jeœli kod ramki jest poprawny to:		*/
+	strcpy(frame->StartCode, Buffer_GetString(buffer));						/* pobranie kodu ramki						*/
+	if (!(strncmp(StartCode, frame->StartCode, 2)))							/* jeœli kod ramki jest poprawny to:		*/
 	{
-		strcpy(ReceivingFrame->FrameType, Buffer_GetString(buffer));		/* pobierz typ ramki						*/
-		strcpy(ReceivingFrame->Data1, Buffer_GetString(buffer));			/* pobierz pierwszy wiersz danych			*/
-		strcpy(ReceivingFrame->Data2, Buffer_GetString(buffer));			/* pobierz pierwszy wiersz danych			*/
-		strcpy(ReceivingFrame->Data3, Buffer_GetString(buffer));			/* pobierz pierwszy wiersz danych			*/
-		strcpy(ReceivingFrame->Data4, Buffer_GetString(buffer));			/* pobierz pierwszy wiersz danych			*/
-		strcpy(ReceivingFrame->EndCode, Buffer_GetString(buffer));			/* pobierz kod koñca ramki					*/
-		if (!(strncmp(EndCode, ReceivingFrame->EndCode, 2)))				/* jeœli kod koñca ramki jest poprawny to:	*/
+		strcpy(frame->FrameType, Buffer_GetString(buffer));					/* pobierz typ ramki						*/
+		strcpy(frame->Data1, Buffer_GetString(buffer));						/* pobierz pierwszy wiersz danych			*/
+		strcpy(frame->Data2, Buffer_GetString(buffer));						/* pobierz drugi wiersz danych				*/
+		strcpy(frame->Data3, Buffer_GetString(buffer));						/* pobierz trzeci wiersz danych				*/
+		strcpy(frame->Data4, Buffer_GetString(buffer));						/* pobierz czwarty wiersz danych			*/
+		strcpy(frame->Data5, Buffer_GetString(buffer));						/* pobierz pi¹ty wiersz danych				*/
+		strcpy(frame->EndCode, Buffer_GetString(buffer));					/* pobierz kod koñca ramki					*/
+		if (!(strncmp(EndCode, frame->EndCode, 2)))							/* jeœli kod koñca ramki jest poprawny to:	*/
 		{
 			Buffer_Clear(buffer);											/* czyszczenie bufora						*/
 			return 1;														/* zwróæ 1 (odczyt OK)						*/													
@@ -74,7 +75,6 @@ uint8_t Frame_Fill(buffer_t *buffer)
 		Buffer_Clear(buffer);												/* czyszczenie bufora						*/
 		return 0;															/* jeœli kod startu nie w³aœciwy to zwróæ 0	*/
 	}
-	return 1;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------*/

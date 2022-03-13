@@ -22,6 +22,7 @@ typedef struct FRAME_S
 	char *Data2;								/* dane ramki															*/
 	char *Data3;								/* dane ramki															*/
 	char *Data4;								/* dane ramki															*/
+	char *Data5;								/* dane ramki															*/
 	char *EndCode;								/* kod koñca ramki														*/
 }frame_t;
 
@@ -38,13 +39,11 @@ extern frame_t *SendingFrame;					/* ramka nadawcza														*/
 
 /*-----------------------------------------------deklaracje funkcji-----------------------------------------------------*/
 
-frame_t *Frame_Init(frame_t *frame);			/* inicjalizacja ramki danych											*/
+frame_t *Frame_Init(frame_t *frame);							/* inicjalizacja ramki danych							*/
 
-uint8_t Frame_Fill(buffer_t *buffer);			/* zapis danych z bufora do ramki										*/
+uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame);			/* zapis danych z bufora do ramki						*/
 
-void *Frame_Read(frame_t *frame);				/* odczyt danych z ramki												*/						
-
-void Frame_Send(frame_t *frame);				/* wys³anie ramki przez bluetooth										*/
+uint8_t *Frame_Check(frame_t *frame);							/* analiza danych z ramki								*/						
 
 /*----------------------------------------------------------------------------------------------------------------------*/
 

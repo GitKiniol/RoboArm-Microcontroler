@@ -30,7 +30,10 @@ int main(void)
 	sei();
     while (1) 
     {
-		Bluetooth->Read();
+		if(Bluetooth->Read() == 1)									// jeœli odczyt zakoñczony poprawnie, to:
+		{
+			Bluetooth->SendStatus(DATA_OK);							// wyœlij informacje ¿e status OK
+		}
     }
 }
 
