@@ -37,12 +37,15 @@ SUBDIRS :=  \
 ../BLUETOOTH/HC05 \
 ../BLUETOOTH/USART \
 ../BLUETOOTH/USART/BUFFER \
+../CONTROL/DRIVERS \
+../CONTROL/WORK \
 ../HMI \
 ../HMI/KEYBORD \
 ../HMI/DISPLAY \
 ../HMI/MENU \
 ../HMI/TWI_BUS \
 ../BLUETOOTH \
+../CONTROL \
 ../SYS_CLOCK
 
 
@@ -52,6 +55,8 @@ C_SRCS +=  \
 ../BLUETOOTH/HC05/hc05.c \
 ../BLUETOOTH/USART/BUFFER/buffer.c \
 ../BLUETOOTH/USART/usart.c \
+../CONTROL/DRIVERS/drivers.c \
+../CONTROL/WORK/work.c \
 ../HMI/DISPLAY/fonts.c \
 ../HMI/DISPLAY/oled_SSD1306.c \
 ../HMI/TWI_BUS/twi.c \
@@ -70,6 +75,8 @@ BLUETOOTH/FRAMES/frame.o \
 BLUETOOTH/HC05/hc05.o \
 BLUETOOTH/USART/BUFFER/buffer.o \
 BLUETOOTH/USART/usart.o \
+CONTROL/DRIVERS/drivers.o \
+CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/TWI_BUS/twi.o \
@@ -81,6 +88,8 @@ BLUETOOTH/FRAMES/frame.o \
 BLUETOOTH/HC05/hc05.o \
 BLUETOOTH/USART/BUFFER/buffer.o \
 BLUETOOTH/USART/usart.o \
+CONTROL/DRIVERS/drivers.o \
+CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/TWI_BUS/twi.o \
@@ -92,6 +101,8 @@ BLUETOOTH/FRAMES/frame.d \
 BLUETOOTH/HC05/hc05.d \
 BLUETOOTH/USART/BUFFER/buffer.d \
 BLUETOOTH/USART/usart.d \
+CONTROL/DRIVERS/drivers.d \
+CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/TWI_BUS/twi.d \
@@ -103,6 +114,8 @@ BLUETOOTH/FRAMES/frame.d \
 BLUETOOTH/HC05/hc05.d \
 BLUETOOTH/USART/BUFFER/buffer.d \
 BLUETOOTH/USART/usart.d \
+CONTROL/DRIVERS/drivers.d \
+CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/TWI_BUS/twi.d \
@@ -145,6 +158,20 @@ BLUETOOTH/USART/BUFFER/buffer.o: ../BLUETOOTH/USART/BUFFER/buffer.c
 	
 
 BLUETOOTH/USART/usart.o: ../BLUETOOTH/USART/usart.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+CONTROL/DRIVERS/drivers.o: ../CONTROL/DRIVERS/drivers.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+CONTROL/WORK/work.o: ../CONTROL/WORK/work.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

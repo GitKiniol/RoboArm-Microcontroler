@@ -49,6 +49,8 @@ frame_t *Frame_Init(frame_t *frame)
 
 uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame)
 {
+	/* Funkcja kopiuje dane z bufora do zmiennej typu frame i zwraca 1 gdy ramka jest OK lub 0 gdy ramka uszkodzona		*/
+	
 	strcpy(frame->StartCode, Buffer_GetString(buffer));						/* pobranie kodu ramki						*/
 	if (!(strncmp(StartCode, frame->StartCode, 2)))							/* jeœli kod ramki jest poprawny to:		*/
 	{
@@ -75,6 +77,13 @@ uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame)
 		Buffer_Clear(buffer);												/* czyszczenie bufora						*/
 		return 0;															/* jeœli kod startu nie w³aœciwy to zwróæ 0	*/
 	}
+}
+
+uint8_t Frame_Check(frame_t *frame)
+{
+	/* funkcja sprawdza jaki rodzaj typ ramki zosta³ odebrany i zwraca liczbê odpowiadaj¹c¹ typowi ramki				*/
+	
+	return 0;
 }
 
 /*----------------------------------------------------------------------------------------------------------------------*/

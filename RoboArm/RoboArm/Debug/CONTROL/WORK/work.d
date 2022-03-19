@@ -1,0 +1,1 @@
+CONTROL/WORK/work.d CONTROL/WORK/work.o: ../CONTROL/WORK/work.c

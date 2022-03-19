@@ -161,6 +161,18 @@
     <Compile Include="BLUETOOTH\USART\usart.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CONTROL\DRIVERS\drivers.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CONTROL\DRIVERS\drivers.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CONTROL\WORK\work.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CONTROL\WORK\work.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HMI\DISPLAY\displaytypes.h">
       <SubType>compile</SubType>
     </Compile>
@@ -197,12 +209,15 @@
     <Folder Include="BLUETOOTH\HC05" />
     <Folder Include="BLUETOOTH\USART" />
     <Folder Include="BLUETOOTH\USART\BUFFER" />
+    <Folder Include="CONTROL\DRIVERS" />
+    <Folder Include="CONTROL\WORK" />
     <Folder Include="HMI" />
     <Folder Include="HMI\KEYBORD" />
     <Folder Include="HMI\DISPLAY" />
     <Folder Include="HMI\MENU" />
     <Folder Include="HMI\TWI_BUS" />
     <Folder Include="BLUETOOTH" />
+    <Folder Include="CONTROL" />
     <Folder Include="SYS_CLOCK" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />

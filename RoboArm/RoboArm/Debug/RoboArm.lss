@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00000e78  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000210  00000000  00000000  00000eb8  2**0
+  5 .debug_aranges 00000218  00000000  00000000  00000eb8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00006fe0  00000000  00000000  000010c8  2**0
+  6 .debug_info   0000700e  00000000  00000000  000010d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000468d  00000000  00000000  000080a8  2**0
+  7 .debug_abbrev 000046a9  00000000  00000000  000080de  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000019cd  00000000  00000000  0000c735  2**0
+  8 .debug_line   000019e4  00000000  00000000  0000c787  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000694  00000000  00000000  0000e104  2**2
+  9 .debug_frame  000006a4  00000000  00000000  0000e16c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003617  00000000  00000000  0000e798  2**0
+ 10 .debug_str    00003623  00000000  00000000  0000e810  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001fda  00000000  00000000  00011daf  2**0
+ 11 .debug_loc    00002000  00000000  00000000  00011e33  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000190  00000000  00000000  00013d89  2**0
+ 12 .debug_ranges 00000198  00000000  00000000  00013e33  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -162,9 +162,9 @@ Disassembly of section .text:
  1f8:	0c 94 2a 01 	jmp	0x254	; 0x254 <__bad_interrupt>
 
 000001fc <__trampolines_start>:
- 1fc:	0c 94 f4 01 	jmp	0x3e8	; 0x3e8 <HC05_SendStatus>
- 200:	0c 94 e3 01 	jmp	0x3c6	; 0x3c6 <HC05_Read>
- 204:	0c 94 e0 01 	jmp	0x3c0	; 0x3c0 <HC05_SendString>
+ 1fc:	0c 94 e0 01 	jmp	0x3c0	; 0x3c0 <HC05_SendString>
+ 200:	0c 94 f4 01 	jmp	0x3e8	; 0x3e8 <HC05_SendStatus>
+ 204:	0c 94 e3 01 	jmp	0x3c6	; 0x3c6 <HC05_Read>
 
 00000208 <__ctors_end>:
  208:	11 24       	eor	r1, r1
@@ -309,6 +309,8 @@ uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame)
  2e4:	df 93       	push	r29
  2e6:	8c 01       	movw	r16, r24
  2e8:	eb 01       	movw	r28, r22
+	/* Funkcja kopiuje dane z bufora do zmiennej typu frame i zwraca 1 gdy ramka jest OK lub 0 gdy ramka uszkodzona		*/
+	
 	strcpy(frame->StartCode, Buffer_GetString(buffer));						/* pobranie kodu ramki						*/
  2ea:	0e 94 d5 02 	call	0x5aa	; 0x5aa <Buffer_GetString>
  2ee:	bc 01       	movw	r22, r24

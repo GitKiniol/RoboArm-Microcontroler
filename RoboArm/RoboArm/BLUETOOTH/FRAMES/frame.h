@@ -43,7 +43,7 @@ frame_t *Frame_Init(frame_t *frame);							/* inicjalizacja ramki danych							*
 
 uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame);			/* zapis danych z bufora do ramki						*/
 
-uint8_t *Frame_Check(frame_t *frame);							/* analiza danych z ramki								*/						
+uint8_t Frame_Check(frame_t *frame);							/* analiza danych z ramki								*/						
 
 /*----------------------------------------------------------------------------------------------------------------------*/
 
