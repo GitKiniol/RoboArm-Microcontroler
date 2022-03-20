@@ -52,14 +52,22 @@ Discarded input sections
  .text          0x00000000        0x0 CONTROL/DRIVERS/drivers.o
  .data          0x00000000        0x0 CONTROL/DRIVERS/drivers.o
  .bss           0x00000000        0x0 CONTROL/DRIVERS/drivers.o
- .debug_line    0x00000000        0x0 CONTROL/DRIVERS/drivers.o
- .debug_str     0x00000000      0x13b CONTROL/DRIVERS/drivers.o
+ .debug_info    0x00000000       0x5d CONTROL/DRIVERS/drivers.o
+ .debug_abbrev  0x00000000       0x26 CONTROL/DRIVERS/drivers.o
+ .debug_aranges
+                0x00000000       0x18 CONTROL/DRIVERS/drivers.o
+ .debug_line    0x00000000       0x1a CONTROL/DRIVERS/drivers.o
+ .debug_str     0x00000000      0x1ab CONTROL/DRIVERS/drivers.o
  .comment       0x00000000       0x31 CONTROL/DRIVERS/drivers.o
  .text          0x00000000        0x0 CONTROL/WORK/work.o
  .data          0x00000000        0x0 CONTROL/WORK/work.o
  .bss           0x00000000        0x0 CONTROL/WORK/work.o
- .debug_line    0x00000000        0x0 CONTROL/WORK/work.o
- .debug_str     0x00000000      0x135 CONTROL/WORK/work.o
+ .debug_info    0x00000000       0x5d CONTROL/WORK/work.o
+ .debug_abbrev  0x00000000       0x26 CONTROL/WORK/work.o
+ .debug_aranges
+                0x00000000       0x18 CONTROL/WORK/work.o
+ .debug_line    0x00000000       0x1a CONTROL/WORK/work.o
+ .debug_str     0x00000000      0x1a5 CONTROL/WORK/work.o
  .comment       0x00000000       0x31 CONTROL/WORK/work.o
  .text          0x00000000        0x0 HMI/DISPLAY/fonts.o
  .data          0x00000000        0x0 HMI/DISPLAY/fonts.o
