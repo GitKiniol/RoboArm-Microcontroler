@@ -25,7 +25,7 @@ typedef struct MOVE_STRUCT					/* struktura zawiera parametry ruchu pojedynczej 
 	uint8_t Direction : 1;					/* kierunek obrotów osi 1 - prawo, 0 - lewo										*/
 	uint8_t Blend : 1;						/* ³¹czenie ruchów 0 - ruch indywidualny, 1 - ruch jednoczesny z innymi osiami	*/
 	uint8_t Index;							/* indeks aktualnego ruchu														*/
-	MOVE_STRUCT *Next;						/* wskaŸnik na kolejny ruch														*/
+	void *Next;								/* wskaŸnik na kolejny ruch														*/
 }move_t;
 
 typedef struct TASK_STRUCT					/* struktura w formie listy powi¹zanej elementów MOVE							*/
@@ -49,7 +49,9 @@ typedef struct TASK_STRUCT					/* struktura w formie listy powi¹zanej elementów 
 
 /*---------------------------------------------------Deklaracje funkcji-----------------------------------------------------*/
 
+move_t *Work_CreateMove(void);								/* funkcja alokuje pamiêæ dla struktury typu Move				*/
 
+void Work_DeleteMove(move_t *move);							/* funkcja zwalnia pomiêæ zajêt¹ przez strukturê Move			*/
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 

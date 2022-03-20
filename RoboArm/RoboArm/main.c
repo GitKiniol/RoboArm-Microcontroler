@@ -14,6 +14,7 @@
 #include "BLUETOOTH/USART/usart.h"
 #include "BLUETOOTH/FRAMES/frame.h"
 #include "BLUETOOTH/HC05/hc05.h"
+#include "CONTROL/WORK/work.h"
 
 TWI_t *lcdBus = &TWIC;
 
@@ -26,7 +27,7 @@ int main(void)
 	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
-	
+
 	sei();
     while (1) 
     {
