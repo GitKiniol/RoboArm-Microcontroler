@@ -72,12 +72,12 @@ typedef struct ScreensList							/* struktura opisuje listê ekranów													
 }screensList_t;
 
 
-typedef struct List									/* struktura opisuje listê powi¹zan¹ w postaci ogólnej										*/
-{
-	void *current;									/* wskaŸnik na aktualny ekran																*/
-	void *head;										/* wskaŸnik na pierwszy ekran																*/
-	void *tail;										/* wskaŸnik na ostatni ekran																*/
-}list_t;
+//typedef struct List									/* struktura opisuje listê powi¹zan¹ w postaci ogólnej										*/
+//{
+	//void *current;									/* wskaŸnik na aktualny ekran																*/
+	//void *head;										/* wskaŸnik na pierwszy ekran																*/
+	//void *tail;										/* wskaŸnik na ostatni ekran																*/
+//}list_t;
 
 typedef struct GddramScreen							/* struktura opisuje GDDRAM wyœwietlacza													*/
 {

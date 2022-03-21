@@ -63,17 +63,17 @@ Discarded input sections
  .data          0x00000000        0x0 CONTROL/WORK/work.o
  .bss           0x00000000        0x0 CONTROL/WORK/work.o
  .text.Work_CreateMove
-                0x00000000       0x10 CONTROL/WORK/work.o
+                0x00000000        0xa CONTROL/WORK/work.o
  .text.Work_DeleteMove
                 0x00000000        0xa CONTROL/WORK/work.o
- .debug_info    0x00000000      0x1a4 CONTROL/WORK/work.o
- .debug_abbrev  0x00000000       0xf9 CONTROL/WORK/work.o
+ .debug_info    0x00000000      0x175 CONTROL/WORK/work.o
+ .debug_abbrev  0x00000000       0xf2 CONTROL/WORK/work.o
  .debug_loc     0x00000000       0x26 CONTROL/WORK/work.o
  .debug_aranges
                 0x00000000       0x28 CONTROL/WORK/work.o
  .debug_ranges  0x00000000       0x18 CONTROL/WORK/work.o
- .debug_line    0x00000000       0xea CONTROL/WORK/work.o
- .debug_str     0x00000000      0x22e CONTROL/WORK/work.o
+ .debug_line    0x00000000       0xe4 CONTROL/WORK/work.o
+ .debug_str     0x00000000      0x21d CONTROL/WORK/work.o
  .comment       0x00000000       0x31 CONTROL/WORK/work.o
  .debug_frame   0x00000000       0x34 CONTROL/WORK/work.o
  .text          0x00000000        0x0 HMI/DISPLAY/fonts.o

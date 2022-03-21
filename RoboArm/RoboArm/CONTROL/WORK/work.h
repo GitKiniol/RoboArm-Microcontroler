@@ -23,20 +23,23 @@ typedef struct MOVE_STRUCT					/* struktura zawiera parametry ruchu pojedynczej 
 	uint8_t Angle;							/* k¹t obrotu osi 0° - 180°														*/
 	uint8_t Speed;							/* prêdkoœæ obrotowa osi 0% - 100%												*/
 	uint8_t Direction : 1;					/* kierunek obrotów osi 1 - prawo, 0 - lewo										*/
-	uint8_t Blend : 1;						/* ³¹czenie ruchów 0 - ruch indywidualny, 1 - ruch jednoczesny z innymi osiami	*/
-	uint8_t Index;							/* indeks aktualnego ruchu														*/
-	void *Next;								/* wskaŸnik na kolejny ruch														*/
 }move_t;
 
-typedef struct TASK_STRUCT					/* struktura w formie listy powi¹zanej elementów MOVE							*/
+typedef struct LIST_ELEMENT_STRUCT			/* lista powi¹zana ruchów tworz¹ca multiruch									*/
 {
-	move_t *FirstMove;						/* pierwszy ruch na liœcie	(head)												*/
-	move_t *LastMove;						/* ostatni ruch na liœcie	(tail)												*/
-	move_t *CurrentMove;					/* aktualny ruch																*/
+	void *Next;								/* wskaŸnik na kolejny element													*/
+	void *Data;								/* wskaŸnik na dane elementu													*/
+}list_element_t;
+
+typedef struct LIST_STRUCT					/* lista powi¹zana ruchów i mutiruchów											*/
+{
+	void *Head;								/* pierwszy element na liœcie													*/
+	void *Tail;								/* ostatni element na liœcie													*/
+	void *Current;							/* aktualny element																*/
 	uint8_t Count;							/* licznik elementów															*/
-	void (*Insert)(move_t *move);			/* funkcja wstawia ruch do listy												*/
-	void (*Remove)(move_t *move);			/* funkcja usuwa ruch z listy													*/	
-}task_t;
+	void (*Insert)(void *element);			/* funkcja wstawia element do listy												*/
+	void (*Remove)(void *element);			/* funkcja usuwa element z listy												*/	
+}list_t;
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 

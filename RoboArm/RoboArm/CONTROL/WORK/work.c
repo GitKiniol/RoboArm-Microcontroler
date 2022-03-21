@@ -22,7 +22,6 @@ move_t *Work_CreateMove(void)
 {
 	move_t *ptrMove;												/* deklaracja wskaŸnika na ruch								*/
 	ptrMove = (move_t *)malloc(sizeof(move_t));						/* alokacja pamiêci dla wskaŸnika na ruch					*/
-	ptrMove->Next = NULL;											/* przypisanie pustego wskaŸnika na ruch nastêpny			*/
 	return ptrMove;													/* zwrócenie adresu na alokowan¹ pamiêæ						*/
 }
 
