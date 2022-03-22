@@ -27,6 +27,23 @@ int main(void)
 	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
+	
+	list_t lista1;
+	list_t lista2;
+	
+	list_element_t element1;
+	list_element_t element2;
+	
+	move_t move1;
+	
+	element1.Data = &move1;
+	element2.Data = &lista2;
+	
+	Work_InsertToList(&lista1, &element1);
+	Work_InsertToList(&lista1, &element2);
+	
+	Work_GetDataFromListElement(&element1);
+	Work_GetDataFromListElement(&element1);
 
 	sei();
     while (1) 
