@@ -79,9 +79,11 @@ void Work_InsertToList(list_t *list, list_element_t *element)
 	}
 	else
 	{
-		element->Next = list->Head;
-		list->Head = element;
+		element->Next = list->Head;									/* ustaw wstawianemu do listy elementowi wskaŸnik na poprzedni		*/
+		list->Head = element;										/* ustaw wstawiany element na pocz¹tku listy						*/
 	}
+	list->Current = list->Head;										/* ustaw pierwszy element listy jako bie¿¹cy element				*/
+	list->Count++;													/* inkrementacja licznika elementów listy							*/
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------*/

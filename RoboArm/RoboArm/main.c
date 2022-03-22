@@ -29,15 +29,36 @@ int main(void)
 	Bluetooth = HC05_Init(Bluetooth);
 	
 	list_t lista;
+	list_t lista2;
+	list_t lista3;
 	list_element_t element1;
 	list_element_t element2;
 	list_element_t element3;
 	list_element_t element4;
+	list_element_t element5;
+	list_element_t element6;
+	list_element_t element7;
+	list_element_t element8;
 	
 	Work_InsertToList(&lista,&element1);
 	Work_InsertToList(&lista,&element2);
 	Work_InsertToList(&lista,&element3);
 	Work_InsertToList(&lista,&element4);
+	
+	element5.Data = &lista;
+	element7.Data = &lista3;
+	
+	Work_InsertToList(&lista2,&element5);
+	Work_InsertToList(&lista2,&element6);
+	Work_InsertToList(&lista2,&element7);
+	Work_InsertToList(&lista2,&element8);
+	
+	
+	
+	Work_InsertToList(&lista3,&element6);
+	Work_InsertToList(&lista3,&element1);
+	Work_InsertToList(&lista3,&element8);
+	Work_InsertToList(&lista3,&element4);
 
 	sei();
     while (1) 
