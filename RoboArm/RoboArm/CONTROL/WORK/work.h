@@ -10,54 +10,61 @@
 #define WORK_H_
 
 
-/*-----------------------------------------------Deklaracje makroinstrukcji-------------------------------------------------*/
+/*-----------------------------------------------Deklaracje makroinstrukcji--------------------------------------------------------------------*/
 
 
-/*--------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*-----------------------------------------------Definicje struktur danych--------------------------------------------------*/
+/*-----------------------------------------------Definicje struktur danych----------------------------------------------------------------------*/
 
-typedef struct MOVE_STRUCT					/* struktura zawiera parametry ruchu pojedynczej osi							*/
+typedef struct MOVE_STRUCT										/* struktura zawiera parametry ruchu pojedynczej osi							*/
 {
-	char AxisName;							/* literka oznaczaj¹ca oœ: Z,A,B,C,G lub T										*/					
-	uint8_t Angle;							/* k¹t obrotu osi 0° - 180°														*/
-	uint8_t Speed;							/* prêdkoœæ obrotowa osi 0% - 100%												*/
-	uint8_t Direction : 1;					/* kierunek obrotów osi 1 - prawo, 0 - lewo										*/
+	char AxisName;												/* literka oznaczaj¹ca oœ: Z,A,B,C,G lub T										*/					
+	uint8_t Angle;												/* k¹t obrotu osi 0° - 180°														*/
+	uint8_t Speed;												/* prêdkoœæ obrotowa osi 0% - 100%												*/
+	uint8_t Direction : 1;										/* kierunek obrotów osi 1 - prawo, 0 - lewo										*/
 }move_t;
 
-typedef struct LIST_ELEMENT_STRUCT			/* lista powi¹zana ruchów tworz¹ca multiruch									*/
+typedef struct LIST_ELEMENT_STRUCT								/* lista powi¹zana ruchów tworz¹ca multiruch									*/
 {
-	void *Next;								/* wskaŸnik na kolejny element													*/
-	void *Data;								/* wskaŸnik na dane elementu													*/
+	void *Next;													/* wskaŸnik na kolejny element													*/
+	void *Data;													/* wskaŸnik na dane elementu													*/
 }list_element_t;
 
-typedef struct LIST_STRUCT					/* lista powi¹zana ruchów i mutiruchów											*/
+typedef struct LIST_STRUCT										/* lista powi¹zana ruchów i mutiruchów											*/
 {
-	void *Head;								/* pierwszy element na liœcie													*/
-	void *Tail;								/* ostatni element na liœcie													*/
-	void *Current;							/* aktualny element																*/
-	uint8_t Count;							/* licznik elementów															*/
-	void (*Insert)(void *element);			/* funkcja wstawia element do listy												*/
-	void (*Remove)(void *element);			/* funkcja usuwa element z listy												*/	
+	list_element_t *Head;										/* pierwszy element na liœcie													*/
+	list_element_t *Tail;										/* ostatni element na liœcie													*/
+	list_element_t *Current;									/* aktualny element																*/
+	uint8_t Count;												/* licznik elementów															*/
 }list_t;
 
-/*--------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*-------------------------------------------------Deklaracje zmiennych-----------------------------------------------------*/
+/*-------------------------------------------------Deklaracje zmiennych-------------------------------------------------------------------------*/
 /* EXTERN:	*/
 
 /* LOCAL:	*/
 
-/*--------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*---------------------------------------------------Deklaracje funkcji-----------------------------------------------------*/
+/*---------------------------------------------------Deklaracje funkcji-------------------------------------------------------------------------*/
 
-move_t *Work_CreateMove(void);								/* funkcja alokuje pamiêæ dla struktury typu Move				*/
+move_t *Work_CreateMove(void);													/* funkcja alokuje pamiêæ dla struktury typu Move				*/
 
-void Work_DeleteMove(move_t *move);							/* funkcja zwalnia pomiêæ zajêt¹ przez strukturê Move			*/
+void Work_DeleteMove(move_t *move);												/* funkcja zwalnia pomiêæ zajêt¹ przez strukturê Move			*/
 
-/*--------------------------------------------------------------------------------------------------------------------------*/
+list_element_t *Work_CreateListElement(void *data, void *next);					/* funkcja alokuje pamiêæ dla elementu listy					*/
 
+void Work_DeleteListElement(list_element_t *element);							/* funkcja zwalnia pamiêæ zajmowan¹ przez element				*/
+
+list_t *Work_CreateList(void);													/* funkcja alokuje pamiêæ dla listy								*/
+
+void Work_DeleteList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez listê					*/
+
+void Work_InsertToList(list_t *list, list_element_t *element);					/* funkcja umieszcza element na liœcie							*/
+
+/*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
 #endif /* WORK_H_ */
