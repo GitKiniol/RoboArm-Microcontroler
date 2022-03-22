@@ -64,6 +64,10 @@ void Work_DeleteList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowa
 
 void Work_InsertToList(list_t *list, list_element_t *element);					/* funkcja umieszcza element na liœcie							*/
 
+list_element_t *Work_GetElementFromList(list_t *list);							/* funkcja pobiera bie¿¹cy element z listy						*/
+
+void *Work_GetDataFromListElement(list_element_t *element);						/* funkcja pobiera dane z elementu listy						*/
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
