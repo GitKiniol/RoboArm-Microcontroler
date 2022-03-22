@@ -22,11 +22,22 @@ TWI_t *lcdBus = &TWIC;
 int main(void)
 {
 	ClkSys32MHz();
-    twiMasterInit(lcdBus, TWI_BAUDRATE);
-	ssd1306Init(lcdBus);
-	ssd1306ClrScr(lcdBus, 0xAA);
+    //twiMasterInit(lcdBus, TWI_BAUDRATE);
+	//ssd1306Init(lcdBus);
+	//ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
+	
+	list_t lista;
+	list_element_t element1;
+	list_element_t element2;
+	list_element_t element3;
+	list_element_t element4;
+	
+	Work_InsertToList(&lista,&element1);
+	Work_InsertToList(&lista,&element2);
+	Work_InsertToList(&lista,&element3);
+	Work_InsertToList(&lista,&element4);
 
 	sei();
     while (1) 
