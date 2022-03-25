@@ -76,18 +76,18 @@ Discarded input sections
                 0x00000000        0xa CONTROL/WORK/work.o
  .text.Work_InsertToList
                 0x00000000       0x3c CONTROL/WORK/work.o
- .text.Work_GetElementFromList
-                0x00000000       0x1e CONTROL/WORK/work.o
- .text.Work_GetDataFromListElement
-                0x00000000        0x8 CONTROL/WORK/work.o
- .debug_info    0x00000000      0x3fd CONTROL/WORK/work.o
- .debug_abbrev  0x00000000      0x142 CONTROL/WORK/work.o
- .debug_loc     0x00000000      0x1bf CONTROL/WORK/work.o
+ .text.Work_GetTaskFromList
+                0x00000000       0x18 CONTROL/WORK/work.o
+ .text.Work_GetMoveFromList
+                0x00000000       0x18 CONTROL/WORK/work.o
+ .debug_info    0x00000000      0x40f CONTROL/WORK/work.o
+ .debug_abbrev  0x00000000      0x124 CONTROL/WORK/work.o
+ .debug_loc     0x00000000      0x19b CONTROL/WORK/work.o
  .debug_aranges
                 0x00000000       0x60 CONTROL/WORK/work.o
  .debug_ranges  0x00000000       0x50 CONTROL/WORK/work.o
- .debug_line    0x00000000      0x270 CONTROL/WORK/work.o
- .debug_str     0x00000000      0x342 CONTROL/WORK/work.o
+ .debug_line    0x00000000      0x20c CONTROL/WORK/work.o
+ .debug_str     0x00000000      0x339 CONTROL/WORK/work.o
  .comment       0x00000000       0x31 CONTROL/WORK/work.o
  .debug_frame   0x00000000       0xb8 CONTROL/WORK/work.o
  .text          0x00000000        0x0 HMI/DISPLAY/fonts.o
