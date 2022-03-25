@@ -6,6 +6,7 @@
  */ 
 
 #include <avr/io.h>
+#include <stdlib.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
 #include "SYS_CLOCK/sysclock.h"
@@ -18,15 +19,46 @@
 
 TWI_t *lcdBus = &TWIC;
 
-//pe7 - tx  pe6-rx, pb7-key, pb6-state
+size_t l, m;
+list_t *Job;
+list_t *Temp;
+
 int main(void)
 {
 	ClkSys32MHz();
-    //twiMasterInit(lcdBus, TWI_BAUDRATE);
-	//ssd1306Init(lcdBus);
-	//ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
+	
+	/* --------  TESTY -------------*/
+	
+	Job = Work_CreateList();
+	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), NULL));
+	
+	Temp = Job->Head->Data;
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	
+	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
+	Temp = Job->Head->Data;
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	
+	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
+	Temp = Job->Head->Data;
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+	
+	Work_ClearList(Job);
+	Work_DeleteList(Temp);
+	Temp = NULL;
+	
+	/*------------------------------*/
 
 	sei();
     while (1) 

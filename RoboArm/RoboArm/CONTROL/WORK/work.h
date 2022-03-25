@@ -68,6 +68,8 @@ list_t *Work_GetTaskFromList(list_t *list);										/* funkcja pobiera listê ru
 
 move_t *Work_GetMoveFromList(list_t *list);										/* funkcja pobiera ruch z listy ruchów							*/
 
+void Work_ClearList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez listê					*/
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 

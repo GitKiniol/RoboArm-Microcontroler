@@ -86,7 +86,6 @@ void Work_InsertToList(list_t *list, list_element_t *element)
 	list->Count++;																	/* inkrementacja licznika elementów listy								*/
 }
 
-
 list_t *Work_GetTaskFromList(list_t *list)
 {
 	list_t *ptrTask = list->Current->Data;											/* odczyt wskaŸnika na listê ruchów	(lista ruchów = Task)				*/
@@ -101,6 +100,36 @@ move_t *Work_GetMoveFromList(list_t *list)
 	list_element_t *ptrNext = list->Current->Next;									/* odczyt wskaŸnika na poprzedni element								*/
 	list->Current = ptrNext;														/* przesuniêcie wskaŸnika Current na poprzedni element					*/
 	return ptrMove;																	/* zwrócenie wskaŸnika na dane ruchu									*/
+}
+
+void Work_ClearList(list_t *list)
+{
+	list_element_t *ptrNext;
+	while(list->Head)
+	{
+		ptrNext = list->Head->Next;
+		if (sizeof(*list->Head->Data) == sizeof(list_t))
+		{
+			list_t *ptrSubList = list->Head->Data;
+			while(ptrSubList->Head)
+			{
+				ptrNext = ptrSubList->Head->Next;
+				free(ptrSubList->Head->Data);
+				free(ptrSubList->Head);
+				ptrSubList->Head = ptrNext;
+			}
+		}
+		else
+		{
+			free(list->Head->Data);
+			free(list->Head);
+			list->Head = ptrNext;
+		}
+	}
+	list->Head = NULL;
+	list->Current = NULL;
+	list->Tail = NULL;
+	list->Count = 0;
 }
 
 
