@@ -16,11 +16,26 @@ c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/..
 Allocating common symbols
 Common symbol       size              file
 
+Move_3              0x2               main.o
+Task2Element_3      0x2               main.o
+Task1Element_1      0x2               main.o
+TaskToDo            0x2               main.o
+MoveToDo            0x2               main.o
+JobElement_1        0x2               main.o
+Job                 0x2               main.o
 gddramBuff          0x400             HMI/DISPLAY/oled_SSD1306.o
+Task2Element_1      0x2               main.o
 __brkval            0x2               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
+Move_1              0x2               main.o
+Move_4              0x2               main.o
+Task_2              0x2               main.o
+JobElement_2        0x2               main.o
 SendingString       0x2               BLUETOOTH/USART/usart.o
+Move_2              0x2               main.o
 __flp               0x2               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
 ReceivedChars       0x10              BLUETOOTH/USART/usart.o
+Task2Element_2      0x2               main.o
+Task_1              0x2               main.o
 ReceivedString      0x2               BLUETOOTH/USART/usart.o
 
 Discarded input sections
@@ -60,20 +75,12 @@ Discarded input sections
  .text          0x00000000        0x0 CONTROL/WORK/work.o
  .data          0x00000000        0x0 CONTROL/WORK/work.o
  .bss           0x00000000        0x0 CONTROL/WORK/work.o
- .text.Work_CreateMove
-                0x00000000        0xa CONTROL/WORK/work.o
  .text.Work_DeleteMove
                 0x00000000        0xa CONTROL/WORK/work.o
- .text.Work_CreateListElement
-                0x00000000       0x28 CONTROL/WORK/work.o
  .text.Work_DeleteListElement
                 0x00000000        0xa CONTROL/WORK/work.o
- .text.Work_CreateList
-                0x00000000       0x1a CONTROL/WORK/work.o
  .text.Work_DeleteList
                 0x00000000        0xa CONTROL/WORK/work.o
- .text.Work_GetElementFromList
-                0x00000000       0x1e CONTROL/WORK/work.o
  .text          0x00000000        0x0 HMI/DISPLAY/fonts.o
  .data          0x00000000        0x0 HMI/DISPLAY/fonts.o
  .bss           0x00000000        0x0 HMI/DISPLAY/fonts.o
@@ -385,7 +392,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xb80
+.text           0x00000000      0xd94
  *(.vectors)
  .vectors       0x00000000      0x1fc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega16a4u/avrxmega2/crtatxmega16a4u.o
                 0x00000000                __vector_default
@@ -616,32 +623,44 @@ END GROUP
  .text.__vector_91
                 0x000007b4       0x74 BLUETOOTH/USART/usart.o
                 0x000007b4                __vector_91
+ .text.Work_CreateMove
+                0x00000828       0x34 CONTROL/WORK/work.o
+                0x00000828                Work_CreateMove
+ .text.Work_CreateListElement
+                0x0000085c       0x28 CONTROL/WORK/work.o
+                0x0000085c                Work_CreateListElement
+ .text.Work_CreateList
+                0x00000884       0x1a CONTROL/WORK/work.o
+                0x00000884                Work_CreateList
  .text.Work_InsertToList
-                0x00000828       0x3c CONTROL/WORK/work.o
-                0x00000828                Work_InsertToList
- .text.Work_GetDataFromListElement
-                0x00000864        0x8 CONTROL/WORK/work.o
-                0x00000864                Work_GetDataFromListElement
- .text.main     0x0000086c       0x8a main.o
-                0x0000086c                main
+                0x0000089e       0x3c CONTROL/WORK/work.o
+                0x0000089e                Work_InsertToList
+ .text.Work_GetTaskFromList
+                0x000008da       0x18 CONTROL/WORK/work.o
+                0x000008da                Work_GetTaskFromList
+ .text.Work_GetMoveFromList
+                0x000008f2       0x18 CONTROL/WORK/work.o
+                0x000008f2                Work_GetMoveFromList
+ .text.main     0x0000090a      0x200 main.o
+                0x0000090a                main
  .text.ClkSys32MHz
-                0x000008f6       0x1a SYS_CLOCK/sysclock.o
-                0x000008f6                ClkSys32MHz
+                0x00000b0a       0x1a SYS_CLOCK/sysclock.o
+                0x00000b0a                ClkSys32MHz
  .text.avr-libc
-                0x00000910      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
-                0x00000910                malloc
-                0x00000a40                free
+                0x00000b24      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
+                0x00000b24                malloc
+                0x00000c54                free
  .text.avr-libc
-                0x00000b52        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strcpy.o)
-                0x00000b52                strcpy
+                0x00000d66        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strcpy.o)
+                0x00000d66                strcpy
  .text.avr-libc
-                0x00000b60       0x1c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strncmp.o)
-                0x00000b60                strncmp
-                0x00000b7c                . = ALIGN (0x2)
+                0x00000d74       0x1c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strncmp.o)
+                0x00000d74                strncmp
+                0x00000d90                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000b7c        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
-                0x00000b7c                _exit
-                0x00000b7c                exit
+ .fini9         0x00000d90        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+                0x00000d90                _exit
+                0x00000d90                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -660,11 +679,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000b7c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+ .fini0         0x00000d90        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000b80                _etext = .
+                0x00000d94                _etext = .
 
-.data           0x00802000       0x3e load address 0x00000b80
+.data           0x00802000       0x3e load address 0x00000d94
                 0x00802000                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00802000        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
@@ -693,7 +712,7 @@ END GROUP
                 0x0080203e                _edata = .
                 0x0080203e                PROVIDE (__data_end, .)
 
-.bss            0x0080203e       0x22
+.bss            0x0080203e       0x40
                 0x0080203e                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -717,19 +736,35 @@ END GROUP
                 0x00802048                SendingString
                 0x0080204a                ReceivedChars
                 0x0080205a                ReceivedString
- COMMON         0x0080205c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
-                0x0080205c                __brkval
-                0x0080205e                __flp
-                0x00802060                PROVIDE (__bss_end, .)
-                0x00000b80                __data_load_start = LOADADDR (.data)
-                0x00000bbe                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080205c       0x1e main.o
+                0x0080205c                Move_3
+                0x0080205e                Task2Element_3
+                0x00802060                Task1Element_1
+                0x00802062                TaskToDo
+                0x00802064                MoveToDo
+                0x00802066                JobElement_1
+                0x00802068                Job
+                0x0080206a                Task2Element_1
+                0x0080206c                Move_1
+                0x0080206e                Move_4
+                0x00802070                Task_2
+                0x00802072                JobElement_2
+                0x00802074                Move_2
+                0x00802076                Task2Element_2
+                0x00802078                Task_1
+ COMMON         0x0080207a        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
+                0x0080207a                __brkval
+                0x0080207c                __flp
+                0x0080207e                PROVIDE (__bss_end, .)
+                0x00000d94                __data_load_start = LOADADDR (.data)
+                0x00000dd2                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00802060        0x0
+.noinit         0x0080207e        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00802060                _end = .
-                0x00802060                PROVIDE (__heap_start, .)
+                0x0080207e                _end = .
+                0x0080207e                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -820,18 +855,18 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x4969
+.debug_info     0x00000000     0x4bc7
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x284f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega16a4u/avrxmega2/crtatxmega16a4u.o
  .debug_info    0x0000284f      0x513 BLUETOOTH/FRAMES/frame.o
  .debug_info    0x00002d62      0x8d6 BLUETOOTH/HC05/hc05.o
  .debug_info    0x00003638      0x2a8 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_info    0x000038e0      0x61d BLUETOOTH/USART/usart.o
- .debug_info    0x00003efd      0x3fd CONTROL/WORK/work.o
- .debug_info    0x000042fa      0x489 main.o
- .debug_info    0x00004783      0x1e6 SYS_CLOCK/sysclock.o
+ .debug_info    0x00003efd      0x448 CONTROL/WORK/work.o
+ .debug_info    0x00004345      0x69c main.o
+ .debug_info    0x000049e1      0x1e6 SYS_CLOCK/sysclock.o
 
-.debug_abbrev   0x00000000     0x303e
+.debug_abbrev   0x00000000     0x3040
  *(.debug_abbrev)
  .debug_abbrev  0x00000000     0x262c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega16a4u/avrxmega2/crtatxmega16a4u.o
  .debug_abbrev  0x0000262c      0x132 BLUETOOTH/FRAMES/frame.o
@@ -839,31 +874,31 @@ END GROUP
  .debug_abbrev  0x00002997      0x16a BLUETOOTH/USART/BUFFER/buffer.o
  .debug_abbrev  0x00002b01      0x1fd BLUETOOTH/USART/usart.o
  .debug_abbrev  0x00002cfe      0x142 CONTROL/WORK/work.o
- .debug_abbrev  0x00002e40      0x161 main.o
- .debug_abbrev  0x00002fa1       0x9d SYS_CLOCK/sysclock.o
+ .debug_abbrev  0x00002e40      0x163 main.o
+ .debug_abbrev  0x00002fa3       0x9d SYS_CLOCK/sysclock.o
 
-.debug_line     0x00000000     0x12cc
+.debug_line     0x00000000     0x12f2
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x391 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega16a4u/avrxmega2/crtatxmega16a4u.o
  .debug_line    0x00000391      0x1eb BLUETOOTH/FRAMES/frame.o
  .debug_line    0x0000057c      0x318 BLUETOOTH/HC05/hc05.o
  .debug_line    0x00000894      0x224 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_line    0x00000ab8      0x2bf BLUETOOTH/USART/usart.o
- .debug_line    0x00000d77      0x270 CONTROL/WORK/work.o
- .debug_line    0x00000fe7      0x195 main.o
- .debug_line    0x0000117c      0x150 SYS_CLOCK/sysclock.o
+ .debug_line    0x00000d77      0x224 CONTROL/WORK/work.o
+ .debug_line    0x00000f9b      0x207 main.o
+ .debug_line    0x000011a2      0x150 SYS_CLOCK/sysclock.o
 
-.debug_frame    0x00000000      0x34c
+.debug_frame    0x00000000      0x350
  *(.debug_frame)
  .debug_frame   0x00000000       0x64 BLUETOOTH/FRAMES/frame.o
  .debug_frame   0x00000064       0x6c BLUETOOTH/HC05/hc05.o
  .debug_frame   0x000000d0       0x90 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_frame   0x00000160       0xcc BLUETOOTH/USART/usart.o
- .debug_frame   0x0000022c       0xb8 CONTROL/WORK/work.o
- .debug_frame   0x000002e4       0x34 main.o
- .debug_frame   0x00000318       0x34 SYS_CLOCK/sysclock.o
+ .debug_frame   0x0000022c       0xcc CONTROL/WORK/work.o
+ .debug_frame   0x000002f8       0x24 main.o
+ .debug_frame   0x0000031c       0x34 SYS_CLOCK/sysclock.o
 
-.debug_str      0x00000000     0x24a4
+.debug_str      0x00000000     0x2518
  *(.debug_str)
  .debug_str     0x00000000     0x1aa8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega16a4u/avrxmega2/crtatxmega16a4u.o
  .debug_str     0x00001aa8      0x28b BLUETOOTH/FRAMES/frame.o
@@ -874,21 +909,20 @@ END GROUP
                                 0x277 (size before relaxing)
  .debug_str     0x00001f8d      0x1a7 BLUETOOTH/USART/usart.o
                                 0x4f2 (size before relaxing)
- .debug_str     0x00002134      0x195 CONTROL/WORK/work.o
-                                0x342 (size before relaxing)
- .debug_str     0x000022c9       0xb7 main.o
-                                0x37c (size before relaxing)
- .debug_str     0x00002380      0x124 SYS_CLOCK/sysclock.o
+ .debug_str     0x00002134      0x19d CONTROL/WORK/work.o
+                                0x34a (size before relaxing)
+ .debug_str     0x000022d1      0x123 main.o
+                                0x42d (size before relaxing)
+ .debug_str     0x000023f4      0x124 SYS_CLOCK/sysclock.o
                                 0x2de (size before relaxing)
 
-.debug_loc      0x00000000      0xb71
+.debug_loc      0x00000000      0xc21
  *(.debug_loc)
  .debug_loc     0x00000000      0x160 BLUETOOTH/FRAMES/frame.o
  .debug_loc     0x00000160      0x350 BLUETOOTH/HC05/hc05.o
  .debug_loc     0x000004b0      0x257 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_loc     0x00000707      0x264 BLUETOOTH/USART/usart.o
- .debug_loc     0x0000096b      0x1bf CONTROL/WORK/work.o
- .debug_loc     0x00000b2a       0x47 main.o
+ .debug_loc     0x0000096b      0x2b6 CONTROL/WORK/work.o
 
 .debug_macinfo
  *(.debug_macinfo)

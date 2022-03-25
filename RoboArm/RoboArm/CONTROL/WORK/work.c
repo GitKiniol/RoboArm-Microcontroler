@@ -18,11 +18,16 @@
 
 /*-------------------------------------------Definicje funkcji----------------------------------------------------------------------------------------------*/
 
-move_t *Work_CreateMove(void)
+move_t *Work_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir)
 {
 	move_t *ptrMove;																/* deklaracja wskaŸnika na ruch											*/
 	ptrMove = (move_t *)malloc(sizeof(move_t));										/* alokacja pamiêci dla wskaŸnika na ruch								*/
+	ptrMove->Angle = angle;
+	ptrMove->Speed = speed;
+	ptrMove->Direction = dir;
+	ptrMove->AxisName = axis;
 	return ptrMove;																	/* zwrócenie adresu na alokowan¹ pamiêæ									*/
+
 }
 
 void Work_DeleteMove(move_t *move)
@@ -86,24 +91,20 @@ void Work_InsertToList(list_t *list, list_element_t *element)
 	list->Count++;																	/* inkrementacja licznika elementów listy								*/
 }
 
-list_element_t *Work_GetElementFromList(list_t *list)
+list_t *Work_GetTaskFromList(list_t *list)
 {
-	list_element_t *ptrElement = list->Current;										/* pobranie z listy bie¿¹cego elementu									*/
-	list->Head = ptrElement->Next;													/* przesuniêcie pocz¹tku listy o jeden element w dó³					*/
-	list->Current = list->Head;														/* przesuniêcie wskaŸnika bie¿¹cego elementu na pierwszy element listy	*/
-	list->Count--;																	/* dekrementacja licznika elementów										*/
-	return ptrElement;																/* zwrócenie wskaŸnika na pobrany element								*/
+	list_t *ptrTask = list->Current->Data;											/* odczyt wskaŸnika na listê ruchów	(lista ruchów = Task)				*/
+	list_element_t *ptrNext = list->Current->Next;									/* odczyt wskaŸnika na poprzedni element								*/
+	list->Current = ptrNext;														/* przesuniêcie wskaŸnika Current na poprzedni element					*/
+	return ptrTask;																	/* zwrócenie wskaŸnika na listê ruchów									*/
 }
 
-void *Work_GetDataFromListElement(list_element_t *element)
+move_t *Work_GetMoveFromList(list_t *list)
 {
-	void *ptrData = element->Data;													/* pobranie danych z elementu listy										*/
-	size_t a = sizeof(ptrData);
-	if (a > 4)
-	{
-		element->Next = element->Next;
-	}
-	return ptrData;																	/* zwrócenie danych odczytanych z elementu								*/
+	move_t *ptrMove = list->Current->Data;											/* odczyt wskaŸnika na dane ruchu										*/
+	list_element_t *ptrNext = list->Current->Next;									/* odczyt wskaŸnika na poprzedni element								*/
+	list->Current = ptrNext;														/* przesuniêcie wskaŸnika Current na poprzedni element					*/
+	return ptrMove;																	/* zwrócenie wskaŸnika na dane ruchu									*/
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/

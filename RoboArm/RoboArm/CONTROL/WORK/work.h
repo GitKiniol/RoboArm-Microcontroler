@@ -50,7 +50,7 @@ typedef struct LIST_STRUCT										/* lista powi¹zana ruchów i mutiruchów						
 
 /*---------------------------------------------------Deklaracje funkcji-------------------------------------------------------------------------*/
 
-move_t *Work_CreateMove(void);													/* funkcja alokuje pamiêæ dla struktury typu Move				*/
+move_t *Work_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir);	/* funkcja alokuje pamiêæ dla struktury typu Move				*/
 
 void Work_DeleteMove(move_t *move);												/* funkcja zwalnia pomiêæ zajêt¹ przez strukturê Move			*/
 
@@ -64,9 +64,9 @@ void Work_DeleteList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowa
 
 void Work_InsertToList(list_t *list, list_element_t *element);					/* funkcja umieszcza element na liœcie							*/
 
-list_element_t *Work_GetElementFromList(list_t *list);							/* funkcja pobiera bie¿¹cy element z listy						*/
+list_t *Work_GetTaskFromList(list_t *list);										/* funkcja pobiera listê ruchów z listy zadañ					*/
 
-void *Work_GetDataFromListElement(list_element_t *element);						/* funkcja pobiera dane z elementu listy						*/
+move_t *Work_GetMoveFromList(list_t *list);										/* funkcja pobiera ruch z listy ruchów							*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 

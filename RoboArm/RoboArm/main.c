@@ -8,6 +8,7 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
+#include <stdlib.h>
 #include "SYS_CLOCK/sysclock.h"
 #include "HMI/TWI_BUS/twi.h"
 #include "HMI/DISPLAY/oled_SSD1306.h"
@@ -17,6 +18,25 @@
 #include "CONTROL/WORK/work.h"
 
 TWI_t *lcdBus = &TWIC;
+
+list_t *Job;	
+list_element_t *JobElement_1;
+list_element_t *JobElement_2;
+list_t *Task_1;
+list_element_t *Task1Element_1;
+list_t *Task_2;
+list_element_t *Task2Element_1;
+list_element_t *Task2Element_2;
+list_element_t *Task2Element_3;
+
+move_t *Move_1;
+move_t *Move_2;
+move_t *Move_3;
+move_t *Move_4;
+
+list_t *TaskToDo;
+move_t *MoveToDo;
+
 
 //pe7 - tx  pe6-rx, pb7-key, pb6-state
 int main(void)
@@ -28,23 +48,40 @@ int main(void)
 	
 	Bluetooth = HC05_Init(Bluetooth);
 	
-	list_t lista1;
-	list_t lista2;
+	Move_1 = Work_CreateMove('Z', 45, 95, 0);
+	Move_2 = Work_CreateMove('A', 67, 5, 1);
+	Move_3 = Work_CreateMove('B', 92, 52, 1);
+	Move_4 = Work_CreateMove('C', 13, 91, 0);
 	
-	list_element_t element1;
-	list_element_t element2;
+	Job = Work_CreateList();
+	Task_1 = Work_CreateList();
+	Task_2 = Work_CreateList();
 	
-	move_t move1;
+	Task1Element_1 = Work_CreateListElement(Move_1, NULL);
+	Task2Element_1 = Work_CreateListElement(Move_2, NULL);
+	Task2Element_2 = Work_CreateListElement(Move_3, NULL);
+	Task2Element_3 = Work_CreateListElement(Move_4, NULL);
 	
-	element1.Data = &move1;
-	element2.Data = &lista2;
+	Work_InsertToList(Task_1, Task1Element_1);
+	Work_InsertToList(Task_2, Task2Element_1);
+	Work_InsertToList(Task_2, Task2Element_2);
+	Work_InsertToList(Task_2, Task2Element_3);
 	
-	Work_InsertToList(&lista1, &element1);
-	Work_InsertToList(&lista1, &element2);
+	JobElement_1 = Work_CreateListElement(Task_1, NULL);
+	JobElement_2 = Work_CreateListElement(Task_2, NULL); 
 	
-	Work_GetDataFromListElement(&element1);
-	Work_GetDataFromListElement(&element1);
-
+	Work_InsertToList(Job, JobElement_1);
+	Work_InsertToList(Job, JobElement_2);
+	
+	while(Job->Current)
+	{
+		TaskToDo = Work_GetTaskFromList(Job);
+		while(TaskToDo->Current)
+		{
+			MoveToDo = Work_GetMoveFromList(TaskToDo);
+		}
+	}
+		
 	sei();
     while (1) 
     {
