@@ -25,14 +25,6 @@ move_t *Work_CreateMove(void)
 	return ptrMove;																	/* zwrócenie adresu na alokowan¹ pamiêæ									*/
 }
 
-void Work_DeleteMove(move_t *move)
-{
-	if (move != NULL)																/* jeœli wskaŸnik nie jest pusty, to:									*/
-	{
-		free(move);																	/* zwolnij wskazywan¹ przez niego pamiêæ								*/
-	}
-}
-
 list_element_t *Work_CreateListElement(void *data, void *next)
 {
 	list_element_t *ptrElement;														/* deklaracja wskaŸnika na element listy								*/
@@ -40,14 +32,6 @@ list_element_t *Work_CreateListElement(void *data, void *next)
 	ptrElement->Data = data;														/* ustawienie wskaŸnika na dane elementu listy							*/
 	ptrElement->Next = next;														/* ustawienie wskaŸnika na nastêpny element listy						*/
 	return ptrElement;																/* zwrócenie wskaŸnika na alokowan¹ pamiêæ								*/
-}
-
-void Work_DeleteListElement(list_element_t *element)
-{
-	if (element != NULL)															/* jeœli wskaŸnik nie jest pusty, to:									*/
-	{
-		free(element);																/* zwolnij wskazywan¹ przez niego pamiêæ								*/
-	}
 }
 
 list_t *Work_CreateList(void)
@@ -59,14 +43,6 @@ list_t *Work_CreateList(void)
 	ptrList->Head = NULL;															/* ustawienie wskaŸnika na pierwszy element listy						*/
 	ptrList->Tail = NULL;															/* ustawienie wskaŸnika na ostatni element listy						*/
 	return ptrList;																	/* zwrócenie wskaŸnika na alokowan¹ pamiêæ								*/
-}
-
-void Work_DeleteList(list_t *list)
-{
-	if (list != NULL)																/* jeœli wskaŸnik nie jest pusty, to:									*/
-	{
-		free(list);																	/* zwolnij wskazywan¹ przez niego pamiêæ								*/
-	}
 }
 
 void Work_InsertToList(list_t *list, list_element_t *element)
@@ -102,34 +78,39 @@ move_t *Work_GetMoveFromList(list_t *list)
 	return ptrMove;																	/* zwrócenie wskaŸnika na dane ruchu									*/
 }
 
+void Work_DeleteElementFromList(list_t *list)
+{
+	if (list->Head)
+	{
+		list_element_t *ptrNext;													/* wskaŸnik na poprzedni element listy									*/
+		ptrNext = list->Head->Next;													/* pobranie wskaŸnika na poprzedni element listy						*/
+		free(list->Head->Data);														/* zwolnienie pamiêci zajmowanej przez dane elementu					*/
+		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy					*/
+		list->Head = ptrNext;														/* przesuniêcie wskaŸnika Head na poprzedni element						*/
+		list->Current = ptrNext;													/* ustawienie wskaŸnika Current na ostatni element listy				*/
+		list->Count--;																/* dekrementacja licznika elementów										*/
+	}
+}
+
 void Work_ClearList(list_t *list)
 {
-	list_element_t *ptrNext;
+	
 	while(list->Head)
 	{
-		ptrNext = list->Head->Next;
-		if (sizeof(*list->Head->Data) == sizeof(list_t))
-		{
-			list_t *ptrSubList = list->Head->Data;
-			while(ptrSubList->Head)
-			{
-				ptrNext = ptrSubList->Head->Next;
-				free(ptrSubList->Head->Data);
-				free(ptrSubList->Head);
-				ptrSubList->Head = ptrNext;
-			}
-		}
-		else
-		{
-			free(list->Head->Data);
-			free(list->Head);
-			list->Head = ptrNext;
-		}
+		Work_DeleteElementFromList(list);											/* usuniêcie elementu z listy											*/
 	}
 	list->Head = NULL;
 	list->Current = NULL;
 	list->Tail = NULL;
 	list->Count = 0;
+}
+
+void Work_DeleteList(list_t *list)
+{
+	if (list != NULL)																/* jeœli wskaŸnik nie jest pusty, to:									*/
+	{
+		free(list);																	/* zwolnij wskazywan¹ przez niego pamiêæ								*/
+	}
 }
 
 
