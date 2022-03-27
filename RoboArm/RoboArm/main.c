@@ -54,8 +54,9 @@ int main(void)
 	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
 	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
 	
-	l = sizeof(Job->Head->Data);
-	Work_ClearList(Temp);
+	
+	Work_ClearList(Job->Head->Data);
+	Work_DeleteElementFromList(Job);
 	Temp = NULL;
 	
 	/*------------------------------*/

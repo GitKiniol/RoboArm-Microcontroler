@@ -85,8 +85,10 @@ void Work_DeleteElementFromList(list_t *list)
 		list_element_t *ptrNext;													/* wskaŸnik na poprzedni element listy									*/
 		ptrNext = list->Head->Next;													/* pobranie wskaŸnika na poprzedni element listy						*/
 		free(list->Head->Data);														/* zwolnienie pamiêci zajmowanej przez dane elementu					*/
-		list->Head->Next = NULL;
-		list->Head->Data = NULL;
+		
+		list->Head->Next = NULL;													/* po zwolnieniu pamiêci wskaŸniki Data oraz Next wskazywa³y by na		*/
+		list->Head->Data = NULL;													/* b³êdne dane wiêc trzeba ustawiæ je na NULL							*/
+		
 		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy					*/
 		list->Head = ptrNext;														/* przesuniêcie wskaŸnika Head na poprzedni element						*/
 		list->Current = ptrNext;													/* ustawienie wskaŸnika Current na ostatni element listy				*/
