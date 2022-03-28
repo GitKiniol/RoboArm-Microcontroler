@@ -32,6 +32,8 @@ int main(void)
 	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
+	
+	
 
 	sei();
     while (1) 
