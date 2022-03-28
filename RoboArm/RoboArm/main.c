@@ -32,18 +32,42 @@ int main(void)
 	/*---------------------- testy4-----------------------------*/
 	
 	Job = Work_CreateList();
+	Temp = Work_CreateList();
 	
 	while(1)
 	{
-		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), NULL));
-		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
-		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
-		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), NULL));
 		
-		Work_ClearList(Job);
+		Temp = Job->Head->Data;
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
+		Temp = Job->Head->Data;
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
+		Temp = Job->Head->Data;
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
+		
+		
+		Work_ClearList(Job->Head->Data);
+		Work_DeleteElementFromList(Job);
+		Work_ClearList(Job->Head->Data);
+		Work_DeleteElementFromList(Job);
+		Work_ClearList(Job->Head->Data);
+		Work_DeleteElementFromList(Job);
 	}
 	
-	/*----------------------------------------------------------*/
+	/*------------------------------------------------------------*/
 
 	sei();
     while (1) 

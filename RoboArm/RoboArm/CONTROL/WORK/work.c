@@ -93,6 +93,10 @@ void Work_DeleteElementFromList(list_t *list)
 		list->Head = ptrNext;														/* przesuniÍcie wskaünika Head na poprzedni element						*/
 		list->Current = ptrNext;													/* ustawienie wskaünika Current na ostatni element listy				*/
 		list->Count--;																/* dekrementacja licznika elementÛw										*/
+		if (list->Count == 0)														/* jeúli licznik elementÛw = 0, czyli usuniÍto wszystkie elementy, to:	*/
+		{
+			list->Tail = NULL;														/* zerowanie wskaünika Tali												*/
+		}
 	}
 }
 
