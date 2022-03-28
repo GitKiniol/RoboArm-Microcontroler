@@ -99,12 +99,12 @@ void Work_DeleteElementFromList(list_t *list)
 void Work_ClearList(list_t *list)
 {
 	
-	while(list->Head)
+	while(list->Head)																/* jeœli na liœcie znajduj¹ siê jakieœ elementy, to:					*/
 	{
 		Work_DeleteElementFromList(list);											/* usuniêcie elementu z listy											*/
 	}
-	list->Head = NULL;
-	list->Current = NULL;
+	list->Head = NULL;																/* po usuniêciu wszystkich elementów z listy, wskaŸniki					*/
+	list->Current = NULL;															/* pokazywaæ bêd¹ b³êdne dane, dlatego trzeba je wyzerowaæ				*/
 	list->Tail = NULL;
 	list->Count = 0;
 }
