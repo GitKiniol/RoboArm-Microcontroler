@@ -27,39 +27,11 @@ int main(void)
 {
 	ClkSys32MHz();
 	
+	twiMasterInit(lcdBus, TWI_BAUDRATE);
+	ssd1306Init(lcdBus);
+	ssd1306ClrScr(lcdBus, 0xAA);
+	
 	Bluetooth = HC05_Init(Bluetooth);
-	
-	/* --------  TESTY -------------*/
-	
-	Job = Work_CreateList();
-	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), NULL));
-	
-	Temp = Job->Head->Data;
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	
-	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
-	Temp = Job->Head->Data;
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	
-	Work_InsertToList(Job, Work_CreateListElement(Work_CreateList(), Job->Head));
-	Temp = Job->Head->Data;
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), NULL));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	Work_InsertToList(Temp, Work_CreateListElement(Work_CreateMove(), Temp->Head));
-	
-	
-	Work_ClearList(Job->Head->Data);
-	Work_DeleteElementFromList(Job);
-	Temp = NULL;
-	
-	/*------------------------------*/
 
 	sei();
     while (1) 
