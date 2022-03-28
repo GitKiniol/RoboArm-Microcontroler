@@ -27,13 +27,23 @@ int main(void)
 {
 	ClkSys32MHz();
 	
-	twiMasterInit(lcdBus, TWI_BAUDRATE);
-	ssd1306Init(lcdBus);
-	ssd1306ClrScr(lcdBus, 0xAA);
-	
 	Bluetooth = HC05_Init(Bluetooth);
 	
+	/*---------------------- testy4-----------------------------*/
 	
+	Job = Work_CreateList();
+	
+	while(1)
+	{
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), NULL));
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
+		Work_InsertToList(Job, Work_CreateListElement(Work_CreateMove(), Job->Head));
+		
+		Work_ClearList(Job);
+	}
+	
+	/*----------------------------------------------------------*/
 
 	sei();
     while (1) 
