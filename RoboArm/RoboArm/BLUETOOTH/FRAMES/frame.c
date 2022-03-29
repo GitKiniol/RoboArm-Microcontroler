@@ -81,9 +81,13 @@ uint8_t Frame_Fill(buffer_t *buffer, frame_t *frame)
 
 uint8_t Frame_Check(frame_t *frame)
 {
-	/* funkcja sprawdza jaki rodzaj typ ramki zosta³ odebrany i zwraca liczbê odpowiadaj¹c¹ typowi ramki				*/
-	
-	return 0;
+	/* funkcja sprawdza jaki typ ramki zosta³ odebrany i zwraca liczbê która mu odpowiada				*/
+	if (!(strncmp(&FrameTypes[5], frame->FrameType, 3))) return 6;			/* jeœli typ ramki to: EJOB, zwróæ 6		*/	
+	else if(!(strncmp(&FrameTypes[4], frame->FrameType, 3))) return 5;		/* jeœli typ ramki to: JOB, zwróæ 5			*/
+	else if(!(strncmp(&FrameTypes[3], frame->FrameType, 3))) return 4;		/* jeœli typ ramki to: ETASK, zwróæ 4		*/
+	else if(!(strncmp(&FrameTypes[2], frame->FrameType, 3))) return 3;		/* jeœli typ ramki to: TASK, zwróæ 3		*/
+	else if(!(strncmp(&FrameTypes[1], frame->FrameType, 3))) return 2;		/* jeœli typ ramki to: MOVE, zwróæ 2		*/
+	else return 1;															/* jeœli typ ramki to: STATUS, zwróæ 1		*/
 }
 
 /*----------------------------------------------------------------------------------------------------------------------*/
