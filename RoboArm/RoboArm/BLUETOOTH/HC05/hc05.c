@@ -37,18 +37,18 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
 
 void HC05_SendString(char *txt)
 {
-	Usart_SendString(txt);
+	Usart_SendString(txt);												/* wys³anie tekstu przez bluetooth						*/
 }
 
 uint8_t HC05_Read(void)
 {
-	if (ReceivingBuffer->IsFull == TRUE)
+	if (ReceivingBuffer->IsFull == TRUE)								/* jeœli bufor odbiorczy pe³ny, to:						*/
 	{
-		return Frame_Fill(ReceivingBuffer, ReceivingFrame);
+		return 1;														/* zwróæ 1												*/
 	}
-	else
+	else																/* w przeciwnym wypadku									*/
 	{
-		return 0;
+		return 0;														/* zwróæ 0												*/
 	}
 }
 
