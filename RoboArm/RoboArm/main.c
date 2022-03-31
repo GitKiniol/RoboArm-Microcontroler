@@ -15,6 +15,7 @@
 #include "BLUETOOTH/USART/usart.h"
 #include "BLUETOOTH/FRAMES/frame.h"
 #include "BLUETOOTH/HC05/hc05.h"
+#include "BLUETOOTH/DATA/data.h"
 #include "CONTROL/WORK/work.h"
 
 TWI_t *lcdBus = &TWIC;
@@ -32,49 +33,13 @@ int main(void)
 	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
-	list_t *ptrList;
+	
 	sei();
     while (1) 
     {
 		if(Bluetooth->Read() == 1)											/* jeœli odczyt zakoñczony poprawnie, to:								*/
 		{
-			if (Frame_Fill(ReceivingBuffer, ReceivingFrame))				/* jeœli ramka zawiera prawid³owe dane, to:								*/
-			{
-				switch(Frame_Check(ReceivingFrame))							/* sprawdzenie tupu odebranych danych									*/					
-				{
-					case 1:
-						/* Odebrano ramkê "STATUS"							*/
-						break;
-					case 2:
-						/* Odebrano ramkê "MOVE"							*/
-						
-						ptrList = Work_CreateList();
-						Work_InsertToList(ptrList, Work_CreateListElement(Work_CreateMove(), ptrList->Head));
-						/* Dodanie do tej listy elementu "Move"				*/
-						/* Wstawienie listy "Task" do listy "Job"			*/
-						break;
-					case 3:
-						/* Odebrano ramkê "TASK"							*/
-						/* Jeœli nie istnieje to utworzenie listy "Task"	*/
-						/* Dodanie do tej listy elementu "Move"				*/
-						break;
-					case 4:
-						/* Odebrano ramkê "ETASK"							*/
-						/* Wstawienie listy "Task" do listy "Job"			*/
-						break;
-					case 5:
-						/* Odebrano ramkê "JOB"								*/
-						/* Start											*/
-						break;
-					case 6:
-						/* Odebrano ramkê "EJOB"							*/
-						/* Stop												*/
-						break;
-					default:
-						/* Odebrano nieznan¹ ramkê							*/
-						break;
-				}
-			}
+			
 		}
     }
 }

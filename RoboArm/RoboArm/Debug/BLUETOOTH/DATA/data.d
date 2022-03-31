@@ -1,4 +1,4 @@
-main.d main.o: .././main.c \
+BLUETOOTH/DATA/data.d BLUETOOTH/DATA/data.o: ../BLUETOOTH/DATA/data.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\sfr_defs.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\inttypes.h \
@@ -13,18 +13,9 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
- c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- .././SYS_CLOCK/sysclock.h .././HMI/TWI_BUS/twi.h \
- .././HMI/DISPLAY/oled_SSD1306.h .././HMI/DISPLAY/displaytypes.h \
- .././BLUETOOTH/USART/usart.h .././BLUETOOTH/FRAMES/frame.h \
- .././BLUETOOTH/FRAMES/../USART/usart.h \
- .././BLUETOOTH/FRAMES/../USART/BUFFER/buffer.h \
- .././BLUETOOTH/HC05/hc05.h .././BLUETOOTH/HC05/../USART/usart.h \
- .././BLUETOOTH/HC05/../FRAMES/frame.h .././BLUETOOTH/DATA/data.h \
- .././BLUETOOTH/DATA/../FRAMES/frame.h .././CONTROL/WORK/work.h
+ ../BLUETOOTH/DATA/data.h ../BLUETOOTH/DATA/../FRAMES/frame.h \
+ ../BLUETOOTH/DATA/../FRAMES/../USART/usart.h \
+ ../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -54,38 +45,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
+../BLUETOOTH/DATA/data.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
+../BLUETOOTH/DATA/../FRAMES/frame.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
+../BLUETOOTH/DATA/../FRAMES/../USART/usart.h:
 
-c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
-
-.././SYS_CLOCK/sysclock.h:
-
-.././HMI/TWI_BUS/twi.h:
-
-.././HMI/DISPLAY/oled_SSD1306.h:
-
-.././HMI/DISPLAY/displaytypes.h:
-
-.././BLUETOOTH/USART/usart.h:
-
-.././BLUETOOTH/FRAMES/frame.h:
-
-.././BLUETOOTH/FRAMES/../USART/usart.h:
-
-.././BLUETOOTH/FRAMES/../USART/BUFFER/buffer.h:
-
-.././BLUETOOTH/HC05/hc05.h:
-
-.././BLUETOOTH/HC05/../USART/usart.h:
-
-.././BLUETOOTH/HC05/../FRAMES/frame.h:
-
-.././BLUETOOTH/DATA/data.h:
-
-.././BLUETOOTH/DATA/../FRAMES/frame.h:
-
-.././CONTROL/WORK/work.h:
+../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h:

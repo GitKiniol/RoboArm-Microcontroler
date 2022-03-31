@@ -17,27 +17,7 @@
 
 /*-----------------------------------------------Definicje struktur danych----------------------------------------------------------------------*/
 
-typedef struct MOVE_STRUCT										/* struktura zawiera parametry ruchu pojedynczej osi							*/
-{
-	char AxisName;												/* literka oznaczaj¹ca oœ: Z,A,B,C,G lub T										*/					
-	uint8_t Angle;												/* k¹t obrotu osi 0° - 180°														*/
-	uint8_t Speed;												/* prêdkoœæ obrotowa osi 0% - 100%												*/
-	uint8_t Direction : 1;										/* kierunek obrotów osi 1 - prawo, 0 - lewo										*/
-}move_t;
 
-typedef struct LIST_ELEMENT_STRUCT								/* lista powi¹zana ruchów tworz¹ca multiruch									*/
-{
-	void *Next;													/* wskaŸnik na kolejny element													*/
-	void *Data;													/* wskaŸnik na dane elementu													*/
-}list_element_t;
-
-typedef struct LIST_STRUCT										/* lista powi¹zana ruchów i mutiruchów											*/
-{
-	list_element_t *Head;										/* pierwszy element na liœcie													*/
-	list_element_t *Tail;										/* ostatni element na liœcie													*/
-	list_element_t *Current;									/* aktualny element																*/
-	uint8_t Count;												/* licznik elementów															*/
-}list_t;
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -50,23 +30,7 @@ typedef struct LIST_STRUCT										/* lista powi¹zana ruchów i mutiruchów						
 
 /*---------------------------------------------------Deklaracje funkcji-------------------------------------------------------------------------*/
 
-move_t *Work_CreateMove(void);													/* funkcja alokuje pamiêæ dla struktury typu Move				*/
 
-list_element_t *Work_CreateListElement(void *data, void *next);					/* funkcja alokuje pamiêæ dla elementu listy					*/
-
-list_t *Work_CreateList(void);													/* funkcja alokuje pamiêæ dla listy								*/
-
-void Work_InsertToList(list_t *list, list_element_t *element);					/* funkcja umieszcza element na liœcie							*/
-
-list_t *Work_GetTaskFromList(list_t *list);										/* funkcja pobiera listê ruchów z listy zadañ					*/
-
-move_t *Work_GetMoveFromList(list_t *list);										/* funkcja pobiera ruch z listy ruchów							*/
-
-void Work_DeleteElementFromList(list_t *list);									/* funkcja zwalnia pamiêæ zajmowan¹ przez element listy			*/
-
-void Work_ClearList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez elementy w liœcie		*/
-
-void Work_DeleteList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez listê					*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 

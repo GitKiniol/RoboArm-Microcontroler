@@ -2,6 +2,8 @@
 # Automatically-generated file. Do not edit or delete the file
 ################################################################################
 
+BLUETOOTH\DATA\data.c
+
 BLUETOOTH\FRAMES\frame.c
 
 BLUETOOTH\HC05\hc05.c
