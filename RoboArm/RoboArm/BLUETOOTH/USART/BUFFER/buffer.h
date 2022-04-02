@@ -13,8 +13,8 @@
 /*----------------------------------------------------------Makroinstrukcje-----------------------------------------------------*/
 
 #define BUFFER_SIZE				9							/* maksymalna iloœæ elementów w buforze								*/
-#define TRUE					1							/* definicja wartoœci prawda (1)									*/
-#define FALSE					1							/* definicja wartoœci fa³sz (0)										*/
+//#define TRUE					1							/* definicja wartoœci prawda (1)									*/
+//#define FALSE					0							/* definicja wartoœci fa³sz (0)										*/
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 

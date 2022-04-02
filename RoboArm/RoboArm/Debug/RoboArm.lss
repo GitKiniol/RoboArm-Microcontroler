@@ -163,8 +163,8 @@ Disassembly of section .text:
 
 000001fc <__trampolines_start>:
  1fc:	0c 94 79 01 	jmp	0x2f2	; 0x2f2 <HC05_SendString>
- 200:	0c 94 6f 01 	jmp	0x2de	; 0x2de <HC05_Read>
- 204:	0c 94 7c 01 	jmp	0x2f8	; 0x2f8 <HC05_SendStatus>
+ 200:	0c 94 7c 01 	jmp	0x2f8	; 0x2f8 <HC05_SendStatus>
+ 204:	0c 94 6f 01 	jmp	0x2de	; 0x2de <HC05_Read>
 
 00000208 <__ctors_end>:
  208:	11 24       	eor	r1, r1

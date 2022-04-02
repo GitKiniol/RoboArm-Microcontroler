@@ -18,10 +18,14 @@
 
 /*-------------------------------------------Definicje funkcji----------------------------------------------------------------------------------------------*/
 
-move_t *Data_CreateMove(void)
+move_t *Data_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir)
 {
 	move_t *ptrMove;																/* deklaracja wskaŸnika na ruch											*/
 	ptrMove = (move_t *)malloc(sizeof(move_t));										/* alokacja pamiêci dla wskaŸnika na ruch								*/
+	ptrMove->AxisName = axis;														/* przypisanie litery osi												*/
+	ptrMove->Angle = angle;															/* przypisanie k¹ta osi													*/
+	ptrMove->Speed = speed;															/* przypisanie prêdkoœci osi											*/
+	ptrMove->Direction = dir;														/* przypisanie kierunku osi												*/
 	return ptrMove;																	/* zwrócenie adresu na alokowan¹ pamiêæ									*/
 }
 
@@ -45,7 +49,7 @@ list_t *Data_CreateList(void)
 	return ptrList;																	/* zwrócenie wskaŸnika na alokowan¹ pamiêæ								*/
 }
 
-void Data_InsertToList(list_t *list, list_element_t *element)
+void Data_InsertElementToList(list_t *list, list_element_t *element)
 {
 	if (list->Tail == NULL)															/* jeœli lista jest pusta, to:  (umieszczanie pierwszego elementu)		*/
 	{
@@ -115,6 +119,43 @@ void Data_DeleteList(list_t *list)
 	{
 		free(list);																	/* zwolnij wskazywan¹ przez niego pamiêæ								*/
 	}
+}
+
+void Data_InsertMoveToJob(list_t *job, frame_t *frame)
+{
+	/* funkcja tworzy listê zagnie¿d¿on¹ w liœcie job */
+	Data_InsertElementToList(job, Data_CreateListElement(Data_CreateList(), job->Head));
+	
+	/* funkcja umieszcza w zagnie¿d¿onej liœcie dane ruchu osi */
+	Data_InsertElementToList(job->Head->Data, Data_CreateListElement(Data_CreateMove(*frame->Data1, atoi(frame->Data2), atoi(frame->Data3), atoi(frame->Data4)), NULL));
+}
+
+void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
+{
+	static uint8_t NeedNewList = 1;
+	list_t *ptrList = job->Head->Data;
+	
+	if (NeedNewList)
+	{
+		/* funkcja tworzy listê zagnie¿d¿on¹ w liœcie job */
+		Data_InsertElementToList(job, Data_CreateListElement(Data_CreateList(), job->Head));
+		
+		/* pobranie wskaŸnika na listê zagnie¿d¿on¹ */
+		ptrList = job->Head->Data;
+		
+		/* nowa lista nie potrzebna (bo w³aœnie zosta³a utworzona */
+		NeedNewList = 0;
+	}
+	
+	/* funkcja umieszcza w zagnie¿d¿onej liœcie dane ruchu osi */
+	Data_InsertElementToList(ptrList, Data_CreateListElement(Data_CreateMove(*frame->Data1, atoi(frame->Data2), atoi(frame->Data3), atoi(frame->Data4)), ptrList->Head));
+	
+	if (islastmove)
+	{
+		/* jeœli wstawiony do listy zosta³ ostatni ruch, to ustaw informacjê ¿e potrzebna jest nowa lista */
+		NeedNewList = 1;
+	}
+
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/

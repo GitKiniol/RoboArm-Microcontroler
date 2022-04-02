@@ -51,13 +51,13 @@ typedef struct LIST_STRUCT										/* lista powi¹zana ruchów i mutiruchów						
 
 /*---------------------------------------------------Deklaracje funkcji---------------------------------------------------------------------------------*/
 
-move_t *Data_CreateMove(void);													/* funkcja alokuje pamiêæ dla struktury typu Move						*/
+move_t *Data_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir);	/* funkcja alokuje pamiêæ dla struktury typu Move						*/
 
 list_element_t *Data_CreateListElement(void *data, void *next);					/* funkcja alokuje pamiêæ dla elementu listy							*/
 
 list_t *Data_CreateList(void);													/* funkcja alokuje pamiêæ dla listy										*/
 
-void Data_InsertToList(list_t *list, list_element_t *element);					/* funkcja umieszcza element na liœcie									*/
+void Data_InsertElementToList(list_t *list, list_element_t *element);			/* funkcja umieszcza element na liœcie									*/
 
 list_t *Data_GetTaskFromList(list_t *list);										/* funkcja pobiera listê ruchów z listy zadañ							*/
 
@@ -68,6 +68,10 @@ void Data_DeleteElementFromList(list_t *list);									/* funkcja zwalnia pamiêæ
 void Data_ClearList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez elementy w liœcie				*/
 
 void Data_DeleteList(list_t *list);												/* funkcja zwalnia pamiêæ zajmowan¹ przez listê							*/
+
+void Data_InsertMoveToJob(list_t *job, frame_t *frame);							/* funkcja dodaje do listy element z ruchem jednej osi					*/
+
+void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove);		/* funkcja dodaje do listy element z ruchem wielu osi					*/
 
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
