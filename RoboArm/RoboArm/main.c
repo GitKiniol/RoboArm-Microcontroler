@@ -18,19 +18,12 @@
 #include "BLUETOOTH/DATA/data.h"
 #include "CONTROL/WORK/work.h"
 
-TWI_t *lcdBus = &TWIC;
 
-size_t l, m;
-list_t *Job;
-list_t *Temp;
+list_t Job;
 
 int main(void)
 {
 	ClkSys32MHz();
-	
-	twiMasterInit(lcdBus, TWI_BAUDRATE);
-	ssd1306Init(lcdBus);
-	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Bluetooth = HC05_Init(Bluetooth);
 	
@@ -39,7 +32,21 @@ int main(void)
     {
 		if(Bluetooth->Read() == 1)											/* jeœli odczyt zakoñczony poprawnie, to:								*/
 		{
-			
+			Frame_Fill(ReceivingBuffer, ReceivingFrame);
+			switch(Frame_Check(ReceivingFrame))
+			{
+				case 1:
+					HC05_SendStatus("1\n");
+					break;
+				case 2:
+					Data_InsertMoveToJob(&Job, ReceivingFrame);
+					break;
+				case 3:
+					Data_InsertMoveToJob(&Job, ReceivingFrame);
+					break;
+				default:
+					break;
+			}
 		}
     }
 }
