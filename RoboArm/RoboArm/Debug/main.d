@@ -17,14 +17,15 @@ main.d main.o: .././main.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
- .././SYS_CLOCK/sysclock.h .././HMI/TWI_BUS/twi.h \
- .././HMI/DISPLAY/oled_SSD1306.h .././HMI/DISPLAY/displaytypes.h \
+ .././HMI/TWI_BUS/twi.h .././CONTROL/WORK/work.h \
+ .././SYS_CLOCK/sysclock.h .././BLUETOOTH/HC05/hc05.h \
+ .././BLUETOOTH/HC05/../USART/usart.h \
+ .././BLUETOOTH/HC05/../FRAMES/frame.h \
+ .././BLUETOOTH/HC05/../FRAMES/../USART/usart.h \
+ .././BLUETOOTH/HC05/../FRAMES/../USART/BUFFER/buffer.h \
+ .././BLUETOOTH/DATA/data.h .././BLUETOOTH/DATA/../FRAMES/frame.h \
  .././BLUETOOTH/USART/usart.h .././BLUETOOTH/FRAMES/frame.h \
- .././BLUETOOTH/FRAMES/../USART/usart.h \
- .././BLUETOOTH/FRAMES/../USART/BUFFER/buffer.h \
- .././BLUETOOTH/HC05/hc05.h .././BLUETOOTH/HC05/../USART/usart.h \
- .././BLUETOOTH/HC05/../FRAMES/frame.h .././BLUETOOTH/DATA/data.h \
- .././BLUETOOTH/DATA/../FRAMES/frame.h .././CONTROL/WORK/work.h
+ .././HMI/DISPLAY/oled_SSD1306.h .././HMI/DISPLAY/displaytypes.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -62,21 +63,11 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 
-.././SYS_CLOCK/sysclock.h:
-
 .././HMI/TWI_BUS/twi.h:
 
-.././HMI/DISPLAY/oled_SSD1306.h:
+.././CONTROL/WORK/work.h:
 
-.././HMI/DISPLAY/displaytypes.h:
-
-.././BLUETOOTH/USART/usart.h:
-
-.././BLUETOOTH/FRAMES/frame.h:
-
-.././BLUETOOTH/FRAMES/../USART/usart.h:
-
-.././BLUETOOTH/FRAMES/../USART/BUFFER/buffer.h:
+.././SYS_CLOCK/sysclock.h:
 
 .././BLUETOOTH/HC05/hc05.h:
 
@@ -84,8 +75,18 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././BLUETOOTH/HC05/../FRAMES/frame.h:
 
+.././BLUETOOTH/HC05/../FRAMES/../USART/usart.h:
+
+.././BLUETOOTH/HC05/../FRAMES/../USART/BUFFER/buffer.h:
+
 .././BLUETOOTH/DATA/data.h:
 
 .././BLUETOOTH/DATA/../FRAMES/frame.h:
 
-.././CONTROL/WORK/work.h:
+.././BLUETOOTH/USART/usart.h:
+
+.././BLUETOOTH/FRAMES/frame.h:
+
+.././HMI/DISPLAY/oled_SSD1306.h:
+
+.././HMI/DISPLAY/displaytypes.h:
