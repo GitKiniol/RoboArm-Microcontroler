@@ -47,6 +47,8 @@ Discarded input sections
                 0x00000000       0x2a BLUETOOTH/DATA/data.o
  .text.Data_DeleteList
                 0x00000000        0xa BLUETOOTH/DATA/data.o
+ .text.Data_ClearJob
+                0x00000000       0x46 BLUETOOTH/DATA/data.o
  .text          0x00000000        0x0 BLUETOOTH/FRAMES/frame.o
  .data          0x00000000        0x0 BLUETOOTH/FRAMES/frame.o
  .bss           0x00000000        0x0 BLUETOOTH/FRAMES/frame.o
@@ -718,7 +720,7 @@ END GROUP
                 0x00802002                __malloc_heap_start
                 0x00802004                __malloc_margin
  *(.data*)
- .data.NeedNewList.4089
+ .data.NeedNewList.4091
                 0x00802006        0x1 BLUETOOTH/DATA/data.o
  .data.FrameTypes
                 0x00802007        0xc BLUETOOTH/FRAMES/frame.o
@@ -854,42 +856,42 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x290
+.debug_aranges  0x00000000      0x298
  *(.debug_aranges)
  .debug_aranges
-                0x00000000       0x70 BLUETOOTH/DATA/data.o
+                0x00000000       0x78 BLUETOOTH/DATA/data.o
  .debug_aranges
-                0x00000070       0x38 BLUETOOTH/FRAMES/frame.o
+                0x00000078       0x38 BLUETOOTH/FRAMES/frame.o
  .debug_aranges
-                0x000000a8       0x38 BLUETOOTH/HC05/hc05.o
+                0x000000b0       0x38 BLUETOOTH/HC05/hc05.o
  .debug_aranges
-                0x000000e0       0x38 BLUETOOTH/USART/BUFFER/buffer.o
+                0x000000e8       0x38 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_aranges
-                0x00000118       0x40 BLUETOOTH/USART/usart.o
+                0x00000120       0x40 BLUETOOTH/USART/usart.o
  .debug_aranges
-                0x00000158       0xb8 HMI/DISPLAY/oled_SSD1306.o
+                0x00000160       0xb8 HMI/DISPLAY/oled_SSD1306.o
  .debug_aranges
-                0x00000210       0x38 HMI/TWI_BUS/twi.o
+                0x00000218       0x38 HMI/TWI_BUS/twi.o
  .debug_aranges
-                0x00000248       0x20 main.o
+                0x00000250       0x20 main.o
  .debug_aranges
-                0x00000268       0x28 SYS_CLOCK/sysclock.o
+                0x00000270       0x28 SYS_CLOCK/sysclock.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x7975
+.debug_info     0x00000000     0x7999
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x3e5a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega128a1u/avrxmega7/crtatxmega128a1u.o
- .debug_info    0x00003e5a      0x6e0 BLUETOOTH/DATA/data.o
- .debug_info    0x0000453a      0x5ec BLUETOOTH/FRAMES/frame.o
- .debug_info    0x00004b26      0xa9c BLUETOOTH/HC05/hc05.o
- .debug_info    0x000055c2      0x2a8 BLUETOOTH/USART/BUFFER/buffer.o
- .debug_info    0x0000586a      0x61d BLUETOOTH/USART/usart.o
- .debug_info    0x00005e87     0x12de HMI/DISPLAY/oled_SSD1306.o
- .debug_info    0x00007165      0x31a HMI/TWI_BUS/twi.o
- .debug_info    0x0000747f      0x310 main.o
- .debug_info    0x0000778f      0x1e6 SYS_CLOCK/sysclock.o
+ .debug_info    0x00003e5a      0x704 BLUETOOTH/DATA/data.o
+ .debug_info    0x0000455e      0x5ec BLUETOOTH/FRAMES/frame.o
+ .debug_info    0x00004b4a      0xa9c BLUETOOTH/HC05/hc05.o
+ .debug_info    0x000055e6      0x2a8 BLUETOOTH/USART/BUFFER/buffer.o
+ .debug_info    0x0000588e      0x61d BLUETOOTH/USART/usart.o
+ .debug_info    0x00005eab     0x12de HMI/DISPLAY/oled_SSD1306.o
+ .debug_info    0x00007189      0x31a HMI/TWI_BUS/twi.o
+ .debug_info    0x000074a3      0x310 main.o
+ .debug_info    0x000077b3      0x1e6 SYS_CLOCK/sysclock.o
 
 .debug_abbrev   0x00000000     0x4826
  *(.debug_abbrev)
@@ -904,51 +906,51 @@ END GROUP
  .debug_abbrev  0x0000465e      0x12b main.o
  .debug_abbrev  0x00004789       0x9d SYS_CLOCK/sysclock.o
 
-.debug_line     0x00000000     0x1df0
+.debug_line     0x00000000     0x1e37
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x3b5 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega128a1u/avrxmega7/crtatxmega128a1u.o
- .debug_line    0x000003b5      0x30c BLUETOOTH/DATA/data.o
- .debug_line    0x000006c1      0x262 BLUETOOTH/FRAMES/frame.o
- .debug_line    0x00000923      0x3a4 BLUETOOTH/HC05/hc05.o
- .debug_line    0x00000cc7      0x224 BLUETOOTH/USART/BUFFER/buffer.o
- .debug_line    0x00000eeb      0x2c0 BLUETOOTH/USART/usart.o
- .debug_line    0x000011ab      0x7cb HMI/DISPLAY/oled_SSD1306.o
- .debug_line    0x00001976      0x186 HMI/TWI_BUS/twi.o
- .debug_line    0x00001afc      0x1a3 main.o
- .debug_line    0x00001c9f      0x151 SYS_CLOCK/sysclock.o
+ .debug_line    0x000003b5      0x353 BLUETOOTH/DATA/data.o
+ .debug_line    0x00000708      0x262 BLUETOOTH/FRAMES/frame.o
+ .debug_line    0x0000096a      0x3a4 BLUETOOTH/HC05/hc05.o
+ .debug_line    0x00000d0e      0x224 BLUETOOTH/USART/BUFFER/buffer.o
+ .debug_line    0x00000f32      0x2c0 BLUETOOTH/USART/usart.o
+ .debug_line    0x000011f2      0x7cb HMI/DISPLAY/oled_SSD1306.o
+ .debug_line    0x000019bd      0x186 HMI/TWI_BUS/twi.o
+ .debug_line    0x00001b43      0x1a3 main.o
+ .debug_line    0x00001ce6      0x151 SYS_CLOCK/sysclock.o
 
-.debug_frame    0x00000000      0x81c
+.debug_frame    0x00000000      0x82c
  *(.debug_frame)
- .debug_frame   0x00000000      0x15c BLUETOOTH/DATA/data.o
- .debug_frame   0x0000015c       0x80 BLUETOOTH/FRAMES/frame.o
- .debug_frame   0x000001dc       0x6c BLUETOOTH/HC05/hc05.o
- .debug_frame   0x00000248       0x90 BLUETOOTH/USART/BUFFER/buffer.o
- .debug_frame   0x000002d8       0xcc BLUETOOTH/USART/usart.o
- .debug_frame   0x000003a4      0x3cc HMI/DISPLAY/oled_SSD1306.o
- .debug_frame   0x00000770       0x54 HMI/TWI_BUS/twi.o
- .debug_frame   0x000007c4       0x24 main.o
- .debug_frame   0x000007e8       0x34 SYS_CLOCK/sysclock.o
+ .debug_frame   0x00000000      0x16c BLUETOOTH/DATA/data.o
+ .debug_frame   0x0000016c       0x80 BLUETOOTH/FRAMES/frame.o
+ .debug_frame   0x000001ec       0x6c BLUETOOTH/HC05/hc05.o
+ .debug_frame   0x00000258       0x90 BLUETOOTH/USART/BUFFER/buffer.o
+ .debug_frame   0x000002e8       0xcc BLUETOOTH/USART/usart.o
+ .debug_frame   0x000003b4      0x3cc HMI/DISPLAY/oled_SSD1306.o
+ .debug_frame   0x00000780       0x54 HMI/TWI_BUS/twi.o
+ .debug_frame   0x000007d4       0x24 main.o
+ .debug_frame   0x000007f8       0x34 SYS_CLOCK/sysclock.o
 
-.debug_str      0x00000000     0x381a
+.debug_str      0x00000000     0x3828
  *(.debug_str)
  .debug_str     0x00000000     0x2969 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega128a1u/avrxmega7/crtatxmega128a1u.o
- .debug_str     0x00002969      0x398 BLUETOOTH/DATA/data.o
-                                0x3e7 (size before relaxing)
- .debug_str     0x00002d01       0xef BLUETOOTH/FRAMES/frame.o
+ .debug_str     0x00002969      0x3a6 BLUETOOTH/DATA/data.o
+                                0x3f5 (size before relaxing)
+ .debug_str     0x00002d0f       0xef BLUETOOTH/FRAMES/frame.o
                                 0x2e7 (size before relaxing)
- .debug_str     0x00002df0      0x20c BLUETOOTH/HC05/hc05.o
+ .debug_str     0x00002dfe      0x20c BLUETOOTH/HC05/hc05.o
                                 0x521 (size before relaxing)
- .debug_str     0x00002ffc       0x4e BLUETOOTH/USART/BUFFER/buffer.o
+ .debug_str     0x0000300a       0x4e BLUETOOTH/USART/BUFFER/buffer.o
                                 0x277 (size before relaxing)
- .debug_str     0x0000304a      0x1a7 BLUETOOTH/USART/usart.o
+ .debug_str     0x00003058      0x1a7 BLUETOOTH/USART/usart.o
                                 0x4f2 (size before relaxing)
- .debug_str     0x000031f1      0x32d HMI/DISPLAY/oled_SSD1306.o
+ .debug_str     0x000031ff      0x32d HMI/DISPLAY/oled_SSD1306.o
                                 0x508 (size before relaxing)
- .debug_str     0x0000351e      0x1b4 HMI/TWI_BUS/twi.o
+ .debug_str     0x0000352c      0x1b4 HMI/TWI_BUS/twi.o
                                 0x40e (size before relaxing)
- .debug_str     0x000036d2       0x24 main.o
+ .debug_str     0x000036e0       0x24 main.o
                                 0x2c6 (size before relaxing)
- .debug_str     0x000036f6      0x124 SYS_CLOCK/sysclock.o
+ .debug_str     0x00003704      0x124 SYS_CLOCK/sysclock.o
                                 0x2de (size before relaxing)
 
 .debug_loc      0x00000000     0x25f6
@@ -979,17 +981,17 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x200
+.debug_ranges   0x00000000      0x208
  *(.debug_ranges)
- .debug_ranges  0x00000000       0x60 BLUETOOTH/DATA/data.o
- .debug_ranges  0x00000060       0x28 BLUETOOTH/FRAMES/frame.o
- .debug_ranges  0x00000088       0x28 BLUETOOTH/HC05/hc05.o
- .debug_ranges  0x000000b0       0x28 BLUETOOTH/USART/BUFFER/buffer.o
- .debug_ranges  0x000000d8       0x30 BLUETOOTH/USART/usart.o
- .debug_ranges  0x00000108       0xa8 HMI/DISPLAY/oled_SSD1306.o
- .debug_ranges  0x000001b0       0x28 HMI/TWI_BUS/twi.o
- .debug_ranges  0x000001d8       0x10 main.o
- .debug_ranges  0x000001e8       0x18 SYS_CLOCK/sysclock.o
+ .debug_ranges  0x00000000       0x68 BLUETOOTH/DATA/data.o
+ .debug_ranges  0x00000068       0x28 BLUETOOTH/FRAMES/frame.o
+ .debug_ranges  0x00000090       0x28 BLUETOOTH/HC05/hc05.o
+ .debug_ranges  0x000000b8       0x28 BLUETOOTH/USART/BUFFER/buffer.o
+ .debug_ranges  0x000000e0       0x30 BLUETOOTH/USART/usart.o
+ .debug_ranges  0x00000110       0xa8 HMI/DISPLAY/oled_SSD1306.o
+ .debug_ranges  0x000001b8       0x28 HMI/TWI_BUS/twi.o
+ .debug_ranges  0x000001e0       0x10 main.o
+ .debug_ranges  0x000001f0       0x18 SYS_CLOCK/sysclock.o
 
 .debug_macro
  *(.debug_macro)

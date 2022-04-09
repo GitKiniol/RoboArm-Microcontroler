@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00001204  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000290  00000000  00000000  00001244  2**0
+  5 .debug_aranges 00000298  00000000  00000000  00001244  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00007975  00000000  00000000  000014d4  2**0
+  6 .debug_info   00007999  00000000  00000000  000014dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004826  00000000  00000000  00008e49  2**0
+  7 .debug_abbrev 00004826  00000000  00000000  00008e75  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001df0  00000000  00000000  0000d66f  2**0
+  8 .debug_line   00001e37  00000000  00000000  0000d69b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000081c  00000000  00000000  0000f460  2**2
+  9 .debug_frame  0000082c  00000000  00000000  0000f4d4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000381a  00000000  00000000  0000fc7c  2**0
+ 10 .debug_str    00003828  00000000  00000000  0000fd00  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000025f6  00000000  00000000  00013496  2**0
+ 11 .debug_loc    000025f6  00000000  00000000  00013528  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000200  00000000  00000000  00015a8c  2**0
+ 12 .debug_ranges 00000208  00000000  00000000  00015b1e  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -162,9 +162,9 @@ Disassembly of section .text:
      1f8:	0c 94 2a 01 	jmp	0x254	; 0x254 <__bad_interrupt>
 
 000001fc <__trampolines_start>:
-     1fc:	0c 94 81 03 	jmp	0x702	; 0x702 <HC05_Read>
-     200:	0c 94 25 03 	jmp	0x64a	; 0x64a <HC05_SendString>
-     204:	0c 94 28 03 	jmp	0x650	; 0x650 <HC05_SendStatus>
+     1fc:	0c 94 28 03 	jmp	0x650	; 0x650 <HC05_SendStatus>
+     200:	0c 94 81 03 	jmp	0x702	; 0x702 <HC05_Read>
+     204:	0c 94 25 03 	jmp	0x64a	; 0x64a <HC05_SendString>
 
 00000208 <__ctors_end>:
      208:	11 24       	eor	r1, r1
@@ -406,7 +406,7 @@ void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
      3a6:	13 81       	ldd	r17, Z+3	; 0x03
 	
 	if (NeedNewList)
-     3a8:	80 91 06 20 	lds	r24, 0x2006	; 0x802006 <NeedNewList.4089>
+     3a8:	80 91 06 20 	lds	r24, 0x2006	; 0x802006 <NeedNewList.4091>
      3ac:	88 23       	and	r24, r24
      3ae:	81 f0       	breq	.+32     	; 0x3d0 <Data_InsertTaskToJob+0x4c>
 	{
@@ -429,7 +429,7 @@ void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
 		
 		/* nowa lista nie potrzebna (bo w³aœnie zosta³a utworzona */
 		NeedNewList = 0;
-     3cc:	10 92 06 20 	sts	0x2006, r1	; 0x802006 <NeedNewList.4089>
+     3cc:	10 92 06 20 	sts	0x2006, r1	; 0x802006 <NeedNewList.4091>
 	}
 	
 	/* funkcja umieszcza w zagnie¿d¿onej liœcie dane ruchu osi */
@@ -468,7 +468,7 @@ void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
 		/* jeœli wstawiony do listy zosta³ ostatni ruch, to ustaw informacjê ¿e potrzebna jest nowa lista */
 		NeedNewList = 1;
      414:	81 e0       	ldi	r24, 0x01	; 1
-     416:	80 93 06 20 	sts	0x2006, r24	; 0x802006 <NeedNewList.4089>
+     416:	80 93 06 20 	sts	0x2006, r24	; 0x802006 <NeedNewList.4091>
 	}
 
 }

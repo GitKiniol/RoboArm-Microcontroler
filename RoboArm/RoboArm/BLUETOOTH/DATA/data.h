@@ -74,6 +74,8 @@ void Data_InsertMoveToJob(list_t *job, frame_t *frame);							/* funkcja dodaje 
 
 void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove);		/* funkcja dodaje do listy element z ruchem wielu osi					*/
 
+void Data_ClearJob(void);														/* zwalnianie pamiêci zajmowanej przez listê Job						*/
+
 /*------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 

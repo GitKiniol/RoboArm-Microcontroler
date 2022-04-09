@@ -158,4 +158,18 @@ void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
 
 }
 
+void Data_ClearJob(void)
+{
+	Job.Current = Job.Head;
+	while(Job.Current)
+	{
+		Data_ClearList(Job.Current->Data);
+		Job.Current = Job.Current->Next;
+	}
+	Job.Head = NULL;
+	Job.Current = NULL;
+	Job.Tail = NULL;
+	Job.Count = 0;
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
