@@ -32,7 +32,7 @@ typedef struct HC_05_S
 {
 	void (*SendString)(char *txt);						/* funkcja do wysy³ania pojedynczego ³añcucha znaków				*/
 	uint8_t (*SendStatus)(char *statusstate);			/* funkcja do wysy³ania statusu										*/
-	uint8_t (*Read)(void);								/* funkcja odczytu danych											*/
+	void (*Read)(void);									/* funkcja odczytu danych											*/
 }bluetooth_t;
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
@@ -51,7 +51,7 @@ bluetooth_t *HC05_Init(bluetooth_t *module);			/* inicjalizacja modu³u komunikac
 
 void HC05_SendString(char *txt);						/* funkcja wysy³aj¹ca ³añcuch znaków								*/
 
-uint8_t HC05_Read(void);								/* funkcja odbiorcza												*/
+void HC05_Read(void);									/* funkcja odbiorcza												*/
 
 uint8_t HC05_SendStatus(char *statusstate);				/*funkcja wysy³a status sterownika									*/
 

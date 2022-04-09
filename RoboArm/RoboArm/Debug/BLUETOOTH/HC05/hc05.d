@@ -20,6 +20,8 @@ BLUETOOTH/HC05/hc05.d BLUETOOTH/HC05/hc05.o: ../BLUETOOTH/HC05/hc05.c \
  ../BLUETOOTH/HC05/../FRAMES/frame.h \
  ../BLUETOOTH/HC05/../FRAMES/../USART/usart.h \
  ../BLUETOOTH/HC05/../FRAMES/../USART/BUFFER/buffer.h \
+ ../BLUETOOTH/HC05/../DATA/data.h \
+ ../BLUETOOTH/HC05/../DATA/../FRAMES/frame.h \
  ../BLUETOOTH/HC05/../USART/BUFFER/buffer.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
@@ -65,5 +67,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../BLUETOOTH/HC05/../FRAMES/../USART/usart.h:
 
 ../BLUETOOTH/HC05/../FRAMES/../USART/BUFFER/buffer.h:
+
+../BLUETOOTH/HC05/../DATA/data.h:
+
+../BLUETOOTH/HC05/../DATA/../FRAMES/frame.h:
 
 ../BLUETOOTH/HC05/../USART/BUFFER/buffer.h:

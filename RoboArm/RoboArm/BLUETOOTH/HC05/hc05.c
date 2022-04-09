@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <util/delay.h>
 #include "hc05.h"
+#include "../DATA/data.h"
 #include "../USART/BUFFER/buffer.h"
 
 /*-------------------------------------------Deklaracje zmiennych---------------------------------------------------------------*/
@@ -40,15 +41,57 @@ void HC05_SendString(char *txt)
 	Usart_SendString(txt);												/* wys³anie tekstu przez bluetooth						*/
 }
 
-uint8_t HC05_Read(void)
+void HC05_Read(void)
 {
 	if (ReceivingBuffer->IsFull == TRUE)								/* jeœli bufor odbiorczy pe³ny, to:						*/
 	{
-		return 1;														/* zwróæ 1												*/
-	}
-	else																/* w przeciwnym wypadku									*/
-	{
-		return 0;														/* zwróæ 0												*/
+		if (Frame_Fill(ReceivingBuffer, ReceivingFrame))
+		{
+			switch(Frame_TypeCheck(ReceivingFrame))
+			{
+				case 1:
+					switch(Frame_StatusCheck(ReceivingFrame->Data1))
+					{
+						case 1:
+							HC05_SendStatus("1\n");
+							break;
+						case 2:
+							HC05_SendStatus("2\n");
+							break;
+						case 3:
+							HC05_SendStatus("3\n");
+							//Sys_Reset();
+							break;
+						default:
+							break;
+					}
+					break;
+				case 2:
+					Data_InsertMoveToJob(&Job, ReceivingFrame);
+					HC05_SendStatus("1\n");
+					break;
+				case 3:
+					Data_InsertTaskToJob(&Job, ReceivingFrame, 0);
+					HC05_SendStatus("1\n");
+					break;
+				case 4:
+					Data_InsertTaskToJob(&Job, ReceivingFrame, 1);
+					HC05_SendStatus("1\n");
+					break;
+				case 5:
+					//Work_Start();
+					break;
+				case 6:
+					//Work_Stop();
+					break;
+				default:
+					break;
+			}
+		} 
+		else
+		{
+			HC05_SendStatus("99\n");
+		}
 	}
 }
 

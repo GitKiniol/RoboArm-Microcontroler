@@ -20,10 +20,6 @@
 
 TWI_t *lcdBus = &TWIC;
 
-size_t l, m;
-list_t *Job;
-list_t *Temp;
-
 int main(void)
 {
 	ClkSys32MHz();
@@ -37,10 +33,7 @@ int main(void)
 	sei();
     while (1) 
     {
-		if(Bluetooth->Read() == 1)											/* jeœli odczyt zakoñczony poprawnie, to:								*/
-		{
-			
-		}
+		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
     }
 }
 
