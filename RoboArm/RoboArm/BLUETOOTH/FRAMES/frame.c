@@ -92,7 +92,10 @@ uint8_t Frame_TypeCheck(frame_t *frame)
 
 uint8_t Frame_StatusCheck(char *status)
 {
-	return 1;
+	if (!(strncmp(status, "1", 1))) return 1;								/* nast¹pi przesy³ danych					*/
+	else if (!(strncmp(status, "2", 1))) return 2;							/* nast¹pi pod³¹czenie sterownika			*/
+	else if (!(strncmp(status, "3", 1))) return 3;							/* nast¹pi od³¹czenie sterownika			*/
+	else return 99;															/* nieznany status							*/
 }
 
 /*----------------------------------------------------------------------------------------------------------------------*/
