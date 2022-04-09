@@ -24,12 +24,15 @@ int main(void)
 {
 	ClkSys32MHz();
 	
+	Job = Data_CreateList();
+	
 	Bluetooth = HC05_Init(Bluetooth);
 	
 	sei();
     while (1) 
     {
 		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
+		//Data_ClearJob();
     }
 }
 

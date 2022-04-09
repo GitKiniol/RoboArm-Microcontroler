@@ -67,19 +67,21 @@ void HC05_Read(void)
 					}
 					break;
 				case 2:
-					Data_InsertMoveToJob(&Job, ReceivingFrame);
+					Data_InsertMoveToJob(Job, ReceivingFrame);
 					HC05_SendStatus("1\n");
 					break;
 				case 3:
-					Data_InsertTaskToJob(&Job, ReceivingFrame, 0);
+					Data_InsertTaskToJob(Job, ReceivingFrame, 0);
 					HC05_SendStatus("1\n");
 					break;
 				case 4:
-					Data_InsertTaskToJob(&Job, ReceivingFrame, 1);
+					Data_InsertTaskToJob(Job, ReceivingFrame, 1);
 					HC05_SendStatus("1\n");
 					break;
 				case 5:
+					Data_ClearJob();
 					//Work_Start();
+					HC05_SendStatus("6\n");
 					break;
 				case 6:
 					//Work_Stop();
