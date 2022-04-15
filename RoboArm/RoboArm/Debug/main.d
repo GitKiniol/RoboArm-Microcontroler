@@ -24,7 +24,8 @@ main.d main.o: .././main.c \
  .././BLUETOOTH/FRAMES/../USART/BUFFER/buffer.h \
  .././BLUETOOTH/HC05/hc05.h .././BLUETOOTH/HC05/../USART/usart.h \
  .././BLUETOOTH/HC05/../FRAMES/frame.h .././BLUETOOTH/DATA/data.h \
- .././BLUETOOTH/DATA/../FRAMES/frame.h .././CONTROL/WORK/work.h
+ .././BLUETOOTH/DATA/../FRAMES/frame.h .././CONTROL/WORK/work.h \
+ .././CONTROL/WORK/../../BLUETOOTH/DATA/data.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -89,3 +90,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././BLUETOOTH/DATA/../FRAMES/frame.h:
 
 .././CONTROL/WORK/work.h:
+
+.././CONTROL/WORK/../../BLUETOOTH/DATA/data.h:

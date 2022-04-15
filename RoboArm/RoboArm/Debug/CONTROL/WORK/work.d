@@ -13,7 +13,11 @@ CONTROL/WORK/work.d CONTROL/WORK/work.o: ../CONTROL/WORK/work.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
- ../CONTROL/WORK/work.h
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
+ ../CONTROL/WORK/work.h ../CONTROL/WORK/../../BLUETOOTH/DATA/data.h \
+ ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/frame.h \
+ ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h \
+ ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -43,4 +47,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h:
 
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
 ../CONTROL/WORK/work.h:
+
+../CONTROL/WORK/../../BLUETOOTH/DATA/data.h:
+
+../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/frame.h:
+
+../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h:
+
+../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h:

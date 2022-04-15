@@ -160,13 +160,13 @@ void Data_InsertTaskToJob(list_t *job, frame_t *frame, uint8_t islastmove)
 
 void Data_ClearJob(void)
 {
-	Job->Current = Job->Head;
-	while(Job->Current)
+	Job->Current = Job->Head;										/* ustawienie wskaŸnika aktualnego elementu na pocz¹tek listy							*/
+	while(Job->Current)												/* do czasu gdy wskaŸnik na bie¿¹cy element nie wskazuje null, wykonuj:					*/
 	{
-		Data_ClearList(Job->Current->Data);
-		Job->Current = Job->Current->Next;
+		Data_ClearList(Job->Current->Data);							/* zwolnij pamiêæ zajmowana przez sublistê												*/
+		Job->Current = Job->Current->Next;							/* przesuñ wskaŸnik na element nastêpny													*/
 	}
-	Data_ClearList(Job);
+	Data_ClearList(Job);											/* zwolnij pamiêæ zajmowan¹ przez listê JOB												*/
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/

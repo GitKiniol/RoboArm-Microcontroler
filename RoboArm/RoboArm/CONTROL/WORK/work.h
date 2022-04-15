@@ -9,6 +9,8 @@
 #ifndef WORK_H_
 #define WORK_H_
 
+#include "../../BLUETOOTH/DATA/data.h"
+
 
 /*-----------------------------------------------Deklaracje makroinstrukcji--------------------------------------------------------------------*/
 
@@ -30,7 +32,11 @@
 
 /*---------------------------------------------------Deklaracje funkcji-------------------------------------------------------------------------*/
 
+void Work_TimerInit(TC1_t *timer);								/* inicjalizacja timera taktuj¹cego wykonywanie zadañ							*/
 
+void Work_TimerStart(TC1_t *timer);								/* uruchomienie timera															*/
+
+void Work_TimerStop(TC1_t *timer);								/* zatrzymanie timera															*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
