@@ -24,16 +24,13 @@ int main(void)
 {
 	ClkSys32MHz();
 	
-	twiMasterInit(lcdBus, TWI_BAUDRATE);
-	ssd1306Init(lcdBus);
-	ssd1306ClrScr(lcdBus, 0xAA);
 	
-	Bluetooth = HC05_Init(Bluetooth);
+	//Bluetooth = HC05_Init(Bluetooth);
 	
 	sei();
     while (1) 
     {
-		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
+		//Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
     }
 }
 
