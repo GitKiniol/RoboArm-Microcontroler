@@ -12,6 +12,7 @@
 #include "hc05.h"
 #include "../DATA/data.h"
 #include "../USART/BUFFER/buffer.h"
+#include "../../CONTROL/WORK/work.h"
 
 /*-------------------------------------------Deklaracje zmiennych---------------------------------------------------------------*/
 /* EXTERN: */
@@ -80,6 +81,7 @@ void HC05_Read(void)
 					break;
 				case 5:
 					//Work_Start();
+					Work_GetParameters(Job);
 					break;
 				case 6:
 					//Work_Stop();
