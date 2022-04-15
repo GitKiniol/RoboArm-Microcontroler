@@ -25,11 +25,14 @@ int main(void)
 	ClkSys32MHz();
 	
 	
-	//Bluetooth = HC05_Init(Bluetooth);
+	Bluetooth = HC05_Init(Bluetooth);
+	
+	Work_TimerInit(&TCC1);
 	
 	sei();
     while (1) 
     {
+		Work_TimerStart(&TCC1);
 		//Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
     }
 }

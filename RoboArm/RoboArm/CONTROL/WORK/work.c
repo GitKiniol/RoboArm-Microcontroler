@@ -25,7 +25,7 @@ void Work_TimerInit(TC1_t *timer)
 	timer->CNT = 0;										/* zerowanie aktualnej wartoœci timera																*/
 	Work_TimerStop(timer);								/* zatrzymanie timera																				*/
 	timer->INTCTRLA = TC_OVFINTLVL_LO_gc;				/* odblokowanie przerwania przepe³nienia timera														*/
-	PMIC.CTRL = PMIC_LOLVLEN_bm;						/* odblokowanie przerwañ o niskim priorytecie														*/
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;						/* odblokowanie przerwañ o niskim priorytecie														*/
 }
 
 void Work_TimerStart(TC1_t *timer)
@@ -50,5 +50,6 @@ ISR(TCC1_OVF_vect)
 	if (counts == 1)
 	{
 		counts = 0;
+		Work_TimerStop(&TCC1);
 	}
 }
