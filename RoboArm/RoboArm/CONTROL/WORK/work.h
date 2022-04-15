@@ -38,6 +38,8 @@ void Work_TimerStart(TC1_t *timer);								/* uruchomienie timera															
 
 void Work_TimerStop(TC1_t *timer);								/* zatrzymanie timera															*/
 
+uint8_t Work_GetParameters(list_t *list);						/* funkcja pobiera parametry ruchu z listy JOB									*/
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
