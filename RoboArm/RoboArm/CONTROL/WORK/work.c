@@ -41,6 +41,7 @@ void Work_TimerStop(TC1_t *timer)
 
 uint8_t Work_GetParameters(list_t *list)
 {
+	static move_t m;
 	if (list->Count > 0)														/* jeœli lista nie jest pusta, to:											*/						
 	{
 		list_t *task;															/* deklaracja wskaŸnika na listê ruchów pobran¹ z listy Job					*/
@@ -49,7 +50,7 @@ uint8_t Work_GetParameters(list_t *list)
 		{
 			move_t *move;														/* deklaracja wskaŸnika na ruch												*/
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
-			move_t m = *move;
+			m = *move;
 			m.Angle++;
 			//Driver_SetParameters(move);
 		}

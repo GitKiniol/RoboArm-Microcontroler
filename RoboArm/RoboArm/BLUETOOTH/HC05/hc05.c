@@ -82,9 +82,11 @@ void HC05_Read(void)
 				case 5:
 					//Work_Start();
 					Work_GetParameters(Job);
+					HC05_SendStatus("4\n");
 					break;
 				case 6:
 					//Work_Stop();
+					HC05_SendStatus("5\n");
 					break;
 				default:
 					break;
