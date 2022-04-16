@@ -49,6 +49,8 @@ uint8_t Work_GetParameters(list_t *list)
 		{
 			move_t *move;														/* deklaracja wskaünika na ruch												*/
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
+			move_t m = *move;
+			m.Angle++;
 			//Driver_SetParameters(move);
 		}
 		return 1;

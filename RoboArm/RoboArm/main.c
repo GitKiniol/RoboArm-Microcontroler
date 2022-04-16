@@ -24,9 +24,9 @@ int main(void)
 {
 	ClkSys32MHz();
 	
-	twiMasterInit(lcdBus, TWI_BAUDRATE);
-	ssd1306Init(lcdBus);
-	ssd1306ClrScr(lcdBus, 0xAA);
+	//twiMasterInit(lcdBus, TWI_BAUDRATE);
+	//ssd1306Init(lcdBus);
+	//ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Job = Data_CreateList();
 	
