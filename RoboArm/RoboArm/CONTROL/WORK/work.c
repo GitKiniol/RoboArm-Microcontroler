@@ -15,6 +15,10 @@
 /*-------------------------------------------Deklaracje zmiennych-------------------------------------------------------------------------------------------*/
 /* EXTERN: */
 
+/* LOCAL:  */
+uint8_t IsJobInProgress = 0;												/* czy trwa wykonywanie pracy (sekwencji zadañ) ?								*/
+uint8_t IsTaskInProgress = 0;												/* czy trwa wykonywanie zadania ?												*/
+
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -49,7 +53,7 @@ uint8_t Work_GetParameters(list_t *list)
 		{
 			move_t *move;														/* deklaracja wskaŸnika na ruch												*/
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
-			//Driver_SetParameters(move);
+			//Drivers_SetParameters(move);
 		}
 		return 1;
 	}
@@ -57,6 +61,45 @@ uint8_t Work_GetParameters(list_t *list)
 	{
 		return 0;
 	}
+}
+
+void Work_RunRobot(void)
+{
+	Work_TimerInit(&TCC1);														/* inicjalizacje timera														*/
+	Work_TimerStart(&TCC1);														/* uruchomienie timera														*/
+}
+
+void Work_StopRobot(void)
+{
+	Work_TimerStop(&TCC1);														/* zatrzymanie timera														*/
+	//Drivers_StopDrivers();
+}
+
+void Work_RunTask(list_t *joblist, void(*sendstatus)(char *))
+{
+	uint8_t IsParametersOk = 0;													/* zmienna do przechowywania rezultatu pobrania parametrów					*/
+	if (!IsTaskInProgress)														/* jeœli zadanie nie zosta³o uruchomione, to:								*/
+	{
+		IsParametersOk = Work_GetParameters(joblist);							/* pobierz parametry i zapisz je w sterownikach								*/
+	} 
+	if (IsTaskInProgress || IsParametersOk)										/* jeœli zadanie jest ju¿ uruchomione lub pobranie parametrów ok, to:		*/								
+	{
+		//Drivers_RunDrivers();													/* uruchomienie driveów														*/
+	}
+	else if (!IsParametersOk)													/* jeœli pobieranie parametrów zakoñczy³o siê niepowodzeniem, to:			*/								
+	{
+		if (IsJobInProgress)													/* jeœli za³¹czone zosta³o wykonywanie pracy, to:							*/
+		{
+			IsJobInProgress = 0;												/* wyzeruj flagê informuj¹c¹ o wykonywaniu pracy							*/
+			Data_ClearJob();													/* wyczyœæ listê job														*/
+			sendstatus("6\n");													/* wyœlij informacjê ¿e robot zakoñczy³ pracê								*/
+		} 
+		else
+		{
+			sendstatus("99\n");													/* b³¹d wykonywania pracy													*/
+		}
+	}
+	
 }
 
 

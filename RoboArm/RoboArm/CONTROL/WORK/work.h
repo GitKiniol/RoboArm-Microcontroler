@@ -40,6 +40,12 @@ void Work_TimerStop(TC1_t *timer);								/* zatrzymanie timera															*/
 
 uint8_t Work_GetParameters(list_t *list);						/* funkcja pobiera parametry ruchu z listy JOB									*/
 
+void Work_RunRobot(void);										/* uruchomienie robota															*/
+
+void Work_StopRobot(void);										/* zatrzymanie robota															*/
+
+void Work_RunTask(list_t *joblist, void(*sendstatus)(char *));	/* uruchomienie zadania pobranego z listy Job									*/
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 
 
