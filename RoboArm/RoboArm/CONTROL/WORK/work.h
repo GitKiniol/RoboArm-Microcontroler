@@ -44,7 +44,7 @@ void Work_RunRobot(void);										/* uruchomienie robota															*/
 
 void Work_StopRobot(void);										/* zatrzymanie robota															*/
 
-void Work_RunTask(list_t *joblist, void(*sendstatus)(char *));	/* uruchomienie zadania pobranego z listy Job									*/
+void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *));	/* uruchomienie zadania pobranego z listy Job								*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------*/
 

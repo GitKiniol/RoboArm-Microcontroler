@@ -11,6 +11,7 @@
 #include <avr/interrupt.h>
 #include "work.h"
 #include "../../BLUETOOTH/DATA/data.h"
+#include "../../BLUETOOTH/HC05/hc05.h"
 
 /*-------------------------------------------Deklaracje zmiennych-------------------------------------------------------------------------------------------*/
 /* EXTERN: */
@@ -30,7 +31,7 @@ void Work_TimerInit(TC1_t *timer)
 	timer->CNT = 0;																/* zerowanie aktualnej wartoœci timera										*/
 	Work_TimerStop(timer);														/* zatrzymanie timera														*/
 	timer->INTCTRLA = TC_OVFINTLVL_LO_gc;										/* odblokowanie przerwania przepe³nienia timera								*/
-	PMIC.CTRL = PMIC_LOLVLEN_bm;												/* odblokowanie przerwañ o niskim priorytecie								*/
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;												/* odblokowanie przerwañ o niskim priorytecie								*/
 }
 
 void Work_TimerStart(TC1_t *timer)
@@ -45,7 +46,7 @@ void Work_TimerStop(TC1_t *timer)
 
 uint8_t Work_GetParameters(list_t *list)
 {
-	if (list->Count > 0)														/* jeœli lista nie jest pusta, to:											*/						
+	if (list->Current != NULL)													/* jeœli lista nie jest pusta, to:											*/						
 	{
 		list_t *task;															/* deklaracja wskaŸnika na listê ruchów pobran¹ z listy Job					*/
 		task = Data_GetTaskFromList(list);										/* pobranie listy ruchów													*/
@@ -75,7 +76,7 @@ void Work_StopRobot(void)
 	//Drivers_StopDrivers();
 }
 
-void Work_RunTask(list_t *joblist, void(*sendstatus)(char *))
+void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 {
 	uint8_t IsParametersOk = 0;													/* zmienna do przechowywania rezultatu pobrania parametrów					*/
 	if (!IsTaskInProgress)														/* jeœli zadanie nie zosta³o uruchomione, to:								*/
@@ -84,7 +85,9 @@ void Work_RunTask(list_t *joblist, void(*sendstatus)(char *))
 	} 
 	if (IsTaskInProgress || IsParametersOk)										/* jeœli zadanie jest ju¿ uruchomione lub pobranie parametrów ok, to:		*/								
 	{
-		//Drivers_RunDrivers();													/* uruchomienie driveów														*/
+		//Drivers_RunDrivers();													/* uruchomienie driverów													*/
+		IsJobInProgress = 1;
+		IsTaskInProgress = 1;
 	}
 	else if (!IsParametersOk)													/* jeœli pobieranie parametrów zakoñczy³o siê niepowodzeniem, to:			*/								
 	{
@@ -109,10 +112,7 @@ void Work_RunTask(list_t *joblist, void(*sendstatus)(char *))
 
 ISR(TCC1_OVF_vect)
 {
-	static uint8_t counts = 0;
-	counts++;
-	if (counts == 1)
-	{
-		counts = 0;
-	}
+	Work_RunTask(Job, &HC05_SendStatus);
+
+	Work_StopRobot();
 }

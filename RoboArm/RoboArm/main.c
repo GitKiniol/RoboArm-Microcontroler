@@ -8,6 +8,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <util/delay.h>
+#include <util/atomic.h>
 #include <avr/interrupt.h>
 #include "SYS_CLOCK/sysclock.h"
 #include "HMI/TWI_BUS/twi.h"
@@ -20,6 +21,8 @@
 
 TWI_t *lcdBus = &TWIC;
 
+volatile uint8_t z = 0;
+
 int main(void)
 {
 	ClkSys32MHz();
@@ -27,6 +30,8 @@ int main(void)
 	twiMasterInit(lcdBus, TWI_BAUDRATE);
 	ssd1306Init(lcdBus);
 	ssd1306ClrScr(lcdBus, 0xAA);
+	
+	Job = Data_CreateList();
 	
 	Bluetooth = HC05_Init(Bluetooth);
 	
@@ -36,4 +41,5 @@ int main(void)
 		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
     }
 }
+
 

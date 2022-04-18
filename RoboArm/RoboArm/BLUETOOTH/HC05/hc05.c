@@ -12,6 +12,7 @@
 #include "hc05.h"
 #include "../DATA/data.h"
 #include "../USART/BUFFER/buffer.h"
+#include "../../CONTROL/WORK/work.h"
 
 /*-------------------------------------------Deklaracje zmiennych---------------------------------------------------------------*/
 /* EXTERN: */
@@ -79,10 +80,12 @@ void HC05_Read(void)
 					HC05_SendStatus("1\n");
 					break;
 				case 5:
-					//Work_Start();
+					HC05_SendStatus("4\n");
+					Work_RunRobot();
 					break;
 				case 6:
-					//Work_Stop();
+					HC05_SendStatus("5\n");
+					Work_StopRobot();
 					break;
 				default:
 					break;

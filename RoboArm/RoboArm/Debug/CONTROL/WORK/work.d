@@ -17,7 +17,10 @@ CONTROL/WORK/work.d CONTROL/WORK/work.o: ../CONTROL/WORK/work.c \
  ../CONTROL/WORK/work.h ../CONTROL/WORK/../../BLUETOOTH/DATA/data.h \
  ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/frame.h \
  ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h \
- ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h
+ ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h \
+ ../CONTROL/WORK/../../BLUETOOTH/HC05/hc05.h \
+ ../CONTROL/WORK/../../BLUETOOTH/HC05/../USART/usart.h \
+ ../CONTROL/WORK/../../BLUETOOTH/HC05/../FRAMES/frame.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -58,3 +61,9 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h:
 
 ../CONTROL/WORK/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h:
+
+../CONTROL/WORK/../../BLUETOOTH/HC05/hc05.h:
+
+../CONTROL/WORK/../../BLUETOOTH/HC05/../USART/usart.h:
+
+../CONTROL/WORK/../../BLUETOOTH/HC05/../FRAMES/frame.h:
