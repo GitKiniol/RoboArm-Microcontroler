@@ -18,8 +18,12 @@
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 /*-----------------------------------------------Definicje struktur danych--------------------------------------------------*/
-
-typedef struct DRIVER_STRUCT
+/* Pozycja zadana odebrana z telefonu jest z zakresu 0-90, mimo ¿e na ekranie telefonu zakres wynosi -90-90
+sterownik wartoœci interpretuje jako wartoœci dodatnie ale z ustawion¹ flag¹ kierunku w lewo. Wartoœæ
+pozycji przeliczana jest na iloœæ impulsów jakie trzeba wygenerowaæ do wykonania obrotu o zadany k¹t, i ta 
+w³aœnie liczba jest parametrem "SetpointPosition" w poni¿szej strukturze sterownika. Wszystkie inne  
+parametry w strukturze sterownika odnosz¹ce siê do pozycji wyra¿one s¹ w impulsach a nie w stopniach */
+typedef struct STEPPER_DRIVER_STRUCT
 {
 	int16_t SetpointPosition;								/* pozycja zadana															*/
 	int16_t CurrentPosition;								/* aktualna pozycja															*/
@@ -37,7 +41,18 @@ typedef struct DRIVER_STRUCT
 	float MechanicalRatio;									/* wartoœæ prze³o¿enia mechanicznego (obroty przek³adni na obrót silnika)	*/
 	uint8_t Speed;											/* prêdkoœæ zadana dla silnika	[obr/min]									*/
 	
-}driver_t;
+}stepper_driver_t;
+
+typedef struct SERVO_DRIVER_STRUCT
+{
+	int16_t SetpointPosition;			/* pozycja zadana										*/
+	uint16_t MaximumPosition;			/* maksymalna wartoœæ pozycji							*/
+	int16_t MinimumPosition;			/* minimalna wartoœæ pozycji							*/
+	TC0_t *DriverTimer;					/* timer sterownika										*/
+	PORT_t *DriverPort;					/* port pinów sterownika								*/
+	uint8_t IsRunning:1;				/* flaga informuj¹ca o pracy/zatrzymaniu sterownika		*/
+
+}servo_driver_t;
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -49,6 +64,8 @@ typedef struct DRIVER_STRUCT
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------Deklaracje funkcji-----------------------------------------------------*/
+
+stepper_driver_t *Driver_Init(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio);
 
 void Driver_AxesInit(void);
 

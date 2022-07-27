@@ -21,7 +21,7 @@
 typedef struct MOVE_STRUCT										/* struktura zawiera parametry ruchu pojedynczej osi									*/
 {
 	char AxisName;												/* literka oznaczaj¹ca oœ: Z,A,B,C,G lub T												*/
-	uint8_t Angle;												/* k¹t obrotu osi 0° - 180°																*/
+	uint8_t Angle;												/* k¹t obrotu osi 0° - 90°																*/
 	uint8_t Speed;												/* prêdkoœæ obrotowa osi 0% - 100%														*/
 	uint8_t Direction : 1;										/* kierunek obrotów osi 1 - prawo, 0 - lewo												*/
 }move_t;
