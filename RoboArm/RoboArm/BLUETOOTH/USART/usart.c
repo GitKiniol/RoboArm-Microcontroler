@@ -38,7 +38,7 @@ void Usart_Init(USART_t *module, PORT_t *moduleport, uint8_t nrtxpin, uint8_t nr
 	RS232Port->BAUDCTRLB = 64;													/* BSEL BITY - 8:11, BSCALE BITY - 0:3(ustawienie prêdkoœci transmisji) */
 	RS232Port->CTRLC = USART_CHSIZE_8BIT_gc;									/* ustawienie ramki danych: 8bitów danych 1bit stopu, bez parzystoœci	*/
 	RS232Port->CTRLA = (USART_RXCINTLVL_MED_gc);								/* ustawienie priorytetu przerwania receive								*/
-	PMIC.CTRL = PMIC_MEDLVLEN_bm;												/* globalne odblokowanie przerwañ œredniego priorytetu					*/
+	PMIC.CTRL |= PMIC_MEDLVLEN_bm;												/* globalne odblokowanie przerwañ œredniego priorytetu					*/
 	RS232Port->CTRLB |= (USART_RXEN_bm | USART_TXEN_bm);						/* odblokowanie odbiornika i nadajnika USATR							*/
 
 	/* inicjalizacja tablicy znaków	*/

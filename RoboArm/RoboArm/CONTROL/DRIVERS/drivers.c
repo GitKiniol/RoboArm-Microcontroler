@@ -8,6 +8,7 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
+#include <avr/interrupt.h>
 #include "drivers.h"
 #include "../../BLUETOOTH/DATA/data.h"
 
@@ -15,7 +16,8 @@
 /* EXTERN: */
 
 /* LOCAL:  */
-stepper_driver_t axisA, axisB, axisC, axisG, axisT, axisZ;
+stepper_driver_t *axisA, *axisB, *axisC, *axisZ;		/* osie napêdzane silnikami krokowymi									*/
+servo_driver_t *axisG, *axisT;							/* osie napêdzane silnikami serwo										*/
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -53,6 +55,25 @@ stepper_driver_t *Driver_Init(stepper_driver_t *driver, TC1_t *timer, PORT_t *po
 	return driver;
 }
 
+servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin)
+{
+	driver = (servo_driver_t *)malloc(sizeof(servo_driver_t));
+	driver->DriverPort = port;
+	driver->DriverTimer = timer;
+	driver->IsRunning = 0;
+	driver->MaximumPosition = 90;
+	driver->MinimumPosition = 0;
+	driver->SetpointPosition = 0;
+	driver->PwmPin = pwmpin;
+	driver->DriverPort->DIRSET = (1 << driver->PwmPin);
+	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;
+	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));									/* przekazanie sterowania pinem do timer sprzêtowego		*/
+	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
+	PMIC.CTRL |= PMIC_MEDLVLEN_bm;
+	
+	return driver;
+}
+
 void Drivers_SetParameters(move_t *move)
 {
 	static uint16_t x = 2333;
@@ -62,5 +83,10 @@ void Drivers_SetParameters(move_t *move)
 	}
 }
 
+
+/*------------------------------------------------------------------------------------------------------------------------------*/
+
+
+/*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
