@@ -20,13 +20,13 @@
 /* LOCAL:  */
 uint8_t IsJobInProgress = 0;												/* czy trwa wykonywanie pracy (sekwencji zadañ) ?								*/
 uint8_t IsTaskInProgress = 0;												/* czy trwa wykonywanie zadania ?												*/
-
+TC0_t *RunTaskTimer = &TCF0;												/* timer taktuj¹cy wykonywanie zadañ											*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------Definicje funkcji----------------------------------------------------------------------------------------------*/
 
-void Work_TimerInit(TC1_t *timer)
+void Work_TimerInit(TC0_t *timer)
 {
 	timer->PER = 2;																/* ustawienie wartoœci TOP dla timera										*/
 	timer->CNT = 0;																/* zerowanie aktualnej wartoœci timera										*/
@@ -35,12 +35,12 @@ void Work_TimerInit(TC1_t *timer)
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;												/* odblokowanie przerwañ o niskim priorytecie								*/
 }
 
-void Work_TimerStart(TC1_t *timer)
+void Work_TimerStart(TC0_t *timer)
 {
 	timer->CTRLA = TC_CLKSEL_DIV1024_gc;										/* preskaler = 1024, timer uruchomiony										*/
 }
 
-void Work_TimerStop(TC1_t *timer)
+void Work_TimerStop(TC0_t *timer)
 {
 	timer->CTRLA = TC_CLKSEL_OFF_gc;											/* preskaler = 0, timer zatrzymany											*/
 }
@@ -67,13 +67,13 @@ uint8_t Work_GetParameters(list_t *list)
 
 void Work_RunRobot(void)
 {
-	Work_TimerInit(&TCC1);														/* inicjalizacje timera														*/
-	Work_TimerStart(&TCC1);														/* uruchomienie timera														*/
+	Work_TimerInit(RunTaskTimer);												/* inicjalizacje timera														*/
+	Work_TimerStart(RunTaskTimer);														/* uruchomienie timera														*/
 }
 
 void Work_StopRobot(void)
 {
-	Work_TimerStop(&TCC1);														/* zatrzymanie timera														*/
+	Work_TimerStop(RunTaskTimer);														/* zatrzymanie timera														*/
 	//Drivers_StopDrivers();
 }
 
@@ -111,7 +111,7 @@ void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 
 /*---------------------------------------------------------------przerwania---------------------------------------------------------------------------------*/
 
-ISR(TCC1_OVF_vect)
+ISR(TCF0_OVF_vect)
 {
 	Work_RunTask(Job, &HC05_SendStatus);
 

@@ -32,11 +32,11 @@
 
 /*---------------------------------------------------Deklaracje funkcji-------------------------------------------------------------------------*/
 
-void Work_TimerInit(TC1_t *timer);								/* inicjalizacja timera taktuj¹cego wykonywanie zadañ							*/
+void Work_TimerInit(TC0_t *timer);								/* inicjalizacja timera taktuj¹cego wykonywanie zadañ							*/
 
-void Work_TimerStart(TC1_t *timer);								/* uruchomienie timera															*/
+void Work_TimerStart(TC0_t *timer);								/* uruchomienie timera															*/
 
-void Work_TimerStop(TC1_t *timer);								/* zatrzymanie timera															*/
+void Work_TimerStop(TC0_t *timer);								/* zatrzymanie timera															*/
 
 uint8_t Work_GetParameters(list_t *list);						/* funkcja pobiera parametry ruchu z listy JOB									*/
 
