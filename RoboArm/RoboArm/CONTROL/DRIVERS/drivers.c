@@ -83,21 +83,13 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 
 uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
 {
-	//Ir = Sr * Er * Mr				=> Liczba impulsów drivera programowego na obrót
-	//Fo = So / 60 * Ir				=> Obliczenie czêstotoliwoœci wyjœciowej na podstawie prêdkoœci i liczby impulsów
-	//CCA = (Fi / 2 * N * Fo) - 1	=> Obliczenie rejestru CCA na podstawie czêstotliwoœci wyjœciowej
-	//Sr - liczba kroków silnika
-	//Er - podzia³ kroków na driverze (switche)
-	//Mr - prze³o¿enie przek³adni
-	
-	float ir = 0.0;
-	float fo = 0.0;
-	uint16_t cca = 0;
-	stepper_driver_t *drv = (stepper_driver_t *)driver;						/*rzutowanie void do stepper_driver_t									*/
-	ir = drv->MotorSteps * drv->ElectricalRatio * drv->MechanicalRatio;		/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/
-	fo = (drv->Speed / 60) * ir;											/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
-	cca = (uint16_t)((F_CPU / (2.0 * 8.0 * fo)) - 1);						/*obliczenie wartoœci rejestru timera									*/
-	return cca;
+	/* ca³kowita iloœæ impulsów na obrót									*/
+	float pulsesPerRev = 0.0;	
+	/*rzutowanie void do stepper_driver_t									*/													
+	stepper_driver_t *drv = (stepper_driver_t *)driver;		
+	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/				
+	pulsesPerRev = drv->MotorSteps * drv->ElectricalRatio * drv->MechanicalRatio;		
+	return (uint16_t)((pulsesPerRev / 360) * angle);
 }
 
 void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
@@ -114,7 +106,7 @@ void Driver_StartServoDriver(void *driver, uint8_t preskaler)
 
 void Driver_StopStepperDriver(void *driver)
 {
-	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
+	stepper_driver_t *drv = (stepper_driver_t *)driver;				/* konwersja typu parametru	*/
 	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
 }
 

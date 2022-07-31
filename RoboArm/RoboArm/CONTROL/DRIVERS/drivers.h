@@ -19,7 +19,7 @@
 
 /*-----------------------------------------------Definicje struktur danych--------------------------------------------------*/
 /* Pozycja zadana odebrana z telefonu jest z zakresu 0-90, mimo ¿e na ekranie telefonu zakres wynosi -90 do 90,
-sterownik wartoœci ujemne interpretuje jako wartoœci dodatnie ale z ustawion¹ flag¹ kierunku w lewo. Wartoœæ
+sterownik wartoœci ujemne interpretuje jako wartoœci dodatnie ale z ustawion¹ flag¹ kierunku w lewo. Wartoœæ 
 pozycji przeliczana jest na iloœæ impulsów jakie trzeba wygenerowaæ do wykonania obrotu o zadany k¹t, i ta 
 w³aœnie liczba jest parametrem "SetpointPosition" w poni¿szej strukturze sterownika. Wszystkie inne  
 parametry w strukturze sterownika odnosz¹ce siê do pozycji wyra¿one s¹ w impulsach a nie w stopniach */
@@ -81,8 +81,6 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver);
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
-
-void Driver_AxesInit(void);
 
 void Driver_SetParameters(move_t *move);
 
