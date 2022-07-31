@@ -40,6 +40,9 @@ typedef struct STEPPER_DRIVER_STRUCT
 	uint8_t ElectricalRatio;					/* wartoœæ prze³o¿enia elektrycznego(iloœæ impulsów na krok, ustawienie pinów na sterowniku)	*/
 	float MechanicalRatio;						/* wartoœæ prze³o¿enia mechanicznego (obroty przek³adni na obrót silnika)						*/
 	uint8_t Speed;								/* prêdkoœæ zadana dla silnika	[obr/min]														*/
+	void(*Start)(void*, uint8_t);				/* wskaŸnik do funkcji uruchamiaj¹cej driver													*/
+	void(*Stop)(void*);							/* wskaŸnik do funkcji zatrzymuj¹cej driver														*/
+	uint16_t (*Convert)(uint8_t, void*);		/* wskaŸnik do funkcji konwertuj¹cej k¹t na liczbê impulsów										*/
 	
 }stepper_driver_t;
 
@@ -54,6 +57,9 @@ typedef struct SERVO_DRIVER_STRUCT
 	PORT_t *DriverPort;							/* port pinów sterownika																		*/
 	uint8_t PwmPin;								/* numer pinu steruj¹cego serwem																*/
 	uint8_t IsRunning:1;						/* flaga informuj¹ca o pracy/zatrzymaniu sterownika												*/
+	void(*Start)(void*, uint8_t);				/* wskaŸnik do funkcji uruchamiaj¹cej driver													*/
+	void(*Stop)(void*);							/* wskaŸnik do funkcji zatrzymuj¹cej driver														*/
+	uint16_t (*Convert)(uint8_t);				/* wskaŸnik do funkcji konwertuj¹cej k¹t na wartoœæ rejestru wype³nienie impulsu PWM			*/
 
 }servo_driver_t;
 
@@ -79,6 +85,10 @@ uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
 void Driver_AxesInit(void);
 
 void Drivers_SetParameters(move_t *move);
+
+void Drivers_StartDriver(void *driver, uint8_t preskaler);
+
+void Drivers_StopDriver(void *driver);
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 

@@ -46,11 +46,14 @@ stepper_driver_t *Driver_Init(stepper_driver_t *driver, TC1_t *timer, PORT_t *po
 	driver->DriverPort->DIRSET = (1<<driver->EnablePin);
 	driver->DriverPort->DIRSET = (1<<driver->PulsePin);
 	/* parametryzacja timera */
-	driver->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;							/* preskaler= 0												*/
-	driver->DriverTimer->CTRLB = TC_WGMODE_FRQ_gc;							/* tryb FRQ													*/
-	driver->DriverTimer->CTRLB |= (1<<TC1_CCAEN_bp);						/* za³¹czenie generowania impulsów na pinie wyjœciowym		*/
-	driver->DriverTimer->INTCTRLA = TC1_OVFINTLVL0_bm;						/* odblokowanie przerwania od przepe³nienia timera			*/
-	
+	driver->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* preskaler= 0												*/
+	driver->DriverTimer->CTRLB = TC_WGMODE_FRQ_gc;						/* tryb FRQ													*/
+	driver->DriverTimer->CTRLB |= (1<<TC1_CCAEN_bp);					/* za³¹czenie generowania impulsów na pinie wyjœciowym		*/
+	driver->DriverTimer->INTCTRLA = TC1_OVFINTLVL0_bm;					/* odblokowanie przerwania od przepe³nienia timera			*/
+	/* ustawienie wskaŸników na funkcje */
+	driver->Start = &Drivers_StartDriver;								/* ustawienie wskaŸnika na funkcjê start					*/
+	driver->Stop = &Drivers_StopDriver;									/* ustawienie wskaŸnika na funkcjê stop						*/
+	driver->Convert = &Driver_ConvertAngleToStep;						/* ustawienie wskaŸnika na funkcjê convert					*/
 	
 	return driver;
 }
@@ -67,8 +70,12 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->PwmPin = pwmpin;
 	driver->DriverPort->DIRSET = (1 << driver->PwmPin);
 	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;
-	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));									/* przekazanie sterowania pinem do timer sprzêtowego		*/
+	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
 	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
+	driver->DriverTimer->PER = 40000;									/* ustawienie czêstotliwoœci pwm na 50Hz					*/
+	driver->Start = &Drivers_StartDriver;								/* ustawienie wskaŸnika na funkcjê start					*/
+	driver->Stop = &Drivers_StopDriver;									/* ustawienie wskaŸnika na funkcjê stop						*/
+	driver->Convert = &Driver_ConvertAngleToPwm;						/* ustawienie wskaŸnika na funkcjê convert					*/
 	PMIC.CTRL |= PMIC_MEDLVLEN_bm;
 	
 	return driver;
