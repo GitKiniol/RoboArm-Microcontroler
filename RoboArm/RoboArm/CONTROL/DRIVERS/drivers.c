@@ -23,7 +23,7 @@ servo_driver_t *axisG, *axisT;							/* osie napêdzane silnikami serwo										
 
 /*-------------------------------------------Definicje funkcji------------------------------------------------------------------*/
 
-stepper_driver_t *Driver_Init(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio)
+stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio)
 {
 	driver = (stepper_driver_t *)malloc(sizeof(stepper_driver_t));
 	driver->CurrentPosition = 0;
@@ -51,8 +51,8 @@ stepper_driver_t *Driver_Init(stepper_driver_t *driver, TC1_t *timer, PORT_t *po
 	driver->DriverTimer->CTRLB |= (1<<TC1_CCAEN_bp);					/* za³¹czenie generowania impulsów na pinie wyjœciowym		*/
 	driver->DriverTimer->INTCTRLA = TC1_OVFINTLVL0_bm;					/* odblokowanie przerwania od przepe³nienia timera			*/
 	/* ustawienie wskaŸników na funkcje */
-	driver->Start = &Drivers_StartDriver;								/* ustawienie wskaŸnika na funkcjê start					*/
-	driver->Stop = &Drivers_StopDriver;									/* ustawienie wskaŸnika na funkcjê stop						*/
+	driver->Start = &Driver_StartStepperDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
+	driver->Stop = &Driver_StopStepperDriver;							/* ustawienie wskaŸnika na funkcjê stop						*/
 	driver->Convert = &Driver_ConvertAngleToStep;						/* ustawienie wskaŸnika na funkcjê convert					*/
 	
 	return driver;
@@ -73,8 +73,8 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
 	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
 	driver->DriverTimer->PER = 40000;									/* ustawienie czêstotliwoœci pwm na 50Hz					*/
-	driver->Start = &Drivers_StartDriver;								/* ustawienie wskaŸnika na funkcjê start					*/
-	driver->Stop = &Drivers_StopDriver;									/* ustawienie wskaŸnika na funkcjê stop						*/
+	driver->Start = &Driver_StartServoDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
+	driver->Stop = &Driver_StopServoDriver;								/* ustawienie wskaŸnika na funkcjê stop						*/
 	driver->Convert = &Driver_ConvertAngleToPwm;						/* ustawienie wskaŸnika na funkcjê convert					*/
 	PMIC.CTRL |= PMIC_MEDLVLEN_bm;
 	
@@ -100,12 +100,36 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
 	return cca;
 }
 
+void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
+{
+	stepper_driver_t *drv = (stepper_driver_t*)driver;				/* konwersja typu parametru	*/
+	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
+}
+
+void Driver_StartServoDriver(void *driver, uint8_t preskaler)
+{
+	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
+	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
+}
+
+void Driver_StopStepperDriver(void *driver)
+{
+	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
+	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
+}
+
+void Driver_StopServoDriver(void *driver)
+{
+	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
+	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
+}
+
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
 {
 	return (uint16_t)((angle * 18.88) + 2300);
 }
 
-void Drivers_SetParameters(move_t *move)
+void Driver_SetParameters(move_t *move)
 {
 	static uint16_t x = 2333;
 	if (x > 5)

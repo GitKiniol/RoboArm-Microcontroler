@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014d4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000330  00000000  00000000  00001514  2**0
+  5 .debug_aranges 00000350  00000000  00000000  00001514  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000959e  00000000  00000000  00001844  2**0
+  6 .debug_info   000096b4  00000000  00000000  00001864  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004caa  00000000  00000000  0000ade2  2**0
+  7 .debug_abbrev 00004cb9  00000000  00000000  0000af18  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000242d  00000000  00000000  0000fa8c  2**0
+  8 .debug_line   00002489  00000000  00000000  0000fbd1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000a04  00000000  00000000  00011ebc  2**2
+  9 .debug_frame  00000a44  00000000  00000000  0001205c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003f12  00000000  00000000  000128c0  2**0
+ 10 .debug_str    00003f8a  00000000  00000000  00012aa0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00002dc6  00000000  00000000  000167d2  2**0
+ 11 .debug_loc    00002dc6  00000000  00000000  00016a2a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000280  00000000  00000000  00019598  2**0
+ 12 .debug_ranges 000002a0  00000000  00000000  000197f0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1610,25 +1610,25 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
      cea:	1f 90       	pop	r1
      cec:	18 95       	reti
 
-00000cee <Drivers_SetParameters>:
+00000cee <Driver_SetParameters>:
 }
 
-void Drivers_SetParameters(move_t *move)
+void Driver_SetParameters(move_t *move)
 {
 	static uint16_t x = 2333;
 	if (x > 5)
-     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4141>
-     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4141+0x1>
+     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4164>
+     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4164+0x1>
      cf6:	26 30       	cpi	r18, 0x06	; 6
      cf8:	31 05       	cpc	r19, r1
-     cfa:	38 f0       	brcs	.+14     	; 0xd0a <Drivers_SetParameters+0x1c>
+     cfa:	38 f0       	brcs	.+14     	; 0xd0a <Driver_SetParameters+0x1c>
 	{
 		x = move->Angle;
      cfc:	fc 01       	movw	r30, r24
      cfe:	81 81       	ldd	r24, Z+1	; 0x01
      d00:	90 e0       	ldi	r25, 0x00	; 0
-     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4141>
-     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4141+0x1>
+     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4164>
+     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4164+0x1>
      d0a:	08 95       	ret
 
 00000d0c <Work_TimerStart>:
@@ -1715,8 +1715,8 @@ uint8_t Work_GetParameters(list_t *list)
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
      d5c:	ce 01       	movw	r24, r28
      d5e:	0e 94 91 01 	call	0x322	; 0x322 <Data_GetMoveFromList>
- 			Drivers_SetParameters(move);
-     d62:	0e 94 77 06 	call	0xcee	; 0xcee <Drivers_SetParameters>
+ 			Driver_SetParameters(move);
+     d62:	0e 94 77 06 	call	0xcee	; 0xcee <Driver_SetParameters>
 {
 	if (list->Current != NULL)													/* jeúli lista nie jest pusta, to:											*/						
 	{
@@ -1730,7 +1730,7 @@ uint8_t Work_GetParameters(list_t *list)
 		{
 			move_t *move;														/* deklaracja wskaünika na ruch												*/
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
- 			Drivers_SetParameters(move);
+ 			Driver_SetParameters(move);
 		}
 		return 1;
      d6e:	81 e0       	ldi	r24, 0x01	; 1

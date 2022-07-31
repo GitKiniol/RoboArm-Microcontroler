@@ -84,11 +84,15 @@ uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
 
 void Driver_AxesInit(void);
 
-void Drivers_SetParameters(move_t *move);
+void Driver_SetParameters(move_t *move);
 
-void Drivers_StartDriver(void *driver, uint8_t preskaler);
+void Driver_StartStepperDriver(void *driver, uint8_t preskaler);
 
-void Drivers_StopDriver(void *driver);
+void Driver_StopStepperDriver(void *driver);
+
+void Driver_StartServoDriver(void *driver, uint8_t preskaler);
+
+void Driver_StopServoDriver(void *driver);
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
