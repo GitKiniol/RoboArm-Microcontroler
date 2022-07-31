@@ -72,7 +72,9 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 
 servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin);
 
-uint16_t Driver_ConvertAngleToStep(uint8_t angle, stepper_driver_t *driver);
+uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver);
+
+uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
 
 void Driver_AxesInit(void);
 
