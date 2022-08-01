@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014d4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000350  00000000  00000000  00001514  2**0
+  5 .debug_aranges 00000358  00000000  00000000  00001514  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00009698  00000000  00000000  00001864  2**0
+  6 .debug_info   000096ed  00000000  00000000  0000186c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004cc8  00000000  00000000  0000aefc  2**0
+  7 .debug_abbrev 00004ce2  00000000  00000000  0000af59  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00002483  00000000  00000000  0000fbc4  2**0
+  8 .debug_line   000024ac  00000000  00000000  0000fc3b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000a48  00000000  00000000  00012048  2**2
+  9 .debug_frame  00000a8c  00000000  00000000  000120e8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00003f97  00000000  00000000  00012a90  2**0
+ 10 .debug_str    00003fa8  00000000  00000000  00012b74  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00002d8c  00000000  00000000  00016a27  2**0
+ 11 .debug_loc    00002ef9  00000000  00000000  00016b1c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000002a0  00000000  00000000  000197b3  2**0
+ 12 .debug_ranges 000002a8  00000000  00000000  00019a15  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1617,8 +1617,8 @@ void Driver_SetParameters(move_t *move)
 {
 	static uint16_t x = 2333;
 	if (x > 5)
-     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4160>
-     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4160+0x1>
+     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4169>
+     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4169+0x1>
      cf6:	26 30       	cpi	r18, 0x06	; 6
      cf8:	31 05       	cpc	r19, r1
      cfa:	38 f0       	brcs	.+14     	; 0xd0a <Driver_SetParameters+0x1c>
@@ -1627,8 +1627,8 @@ void Driver_SetParameters(move_t *move)
      cfc:	fc 01       	movw	r30, r24
      cfe:	81 81       	ldd	r24, Z+1	; 0x01
      d00:	90 e0       	ldi	r25, 0x00	; 0
-     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4160>
-     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4160+0x1>
+     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4169>
+     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4169+0x1>
      d0a:	08 95       	ret
 
 00000d0c <Work_TimerStart>:

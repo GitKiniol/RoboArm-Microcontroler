@@ -82,6 +82,8 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver);
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
 
+void Driver_SetStepperSpeed(stepper_driver_t *driver, float speed);
+
 void Driver_SetParameters(move_t *move);
 
 void Driver_StartStepperDriver(void *driver, uint8_t preskaler);

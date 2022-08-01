@@ -92,6 +92,23 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
 	return (uint16_t)((pulsesPerRev / 360) * angle);
 }
 
+void Driver_SetStepperSpeed(stepper_driver_t *driver, float speed)
+{
+	//Ir = Sr * Er * Mr				=> Liczba impulsów drivera programowego na obrót
+	//Fo = So / 60 * Ir				=> Obliczenie czêstotoliwoœci wyjœciowej na podstawie prêdkoœci i liczby impulsów
+	//CCA = (Fi / 2 * N * Fo) - 1	=> Obliczenie rejestru CCA na podstawie czêstotliwoœci wyjœciowej
+	//Sr - liczba kroków silnika
+	//Er - przek³adnia elektryczna(podzia³ kroku, ustawiany switchami)
+	//Mr - prze³o¿enie mechaniczne wynikaj¹ce ze œrednic kó³ zêbatych
+	
+	float ir = 0.0;
+	float fo = 0.0;
+	ir = driver->MotorSteps * driver->ElectricalRatio * driver->MechanicalRatio;	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/
+	fo = (speed / 60) * ir;															/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
+	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * fo)) - 1);			/*obliczenie wartoœci rejestru timera									*/
+	
+}
+
 void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 {
 	stepper_driver_t *drv = (stepper_driver_t*)driver;				/* konwersja typu parametru	*/
