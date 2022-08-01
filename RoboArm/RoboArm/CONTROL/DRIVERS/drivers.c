@@ -54,7 +54,7 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 	driver->Start = &Driver_StartStepperDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
 	driver->Stop = &Driver_StopStepperDriver;							/* ustawienie wskaŸnika na funkcjê stop						*/
 	driver->Convert = &Driver_ConvertAngleToStep;						/* ustawienie wskaŸnika na funkcjê convert					*/
-	
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	return driver;
 }
 
@@ -112,6 +112,8 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, float speed)
 void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 {
 	stepper_driver_t *drv = (stepper_driver_t*)driver;				/* konwersja typu parametru	*/
+	drv->IsRunning = 1;												/* sterownik uruchomiony	*/
+	drv->DriverPort->OUTSET = (1<<drv->EnablePin);					/* odblokowanie silnika		*/
 	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
 }
 
@@ -124,6 +126,8 @@ void Driver_StartServoDriver(void *driver, uint8_t preskaler)
 void Driver_StopStepperDriver(void *driver)
 {
 	stepper_driver_t *drv = (stepper_driver_t *)driver;				/* konwersja typu parametru	*/
+	drv->IsRunning = 0;												/* sterownik zatrzymany		*/
+	drv->DriverPort->OUTCLR = (1<<drv->EnablePin);					/* zablokowanie silnika		*/
 	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
 }
 
@@ -152,5 +156,8 @@ void Driver_SetParameters(move_t *move)
 
 
 /*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/
-
+ISR(TCC1_OVF_vect)
+{
+	
+}
 /*------------------------------------------------------------------------------------------------------------------------------*/

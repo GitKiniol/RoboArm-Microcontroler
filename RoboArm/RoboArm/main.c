@@ -18,11 +18,12 @@
 #include "BLUETOOTH/HC05/hc05.h"
 #include "BLUETOOTH/DATA/data.h"
 #include "CONTROL/WORK/work.h"
+#include "CONTROL/DRIVERS/drivers.h"
 
 TWI_t *lcdBus = &TWIC;
 
 volatile uint8_t z = 0;
-
+stepper_driver_t *tempAxis;
 int main(void)
 {
 	ClkSys32MHz();
@@ -34,6 +35,12 @@ int main(void)
 	Job = Data_CreateList();
 	
 	Bluetooth = HC05_Init(Bluetooth);
+	
+	tempAxis = Driver_StepperDriverInit(tempAxis, &TCC1, &PORTC, 200, 4, 3);
+	Driver_SetStepperSpeed(tempAxis, 235.0);
+	tempAxis->Start(tempAxis, TC_CLKSEL_DIV8_gc);
+	_delay_ms(5000);
+	tempAxis->Stop(tempAxis);
 	
 	sei();
     while (1) 
