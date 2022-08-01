@@ -68,7 +68,7 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->MinimumPosition = 0;
 	driver->SetpointPosition = 0;
 	driver->PwmPin = pwmpin;
-	driver->DriverPort->DIRSET = (1 << driver->PwmPin);
+	driver->DriverPort->DIRCLR = (1 << driver->PwmPin);
 	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;
 	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
 	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
@@ -119,8 +119,10 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 
 void Driver_StartServoDriver(void *driver, uint8_t preskaler)
 {
-	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
-	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
+	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
+	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera							*/
+	drv->IsRunning = 1;												/* driver uruchomiony							*/
+	drv->DriverPort->DIRSET = (1 << drv->PwmPin);					/* odblokowanie pinu pwm						*/
 }
 
 void Driver_StopStepperDriver(void *driver)
@@ -133,8 +135,13 @@ void Driver_StopStepperDriver(void *driver)
 
 void Driver_StopServoDriver(void *driver)
 {
-	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru	*/
-	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
+	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
+	drv->IsRunning = 0;												/* driver zatrzymany							*/
+	drv->DriverPort->DIRCLR = (1<<drv->PwmPin);						/* zablokowanie pinu pwm						*/
+	if(axisT->IsRunning == 0 && axisG->IsRunning == 0)				/* jeœli servosterowniki zakoñczy³y pracê, to:	*/
+	{
+		drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;					/* zatrzymanie timera							*/
+	}
 }
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle)

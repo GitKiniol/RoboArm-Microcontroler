@@ -36,12 +36,6 @@ int main(void)
 	
 	Bluetooth = HC05_Init(Bluetooth);
 	
-	tempAxis = Driver_StepperDriverInit(tempAxis, &TCC1, &PORTC, 200, 4, 3);
-	Driver_SetStepperSpeed(tempAxis, 235.0);
-	tempAxis->Start(tempAxis, TC_CLKSEL_DIV8_gc);
-	_delay_ms(5000);
-	tempAxis->Stop(tempAxis);
-	
 	sei();
     while (1) 
     {
