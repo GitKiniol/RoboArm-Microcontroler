@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014f4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000368  00000000  00000000  00001534  2**0
+  5 .debug_aranges 00000370  00000000  00000000  00001534  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000097e7  00000000  00000000  0000189c  2**0
+  6 .debug_info   0000983b  00000000  00000000  000018a4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004d14  00000000  00000000  0000b083  2**0
+  7 .debug_abbrev 00004d14  00000000  00000000  0000b0df  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00002534  00000000  00000000  0000fd97  2**0
+  8 .debug_line   0000255d  00000000  00000000  0000fdf3  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000ab8  00000000  00000000  000122cc  2**2
+  9 .debug_frame  00000ad4  00000000  00000000  00012350  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00004047  00000000  00000000  00012d84  2**0
+ 10 .debug_str    00004072  00000000  00000000  00012e24  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000030ba  00000000  00000000  00016dcb  2**0
+ 11 .debug_loc    0000311d  00000000  00000000  00016e96  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000002b8  00000000  00000000  00019e85  2**0
+ 12 .debug_ranges 000002c0  00000000  00000000  00019fb3  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1612,25 +1612,25 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
 
 00000cee <Driver_SetParameters>:
 {
-	to_run_list_t *ptrToRunList = (to_run_list_t*)malloc(sizeof(to_run_list_t));		/* alokacja pamiêci dla listy			*/
-	ptrToRunList->Head = NULL;															/* wyzerowanie wskaŸnika pocz¹tku listy	*/
-	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy	*/
-	return ptrToRunList;
+	to_run_item_t *ptrToRunItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));		/* alokacja pamiêci dla elementu listy		*/
+	ptrToRunItem->Next = NULL;															/* zerowanie wskaŸnika na element nastêpny	*/
+	ptrToRunItem->Data = torundrv;														/* ustawienie wskaŸnika na dane elementu	*/
+	return ptrToRunItem;
 }
-     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4184>
-     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4184+0x1>
+     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4186>
+     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4186+0x1>
      cf6:	26 30       	cpi	r18, 0x06	; 6
      cf8:	31 05       	cpc	r19, r1
      cfa:	38 f0       	brcs	.+14     	; 0xd0a <Driver_SetParameters+0x1c>
      cfc:	fc 01       	movw	r30, r24
      cfe:	81 81       	ldd	r24, Z+1	; 0x01
      d00:	90 e0       	ldi	r25, 0x00	; 0
-     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4184>
-     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4184+0x1>
+     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4186>
+     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4186+0x1>
      d0a:	08 95       	ret
 
 00000d0c <__vector_20>:
-/*------------------------------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
 /*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/

@@ -161,13 +161,21 @@ void Driver_SetParameters(move_t *move)
 
 to_run_list_t *Driver_ToRunListInit(void)
 {
-	to_run_list_t *ptrToRunList = (to_run_list_t*)malloc(sizeof(to_run_list_t));		/* alokacja pamiêci dla listy			*/
-	ptrToRunList->Head = NULL;															/* wyzerowanie wskaŸnika pocz¹tku listy	*/
-	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy	*/
+	to_run_list_t *ptrToRunList = (to_run_list_t*)malloc(sizeof(to_run_list_t));		/* alokacja pamiêci dla listy				*/
+	ptrToRunList->Head = NULL;															/* wyzerowanie wskaŸnika pocz¹tku listy		*/
+	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy		*/
 	return ptrToRunList;
 }
 
-/*------------------------------------------------------------------------------------------------------------------------------*/
+to_run_item_t *Driver_ToRunItemInit(to_run_drv_t *torundrv)
+{
+	to_run_item_t *ptrToRunItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));		/* alokacja pamiêci dla elementu listy		*/
+	ptrToRunItem->Next = NULL;															/* zerowanie wskaŸnika na element nastêpny	*/
+	ptrToRunItem->Data = torundrv;														/* ustawienie wskaŸnika na dane elementu	*/
+	return ptrToRunItem;
+}
+
+/*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
 /*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/
