@@ -882,7 +882,7 @@ END GROUP
  .data.StartCode
                 0x00802015        0x2 BLUETOOTH/FRAMES/frame.o
                 0x00802015                StartCode
- .data.x.4169   0x00802017        0x2 CONTROL/DRIVERS/drivers.o
+ .data.x.4181   0x00802017        0x2 CONTROL/DRIVERS/drivers.o
  .data.RunTaskTimer
                 0x00802019        0x2 CONTROL/WORK/work.o
                 0x00802019                RunTaskTimer

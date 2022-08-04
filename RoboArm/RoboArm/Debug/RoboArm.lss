@@ -1617,8 +1617,8 @@ void Driver_SetParameters(move_t *move)
 {
 	static uint16_t x = 2333;
 	if (x > 5)
-     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4169>
-     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4169+0x1>
+     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4181>
+     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4181+0x1>
      cf6:	26 30       	cpi	r18, 0x06	; 6
      cf8:	31 05       	cpc	r19, r1
      cfa:	38 f0       	brcs	.+14     	; 0xd0a <Driver_SetParameters+0x1c>
@@ -1627,8 +1627,8 @@ void Driver_SetParameters(move_t *move)
      cfc:	fc 01       	movw	r30, r24
      cfe:	81 81       	ldd	r24, Z+1	; 0x01
      d00:	90 e0       	ldi	r25, 0x00	; 0
-     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4169>
-     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4169+0x1>
+     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4181>
+     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4181+0x1>
      d0a:	08 95       	ret
 
 00000d0c <__vector_20>:

@@ -63,6 +63,24 @@ typedef struct SERVO_DRIVER_STRUCT
 
 }servo_driver_t;
 
+typedef struct TO_RUN_DRV_STRUCT
+{
+	uint8_t DriveType;							/* zmienna okreúlajπc tym wskazywanego drivera 1-servo, 0-stepper								*/
+	void *ToRunDriver;							/* wskaünik na driver do uruchomienia															*/
+}to_run_drv_t;
+
+typedef struct TO_RUN_ITEM_STRUCT
+{
+	void *Next;									/* wskaünik na kolejny element listy															*/
+	to_run_drv_t *Data;							/* wskaünik na dane zawarte w elemencie listy													*/
+}to_run_item_t;
+
+typedef struct TO_RUN_LIST_STRUCT
+{
+	to_run_item_t *Head;						/* wskaünik na pierwszy element listy															*/					
+	to_run_item_t *Tail;						/* wskaünik na ostatni element listy															*/
+}to_run_list_t;
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------------Deklaracje zmiennych-----------------------------------------------------*/
