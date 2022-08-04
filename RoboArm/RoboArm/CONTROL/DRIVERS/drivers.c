@@ -18,6 +18,7 @@
 /* LOCAL:  */
 stepper_driver_t *axisA, *axisB, *axisC, *axisZ;		/* osie napêdzane silnikami krokowymi									*/
 servo_driver_t *axisG, *axisT;							/* osie napêdzane silnikami serwo										*/
+to_run_list_t *drvToRunList;							/* lista driverów przydzielona do zadania								*/
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -158,6 +159,13 @@ void Driver_SetParameters(move_t *move)
 	}
 }
 
+to_run_list_t *Driver_ToRunListInit(void)
+{
+	to_run_list_t *ptrToRunList = (to_run_list_t*)malloc(sizeof(to_run_list_t));		/* alokacja pamiêci dla listy			*/
+	ptrToRunList->Head = NULL;															/* wyzerowanie wskaŸnika pocz¹tku listy	*/
+	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy	*/
+	return ptrToRunList;
+}
 
 /*------------------------------------------------------------------------------------------------------------------------------*/
 

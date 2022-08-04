@@ -22,12 +22,9 @@
 
 TWI_t *lcdBus = &TWIC;
 
-volatile uint8_t z = 0;
-stepper_driver_t *tempAxis;
 int main(void)
 {
 	ClkSys32MHz();
-	
 	twiMasterInit(lcdBus, TWI_BAUDRATE);
 	ssd1306Init(lcdBus);
 	ssd1306ClrScr(lcdBus, 0xAA);

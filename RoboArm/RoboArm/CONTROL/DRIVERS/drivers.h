@@ -112,6 +112,8 @@ void Driver_StartServoDriver(void *driver, uint8_t preskaler);
 
 void Driver_StopServoDriver(void *driver);
 
+to_run_list_t *Driver_ToRunListInit(void);
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 
