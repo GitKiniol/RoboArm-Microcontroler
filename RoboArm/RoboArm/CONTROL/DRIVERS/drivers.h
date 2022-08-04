@@ -13,7 +13,9 @@
 
 
 /*-----------------------------------------------Deklaracje makroinstrukcji-------------------------------------------------*/
-
+/* definicja typów sterowników osi */
+#define STEPPER		0
+#define SERVO		1
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
@@ -115,6 +117,8 @@ void Driver_StopServoDriver(void *driver);
 to_run_list_t *Driver_ToRunListInit(void);
 
 to_run_item_t *Driver_ToRunItemInit(to_run_drv_t *torundrv);
+
+to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype);
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 

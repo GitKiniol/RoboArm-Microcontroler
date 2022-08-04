@@ -175,6 +175,14 @@ to_run_item_t *Driver_ToRunItemInit(to_run_drv_t *torundrv)
 	return ptrToRunItem;
 }
 
+to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype)
+{
+	to_run_drv_t *ptrToRunDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));			/* alokacja pamiÍci dla drivera				*/
+	ptrToRunDrv->DriveType = drvtype;													/* ustawienie typu drivera					*/
+	ptrToRunDrv->ToRunDriver = driver;													/* ustawienie wskaünika na driver do pracy	*/
+	return ptrToRunDrv;	
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
