@@ -183,6 +183,25 @@ to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype)
 	return ptrToRunDrv;	
 }
 
+void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype)
+{
+	to_run_drv_t *newDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));					/* alokacja pamiêci napêdu do uruchomienia	*/
+	newDrv = Driver_ToRunDrvInit(driver, drvtype);										/* inicjalizacja napêdu do uruchomienia		*/
+	to_run_item_t *newItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));				/* alokacja pamiêci na item listy			*/
+	newItem = Driver_ToRunItemInit(newDrv);												/* inicjalizacja elementu listy				*/
+	if (list->Tail == NULL)
+	{
+		list->Tail = newItem;
+		list->Head = list->Tail;
+		newItem->Next = NULL;
+	} 
+	else
+	{
+		newItem->Next = list->Head;
+		list->Head = newItem;
+	}
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 

@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000014f4  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000378  00000000  00000000  00001534  2**0
+  5 .debug_aranges 00000380  00000000  00000000  00001534  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   0000989e  00000000  00000000  000018ac  2**0
+  6 .debug_info   00009931  00000000  00000000  000018b4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004d14  00000000  00000000  0000b14a  2**0
+  7 .debug_abbrev 00004d46  00000000  00000000  0000b1e5  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00002586  00000000  00000000  0000fe5e  2**0
+  8 .debug_line   000025cd  00000000  00000000  0000ff2b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000af4  00000000  00000000  000123e4  2**2
+  9 .debug_frame  00000b10  00000000  00000000  000124f8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000409a  00000000  00000000  00012ed8  2**0
+ 10 .debug_str    000040bd  00000000  00000000  00013008  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000031b7  00000000  00000000  00016f72  2**0
+ 11 .debug_loc    0000328b  00000000  00000000  000170c5  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000002c8  00000000  00000000  0001a129  2**0
+ 12 .debug_ranges 000002d0  00000000  00000000  0001a350  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1611,22 +1611,22 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
      cec:	18 95       	reti
 
 00000cee <Driver_SetParameters>:
-{
-	to_run_drv_t *ptrToRunDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));			/* alokacja pamiêci dla drivera				*/
-	ptrToRunDrv->DriveType = drvtype;													/* ustawienie typu drivera					*/
-	ptrToRunDrv->ToRunDriver = driver;													/* ustawienie wskaŸnika na driver do pracy	*/
-	return ptrToRunDrv;	
+	else
+	{
+		newItem->Next = list->Head;
+		list->Head = newItem;
+	}
 }
-     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4189>
-     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4189+0x1>
+     cee:	20 91 17 20 	lds	r18, 0x2017	; 0x802017 <x.4193>
+     cf2:	30 91 18 20 	lds	r19, 0x2018	; 0x802018 <x.4193+0x1>
      cf6:	26 30       	cpi	r18, 0x06	; 6
      cf8:	31 05       	cpc	r19, r1
      cfa:	38 f0       	brcs	.+14     	; 0xd0a <Driver_SetParameters+0x1c>
      cfc:	fc 01       	movw	r30, r24
      cfe:	81 81       	ldd	r24, Z+1	; 0x01
      d00:	90 e0       	ldi	r25, 0x00	; 0
-     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4189>
-     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4189+0x1>
+     d02:	80 93 17 20 	sts	0x2017, r24	; 0x802017 <x.4193>
+     d06:	90 93 18 20 	sts	0x2018, r25	; 0x802018 <x.4193+0x1>
      d0a:	08 95       	ret
 
 00000d0c <__vector_20>:

@@ -120,6 +120,8 @@ to_run_item_t *Driver_ToRunItemInit(to_run_drv_t *torundrv);
 
 to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype);
 
+void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype);
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 
