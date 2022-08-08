@@ -22,6 +22,11 @@
 
 TWI_t *lcdBus = &TWIC;
 
+stepper_driver_t test_stepperDriver;
+servo_driver_t test_servoDriver1;
+servo_driver_t test_servoDriver2;
+to_run_list_t *test_driverList;
+
 int main(void)
 {
 	ClkSys32MHz();
@@ -30,6 +35,11 @@ int main(void)
 	ssd1306ClrScr(lcdBus, 0xAA);
 	
 	Job = Data_CreateList();
+	
+	test_driverList = Driver_ToRunListInit();
+	Driver_ToRunListAdd(test_driverList, &test_stepperDriver, STEPPER);
+	Driver_ToRunListAdd(test_driverList, &test_servoDriver1, STEPPER);
+	Driver_ToRunListAdd(test_driverList, &test_servoDriver2, STEPPER);
 	
 	Bluetooth = HC05_Init(Bluetooth);
 	
