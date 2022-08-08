@@ -122,6 +122,8 @@ to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype);
 
 void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype);
 
+to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list);
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 
