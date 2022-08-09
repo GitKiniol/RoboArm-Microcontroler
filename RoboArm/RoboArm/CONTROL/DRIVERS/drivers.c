@@ -202,6 +202,28 @@ void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype)
 	}
 }
 
+to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
+{
+	if (list->Tail != NULL)
+	{
+		to_run_drv_t *copyDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));		/* alokacja pamiêci na kopie drivera do uruchomienia			*/
+		copyDrv->DriveType = list->Head->Data->DriveType;							/* wykonanie kopi typu drivera									*/
+		copyDrv->ToRunDriver = list->Head->Data->ToRunDriver;						/* wykonanie kopi drivera										*/
+		to_run_item_t *nextItem = list->Head->Next;									/* kopia wskaŸnika na nastêpny element listy					*/
+		list->Head->Data->ToRunDriver = NULL;										/* zerowanie wskaŸnika											*/
+		free(list->Head->Data);														/* zwolnienie pamiêci zajmowanej przez driver do uruchomienia	*/
+		list->Head->Data = NULL;													/* zerowanie wskaŸnika na dane elementu							*/
+		list->Head->Next = NULL;													/* zerowanie wskaŸnika na nastêpny element						*/
+		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy			*/
+		list->Head = nextItem;														/* ustawienie wskaŸnika pocz¹tku listy							*/
+		return copyDrv;																/* zwrócenie kopi drivera do uruchomienia						*/
+	}
+	else
+	{
+		return NULL;																/* zwrócenie pustego wskaŸnika w przypadku gdy lista pusta		*/
+	}
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
