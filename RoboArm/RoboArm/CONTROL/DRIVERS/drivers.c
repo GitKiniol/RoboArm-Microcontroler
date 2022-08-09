@@ -216,6 +216,7 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
 		list->Head->Next = NULL;													/* zerowanie wskaŸnika na nastêpny element						*/
 		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy			*/
 		list->Head = nextItem;														/* ustawienie wskaŸnika pocz¹tku listy							*/
+		if(list->Head == NULL) list->Tail = NULL;									/* jeœli pobrano wszystkie elementy to wyzeruj wskaŸnik koñca	*/
 		return copyDrv;																/* zwrócenie kopi drivera do uruchomienia						*/
 	}
 	else
