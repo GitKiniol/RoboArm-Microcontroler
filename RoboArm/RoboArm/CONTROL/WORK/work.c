@@ -55,7 +55,7 @@ uint8_t Work_GetParameters(list_t *list)
 		{
 			move_t *move;														/* deklaracja wskaünika na ruch												*/
 			move = Data_GetMoveFromList(task);									/* pobranie ruchu															*/
- 			Driver_SetParameters(move);
+ 			Driver_SetDriverParameters(move);
 		}
 		return 1;
 	}

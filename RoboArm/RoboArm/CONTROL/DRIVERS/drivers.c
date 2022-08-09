@@ -93,7 +93,7 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
 	return (uint16_t)((pulsesPerRev / 360) * angle);
 }
 
-void Driver_SetStepperSpeed(stepper_driver_t *driver, float speed)
+void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
 {
 	//Ir = Sr * Er * Mr				=> Liczba impulsów drivera programowego na obrót
 	//Fo = So / 60 * Ir				=> Obliczenie czêstotoliwoœci wyjœciowej na podstawie prêdkoœci i liczby impulsów
@@ -150,13 +150,49 @@ uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
 	return (uint16_t)((angle * 18.88) + 2300);
 }
 
-void Driver_SetParameters(move_t *move)
+void Driver_SetDriverParameters(move_t *move)
 {
-	static uint16_t x = 2333;
-	if (x > 5)
+	switch(move->AxisName)
 	{
-		x = move->Angle;
+		case 66:
+			Driver_SetStepperParameters(axisA, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi A										*/
+			Driver_ToRunListAdd(drvToRunList, axisA, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		case 67:
+			Driver_SetStepperParameters(axisB, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi B										*/
+			Driver_ToRunListAdd(drvToRunList, axisB, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		case 68:
+			Driver_SetStepperParameters(axisC, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi C										*/
+			Driver_ToRunListAdd(drvToRunList, axisC, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		case 90:
+			Driver_SetStepperParameters(axisZ, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi Z										*/
+			Driver_ToRunListAdd(drvToRunList, axisZ, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		case 71:
+			Driver_SetServoParameters(axisG, move->Angle);										/* parametryzacja osi G										*/
+			Driver_ToRunListAdd(drvToRunList, axisG, SERVO);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		case 84:
+			Driver_SetServoParameters(axisT, move->Angle);										/* parametryzacja osi T										*/
+			Driver_ToRunListAdd(drvToRunList, axisT, SERVO);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
+			break;
+		default:
+			break;
 	}
+}
+
+void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
+{
+	Driver_SetStepperSpeed(driver, speed);
+	driver->SetpointPosition = driver->Convert(angle, driver);
+	driver->Direction = dir;
+}
+
+void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)
+{
+	driver->SetpointPosition = driver->Convert(angle);
 }
 
 to_run_list_t *Driver_ToRunListInit(void)
