@@ -154,15 +154,15 @@ void Driver_SetDriverParameters(move_t *move)
 {
 	switch(move->AxisName)
 	{
-		case 66:
+		case 65:
 			Driver_SetStepperParameters(axisA, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi A										*/
 			Driver_ToRunListAdd(drvToRunList, axisA, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
 			break;
-		case 67:
+		case 66:
 			Driver_SetStepperParameters(axisB, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi B										*/
 			Driver_ToRunListAdd(drvToRunList, axisB, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
 			break;
-		case 68:
+		case 67:
 			Driver_SetStepperParameters(axisC, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi C										*/
 			Driver_ToRunListAdd(drvToRunList, axisC, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
 			break;
@@ -185,9 +185,9 @@ void Driver_SetDriverParameters(move_t *move)
 
 void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
 {
-	Driver_SetStepperSpeed(driver, speed);
-	driver->SetpointPosition = driver->Convert(angle, driver);
-	driver->Direction = dir;
+	//Driver_SetStepperSpeed(driver, speed);
+	//driver->SetpointPosition = driver->Convert(angle, driver);
+	//driver->Direction = dir;
 }
 
 void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)
