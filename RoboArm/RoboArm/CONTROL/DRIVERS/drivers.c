@@ -24,6 +24,18 @@ to_run_list_t *drvToRunList;							/* lista driverów przydzielona do zadania				
 
 /*-------------------------------------------Definicje funkcji------------------------------------------------------------------*/
 
+void Driver_AxisInit(void)
+{
+	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 1);	
+	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 1);
+	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 1);
+	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 1);
+	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
+	axisT = Driver_ServoDriverInit(axisT, &TCC0, &PORTC, 1);
+	
+	drvToRunList = Driver_ToRunListInit();
+}
+
 stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio)
 {
 	driver = (stepper_driver_t *)malloc(sizeof(stepper_driver_t));
@@ -185,9 +197,9 @@ void Driver_SetDriverParameters(move_t *move)
 
 void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
 {
-	//Driver_SetStepperSpeed(driver, speed);
-	//driver->SetpointPosition = driver->Convert(angle, driver);
-	//driver->Direction = dir;
+	Driver_SetStepperSpeed(driver, speed);
+	driver->SetpointPosition = driver->Convert(angle, driver);
+	driver->Direction = dir;
 }
 
 void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)

@@ -94,6 +94,8 @@ typedef struct TO_RUN_LIST_STRUCT
 
 /*---------------------------------------------------Deklaracje funkcji-----------------------------------------------------*/
 
+void Driver_AxisInit(void);
+
 stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio);
 
 servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin);
