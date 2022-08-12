@@ -9,6 +9,7 @@
 #include <avr/io.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
+#include <util/atomic.h>
 #include "drivers.h"
 #include "../../BLUETOOTH/DATA/data.h"
 
@@ -159,7 +160,7 @@ void Driver_StopServoDriver(void *driver)
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
 {
-	return (uint16_t)((angle * 18.88) + 2300);
+	return (uint16_t)((angle * 18.88) + 2300);						/* przeliczanie k¹ta na wartoœæ rejestru timera	*/
 }
 
 void Driver_SetDriverParameters(move_t *move)
@@ -197,14 +198,14 @@ void Driver_SetDriverParameters(move_t *move)
 
 void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
 {
-	Driver_SetStepperSpeed(driver, speed);
-	driver->SetpointPosition = driver->Convert(angle, driver);
-	driver->Direction = dir;
+	Driver_SetStepperSpeed(driver, speed);												/* ustawienie prêdkoœci silnika				*/
+	driver->SetpointPosition = driver->Convert(angle, driver);							/* ustawienie pozycji zadanej				*/
+	driver->Direction = dir;															/* ustawienie kierunku pracy				*/
 }
 
 void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)
 {
-	driver->SetpointPosition = driver->Convert(angle);
+	driver->SetpointPosition = driver->Convert(angle);									/* ustawienie pozycji zadanej serva			*/
 }
 
 to_run_list_t *Driver_ToRunListInit(void)
@@ -233,20 +234,20 @@ to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype)
 
 void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype)
 {
-	to_run_drv_t *newDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));					/* alokacja pamiêci napêdu do uruchomienia	*/
-	newDrv = Driver_ToRunDrvInit(driver, drvtype);										/* inicjalizacja napêdu do uruchomienia		*/
-	to_run_item_t *newItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));				/* alokacja pamiêci na item listy			*/
-	newItem = Driver_ToRunItemInit(newDrv);												/* inicjalizacja elementu listy				*/
+	to_run_drv_t *newDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));					/* alokacja pamiêci napêdu do uruchomienia		*/
+	newDrv = Driver_ToRunDrvInit(driver, drvtype);										/* inicjalizacja napêdu do uruchomienia			*/
+	to_run_item_t *newItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));				/* alokacja pamiêci na item listy				*/
+	newItem = Driver_ToRunItemInit(newDrv);												/* inicjalizacja elementu listy					*/
 	if (list->Tail == NULL)
 	{
-		list->Tail = newItem;
-		list->Head = list->Tail;
-		newItem->Next = NULL;
+		list->Tail = newItem;															/* wstawienie nowego elementu na koniec listy	*/
+		list->Head = list->Tail;														/* ustawienie pocz¹tku listy na koniec listy	*/
+		newItem->Next = NULL;															/* zerowanie wskaŸnika na kolejny element		*/
 	} 
 	else
 	{
-		newItem->Next = list->Head;
-		list->Head = newItem;
+		newItem->Next = list->Head;														/* ustawienie wskaŸnika nowemu na stary element	*/
+		list->Head = newItem;															/* wstawienie nowego elementu na pocz¹tek listy	*/
 	}
 }
 
@@ -270,6 +271,33 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
 	else
 	{
 		return NULL;																/* zwrócenie pustego wskaŸnika w przypadku gdy lista pusta		*/
+	}
+}
+
+void Driver_RunTaskAxes(void)
+{
+	if(drvToRunList->Tail != NULL)													/* jeœli lista osi do uruchomienia nie jest pusta		*/
+	{
+		to_run_drv_t *toRun;														/* element pobrany z listy								*/
+		ATOMIC_BLOCK(ATOMIC_FORCEON)												/* wykonaj poni¿sze instrukcje ATOMOWO					*/
+		{
+			while (drvToRunList->Tail)												/* pêtla wykonywana do opró¿nienia listy osi			*/
+			{
+				toRun = Driver_ToRunListGet(drvToRunList);							/* pobierz element z listy								*/
+				if (toRun->DriveType == STEPPER)									/* jeœli pobrany element dotyczy osi z krokówk¹			*/
+				{
+					stepper_driver_t *stdt = (stepper_driver_t*)toRun->ToRunDriver;	/* pobierz driver do uruchomienia						*/
+					stdt->Start(stdt, TC_CLKSEL_DIV8_gc);							/* uruchom driver										*/
+				} 
+				else																/* jeœli pobrany element dotyczy osi z serwem			*/
+				{
+					servo_driver_t *svdt = (servo_driver_t*)toRun->ToRunDriver;		/* pobierz driver do uruchomienia						*/
+					svdt->Start(svdt, TC_CLKSEL_DIV8_gc);							/* uruchom driver										*/
+				}
+				toRun->ToRunDriver = NULL;											/* zerowanie wskaŸnika									*/
+				free(toRun);														/* zwalnianie pamiêci									*/
+			}
+		};
 	}
 }
 

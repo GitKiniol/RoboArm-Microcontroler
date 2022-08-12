@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  00001f90  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000003a0  00000000  00000000  00001fd0  2**0
+  5 .debug_aranges 000003a8  00000000  00000000  00001fd0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00009cdb  00000000  00000000  00002370  2**0
+  6 .debug_info   00009e0a  00000000  00000000  00002378  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004d65  00000000  00000000  0000c04b  2**0
+  7 .debug_abbrev 00004df2  00000000  00000000  0000c182  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000275d  00000000  00000000  00010db0  2**0
+  8 .debug_line   00002851  00000000  00000000  00010f74  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000b9c  00000000  00000000  00013510  2**2
+  9 .debug_frame  00000bb8  00000000  00000000  000137c8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    0000412e  00000000  00000000  000140ac  2**0
+ 10 .debug_str    0000417b  00000000  00000000  00014380  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00003630  00000000  00000000  000181da  2**0
+ 11 .debug_loc    000036f6  00000000  00000000  000184fb  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000308  00000000  00000000  0001b80a  2**0
+ 12 .debug_ranges 00000310  00000000  00000000  0001bbf1  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1617,10 +1617,10 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
      d04:	18 95       	reti
 
 00000d06 <Driver_ConvertAngleToStep>:
-	}
-	else
-	{
-		return NULL;																/* zwrócenie pustego wskaŸnika w przypadku gdy lista pusta		*/
+				toRun->ToRunDriver = NULL;											/* zerowanie wskaŸnika									*/
+				free(toRun);														/* zwalnianie pamiêci									*/
+			}
+		};
 	}
 }
      d06:	cf 92       	push	r12
