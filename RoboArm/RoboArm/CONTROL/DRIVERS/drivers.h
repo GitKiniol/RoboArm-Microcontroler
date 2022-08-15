@@ -139,6 +139,7 @@ void Driver_FreeAxes(void);
 
 void Driver_StopRobot(void);
 
+void Driver_EmergencyStop(void);
 
 /*--------------------------------------------------------------------------------------------------------------------------*/
 

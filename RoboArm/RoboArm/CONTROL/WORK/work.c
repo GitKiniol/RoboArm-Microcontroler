@@ -68,13 +68,13 @@ uint8_t Work_GetParameters(list_t *list)
 void Work_RunRobot(void)
 {
 	Work_TimerInit(RunTaskTimer);												/* inicjalizacje timera														*/
-	Work_TimerStart(RunTaskTimer);														/* uruchomienie timera														*/
+	Work_TimerStart(RunTaskTimer);												/* uruchomienie timera														*/
 }
 
 void Work_StopRobot(void)
 {
-	Work_TimerStop(RunTaskTimer);														/* zatrzymanie timera														*/
-	//Drivers_StopDrivers();
+	Work_TimerStop(RunTaskTimer);												/* zatrzymanie timera														*/
+	Driver_StopRobot();															/* zatrzymanie robota														*/
 }
 
 void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
@@ -113,7 +113,6 @@ void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 
 ISR(TCF0_OVF_vect)
 {
+	Work_TimerStop(&TCF0);
 	Work_RunTask(Job, &HC05_SendStatus);
-
-	Work_StopRobot();
 }

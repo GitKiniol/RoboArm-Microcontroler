@@ -129,6 +129,14 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 	stepper_driver_t *drv = (stepper_driver_t*)driver;				/* konwersja typu parametru	*/
 	drv->IsRunning = 1;												/* sterownik uruchomiony	*/
 	drv->DriverPort->OUTSET = (1<<drv->EnablePin);					/* odblokowanie silnika		*/
+	if (drv->Direction)
+	{
+		drv->DriverPort->OUTSET = (1<<drv->DirectionPin);			/* prawe obroty				*/
+	} 
+	else
+	{
+		drv->DriverPort->OUTCLR = (1<<drv->DirectionPin);			/* lewe obroty				*/
+	}
 	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
 }
 
@@ -144,7 +152,6 @@ void Driver_StopStepperDriver(void *driver)
 {
 	stepper_driver_t *drv = (stepper_driver_t *)driver;				/* konwersja typu parametru	*/
 	drv->IsRunning = 0;												/* sterownik zatrzymany		*/
-	drv->DriverPort->OUTCLR = (1<<drv->EnablePin);					/* zablokowanie silnika		*/
 	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
 }
 
@@ -305,7 +312,7 @@ void Driver_RunTaskAxes(void)
 void Driver_FreeStepper(void *driver)
 {
 	stepper_driver_t *drv = (stepper_driver_t*)driver;
-	drv->DriverPort->OUTSET = (0<<drv->EnablePin);					/* luzowanie silnika				*/
+	drv->DriverPort->OUTCLR = (1<<drv->EnablePin);					/* luzowanie silnika				*/
 }
 
 void Driver_FreeAxes(void)
@@ -327,7 +334,15 @@ void Driver_StopRobot(void)
 		axisB->Stop(axisB);											/* zatrzymanie silnika osi B		*/
 		axisC->Stop(axisC);											/* zatrzymanie silnika osi C		*/
 		axisZ->Stop(axisZ);											/* zatrzymanie silnika osi Z		*/
+		axisG->Stop(axisG);											/* zatrzymanie silnika osi G		*/
+		axisT->Stop(axisT);											/* zatrzymanie silnika osi T		*/								
 	}
+}
+
+void Driver_EmergencyStop(void)
+{
+	Driver_StopRobot();
+	Driver_FreeAxes();
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------*/
