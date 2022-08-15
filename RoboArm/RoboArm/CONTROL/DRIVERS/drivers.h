@@ -134,6 +134,9 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list);
 void Driver_RunTaskAxes(void);
 
 void Driver_FreeStepper(void *driver);
+
+void Driver_FreeAxes(void);
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 

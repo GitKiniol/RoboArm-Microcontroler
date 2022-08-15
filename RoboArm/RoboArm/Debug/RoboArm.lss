@@ -13,21 +13,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   4 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000020c8  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 000003b0  00000000  00000000  00002108  2**0
+  5 .debug_aranges 000003b8  00000000  00000000  00002108  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00009e71  00000000  00000000  000024b8  2**0
+  6 .debug_info   00009ee1  00000000  00000000  000024c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00004e2a  00000000  00000000  0000c329  2**0
+  7 .debug_abbrev 00004e53  00000000  00000000  0000c3a1  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00002874  00000000  00000000  00011153  2**0
+  8 .debug_line   000028e4  00000000  00000000  000111f4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000bc8  00000000  00000000  000139c8  2**2
+  9 .debug_frame  00000bd8  00000000  00000000  00013ad8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00004193  00000000  00000000  00014590  2**0
+ 10 .debug_str    000041a3  00000000  00000000  000146b0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000036f6  00000000  00000000  00018723  2**0
+ 11 .debug_loc    0000374c  00000000  00000000  00018853  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000318  00000000  00000000  0001be19  2**0
+ 12 .debug_ranges 00000320  00000000  00000000  0001bf9f  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1618,12 +1618,12 @@ bluetooth_t *HC05_Init(bluetooth_t *module)
      d08:	18 95       	reti
 
 00000d0a <Driver_ConvertAngleToStep>:
-	
-	return driver;
 }
 
-uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
+static __inline__ void __iSeiParam(const uint8_t *__s)
 {
+    sei();
+    __asm__ volatile ("" ::: "memory");
      d0a:	cf 92       	push	r12
      d0c:	df 92       	push	r13
      d0e:	ef 92       	push	r14
@@ -1633,12 +1633,6 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
      d16:	df 93       	push	r29
      d18:	18 2f       	mov	r17, r24
      d1a:	eb 01       	movw	r28, r22
-	/* ca³kowita iloœæ impulsów na obrót									*/
-	float pulsesPerRev = 0.0;	
-	/*rzutowanie void do stepper_driver_t									*/													
-	stepper_driver_t *drv = (stepper_driver_t *)driver;		
-	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/				
-	pulsesPerRev = drv->MotorSteps * drv->ElectricalRatio * drv->MechanicalRatio;		
      d1c:	89 89       	ldd	r24, Y+17	; 0x11
      d1e:	9a 89       	ldd	r25, Y+18	; 0x12
      d20:	2b 89       	ldd	r18, Y+19	; 0x13
@@ -1655,7 +1649,6 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
      d38:	4e 89       	ldd	r20, Y+22	; 0x16
      d3a:	5f 89       	ldd	r21, Y+23	; 0x17
      d3c:	0e 94 06 0e 	call	0x1c0c	; 0x1c0c <__mulsf3>
-	return (uint16_t)((pulsesPerRev / 360) * angle);
      d40:	20 e0       	ldi	r18, 0x00	; 0
      d42:	30 e0       	ldi	r19, 0x00	; 0
      d44:	44 eb       	ldi	r20, 0xB4	; 180
@@ -1672,7 +1665,6 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
      d5e:	96 01       	movw	r18, r12
      d60:	0e 94 06 0e 	call	0x1c0c	; 0x1c0c <__mulsf3>
      d64:	0e 94 49 0d 	call	0x1a92	; 0x1a92 <__fixunssfsi>
-}
      d68:	cb 01       	movw	r24, r22
      d6a:	df 91       	pop	r29
      d6c:	cf 91       	pop	r28
@@ -1684,19 +1676,10 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
      d78:	08 95       	ret
 
 00000d7a <Driver_StartStepperDriver>:
-	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * fo)) - 1);			/*obliczenie wartoœci rejestru timera									*/
-	
-}
-
-void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
-{
      d7a:	fc 01       	movw	r30, r24
-	stepper_driver_t *drv = (stepper_driver_t*)driver;				/* konwersja typu parametru	*/
-	drv->IsRunning = 1;												/* sterownik uruchomiony	*/
      d7c:	80 89       	ldd	r24, Z+16	; 0x10
      d7e:	81 60       	ori	r24, 0x01	; 1
      d80:	80 8b       	std	Z+16, r24	; 0x10
-	drv->DriverPort->OUTSET = (1<<drv->EnablePin);					/* odblokowanie silnika		*/
      d82:	a3 85       	ldd	r26, Z+11	; 0x0b
      d84:	b4 85       	ldd	r27, Z+12	; 0x0c
      d86:	81 e0       	ldi	r24, 0x01	; 1
@@ -1709,7 +1692,6 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
      d94:	e2 f7       	brpl	.-8      	; 0xd8e <Driver_StartStepperDriver+0x14>
      d96:	15 96       	adiw	r26, 0x05	; 5
      d98:	8c 93       	st	X, r24
-	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera		*/
      d9a:	01 84       	ldd	r0, Z+9	; 0x09
      d9c:	f2 85       	ldd	r31, Z+10	; 0x0a
      d9e:	e0 2d       	mov	r30, r0
@@ -1717,21 +1699,13 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
      da2:	08 95       	ret
 
 00000da4 <Driver_StartServoDriver>:
-}
-
-void Driver_StartServoDriver(void *driver, uint8_t preskaler)
-{
      da4:	fc 01       	movw	r30, r24
-	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
-	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera							*/
      da6:	a6 81       	ldd	r26, Z+6	; 0x06
      da8:	b7 81       	ldd	r27, Z+7	; 0x07
      daa:	6c 93       	st	X, r22
-	drv->IsRunning = 1;												/* driver uruchomiony							*/
      dac:	83 85       	ldd	r24, Z+11	; 0x0b
      dae:	81 60       	ori	r24, 0x01	; 1
      db0:	83 87       	std	Z+11, r24	; 0x0b
-	drv->DriverPort->DIRSET = (1 << drv->PwmPin);					/* odblokowanie pinu pwm						*/
      db2:	a0 85       	ldd	r26, Z+8	; 0x08
      db4:	b1 85       	ldd	r27, Z+9	; 0x09
      db6:	81 e0       	ldi	r24, 0x01	; 1
@@ -1747,17 +1721,10 @@ void Driver_StartServoDriver(void *driver, uint8_t preskaler)
      dca:	08 95       	ret
 
 00000dcc <Driver_StopStepperDriver>:
-}
-
-void Driver_StopStepperDriver(void *driver)
-{
      dcc:	fc 01       	movw	r30, r24
-	stepper_driver_t *drv = (stepper_driver_t *)driver;				/* konwersja typu parametru	*/
-	drv->IsRunning = 0;												/* sterownik zatrzymany		*/
      dce:	80 89       	ldd	r24, Z+16	; 0x10
      dd0:	8e 7f       	andi	r24, 0xFE	; 254
      dd2:	80 8b       	std	Z+16, r24	; 0x10
-	drv->DriverPort->OUTCLR = (1<<drv->EnablePin);					/* zablokowanie silnika		*/
      dd4:	a3 85       	ldd	r26, Z+11	; 0x0b
      dd6:	b4 85       	ldd	r27, Z+12	; 0x0c
      dd8:	81 e0       	ldi	r24, 0x01	; 1
@@ -1770,7 +1737,6 @@ void Driver_StopStepperDriver(void *driver)
      de6:	e2 f7       	brpl	.-8      	; 0xde0 <Driver_StopStepperDriver+0x14>
      de8:	16 96       	adiw	r26, 0x06	; 6
      dea:	8c 93       	st	X, r24
-	drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* zatrzymanie timera		*/
      dec:	01 84       	ldd	r0, Z+9	; 0x09
      dee:	f2 85       	ldd	r31, Z+10	; 0x0a
      df0:	e0 2d       	mov	r30, r0
@@ -1778,17 +1744,10 @@ void Driver_StopStepperDriver(void *driver)
      df4:	08 95       	ret
 
 00000df6 <Driver_StopServoDriver>:
-}
-
-void Driver_StopServoDriver(void *driver)
-{
      df6:	fc 01       	movw	r30, r24
-	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
-	drv->IsRunning = 0;												/* driver zatrzymany							*/
      df8:	83 85       	ldd	r24, Z+11	; 0x0b
      dfa:	8e 7f       	andi	r24, 0xFE	; 254
      dfc:	83 87       	std	Z+11, r24	; 0x0b
-	drv->DriverPort->DIRCLR = (1<<drv->PwmPin);						/* zablokowanie pinu pwm						*/
      dfe:	a0 85       	ldd	r26, Z+8	; 0x08
      e00:	b1 85       	ldd	r27, Z+9	; 0x09
      e02:	81 e0       	ldi	r24, 0x01	; 1
@@ -1801,7 +1760,6 @@ void Driver_StopServoDriver(void *driver)
      e10:	e2 f7       	brpl	.-8      	; 0xe0a <Driver_StopServoDriver+0x14>
      e12:	12 96       	adiw	r26, 0x02	; 2
      e14:	8c 93       	st	X, r24
-	if(axisT->IsRunning == 0 && axisG->IsRunning == 0)				/* jeœli servosterowniki zakoñczy³y pracê, to:	*/
      e16:	a0 91 8e 20 	lds	r26, 0x208E	; 0x80208e <axisT>
      e1a:	b0 91 8f 20 	lds	r27, 0x208F	; 0x80208f <axisT+0x1>
      e1e:	1b 96       	adiw	r26, 0x0b	; 11
@@ -1814,8 +1772,6 @@ void Driver_StopServoDriver(void *driver)
      e30:	8c 91       	ld	r24, X
      e32:	80 fd       	sbrc	r24, 0
      e34:	04 c0       	rjmp	.+8      	; 0xe3e <Driver_StopServoDriver+0x48>
-	{
-		drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;					/* zatrzymanie timera							*/
      e36:	06 80       	ldd	r0, Z+6	; 0x06
      e38:	f7 81       	ldd	r31, Z+7	; 0x07
      e3a:	e0 2d       	mov	r30, r0
@@ -1823,12 +1779,6 @@ void Driver_StopServoDriver(void *driver)
      e3e:	08 95       	ret
 
 00000e40 <Driver_ConvertAngleToPwm>:
-	}
-}
-
-uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
-{
-	return (uint16_t)((angle * 18.88) + 2300);						/* przeliczanie k¹ta na wartoœæ rejestru timera	*/
      e40:	68 2f       	mov	r22, r24
      e42:	70 e0       	ldi	r23, 0x00	; 0
      e44:	80 e0       	ldi	r24, 0x00	; 0
@@ -1845,17 +1795,10 @@ uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
      e5e:	55 e4       	ldi	r21, 0x45	; 69
      e60:	0e 94 6b 0c 	call	0x18d6	; 0x18d6 <__addsf3>
      e64:	0e 94 49 0d 	call	0x1a92	; 0x1a92 <__fixunssfsi>
-}
      e68:	cb 01       	movw	r24, r22
      e6a:	08 95       	ret
 
 00000e6c <Driver_FreeStepper>:
-}
-
-void Driver_FreeStepper(void *driver)
-{
-	stepper_driver_t *drv = (stepper_driver_t*)driver;
-	drv->DriverPort->OUTSET = (0<<drv->EnablePin);					/* luzowanie silnika				*/
      e6c:	dc 01       	movw	r26, r24
      e6e:	1b 96       	adiw	r26, 0x0b	; 11
      e70:	ed 91       	ld	r30, X+
@@ -1865,12 +1808,6 @@ void Driver_FreeStepper(void *driver)
      e78:	08 95       	ret
 
 00000e7a <Driver_StepperDriverInit>:
-	
-	drvToRunList = Driver_ToRunListInit();
-}
-
-stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *timer, PORT_t *port, uint16_t motor_steps, uint8_t electrical_ratio, float mechanical_ratio)
-{
      e7a:	8f 92       	push	r8
      e7c:	9f 92       	push	r9
      e7e:	af 92       	push	r10
@@ -1885,113 +1822,82 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
      e90:	eb 01       	movw	r28, r22
      e92:	5a 01       	movw	r10, r20
      e94:	49 01       	movw	r8, r18
-	driver = (stepper_driver_t *)malloc(sizeof(stepper_driver_t));
      e96:	81 e2       	ldi	r24, 0x21	; 33
      e98:	90 e0       	ldi	r25, 0x00	; 0
      e9a:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
      e9e:	fc 01       	movw	r30, r24
-	driver->CurrentPosition = 0;
      ea0:	12 82       	std	Z+2, r1	; 0x02
      ea2:	13 82       	std	Z+3, r1	; 0x03
-	driver->SetpointPosition = 85;
      ea4:	85 e5       	ldi	r24, 0x55	; 85
      ea6:	90 e0       	ldi	r25, 0x00	; 0
      ea8:	80 83       	st	Z, r24
      eaa:	91 83       	std	Z+1, r25	; 0x01
-	driver->MaximumPosition = 90;
      eac:	8a e5       	ldi	r24, 0x5A	; 90
      eae:	90 e0       	ldi	r25, 0x00	; 0
      eb0:	84 83       	std	Z+4, r24	; 0x04
      eb2:	95 83       	std	Z+5, r25	; 0x05
-	driver->MinimumPosition = -90;
      eb4:	86 ea       	ldi	r24, 0xA6	; 166
      eb6:	9f ef       	ldi	r25, 0xFF	; 255
      eb8:	86 83       	std	Z+6, r24	; 0x06
      eba:	97 83       	std	Z+7, r25	; 0x07
-	driver->Direction = 0;
      ebc:	10 86       	std	Z+8, r1	; 0x08
-	driver->EnablePin = 6;
      ebe:	86 e0       	ldi	r24, 0x06	; 6
      ec0:	85 87       	std	Z+13, r24	; 0x0d
-	driver->DirectionPin = 5;
      ec2:	85 e0       	ldi	r24, 0x05	; 5
      ec4:	86 87       	std	Z+14, r24	; 0x0e
-	driver->PulsePin = 4;
      ec6:	84 e0       	ldi	r24, 0x04	; 4
      ec8:	87 87       	std	Z+15, r24	; 0x0f
-	driver->IsRunning = 0;
      eca:	80 89       	ldd	r24, Z+16	; 0x10
      ecc:	8e 7f       	andi	r24, 0xFE	; 254
      ece:	80 8b       	std	Z+16, r24	; 0x10
-	driver->DriverTimer = timer;
      ed0:	c1 87       	std	Z+9, r28	; 0x09
      ed2:	d2 87       	std	Z+10, r29	; 0x0a
-	driver->DriverPort = port;
      ed4:	a3 86       	std	Z+11, r10	; 0x0b
      ed6:	b4 86       	std	Z+12, r11	; 0x0c
-	driver->MotorSteps = motor_steps;
      ed8:	81 8a       	std	Z+17, r8	; 0x11
      eda:	92 8a       	std	Z+18, r9	; 0x12
-	driver->ElectricalRatio = electrical_ratio;
      edc:	03 8b       	std	Z+19, r16	; 0x13
-	driver->MechanicalRatio = mechanical_ratio;
      ede:	c4 8a       	std	Z+20, r12	; 0x14
      ee0:	d5 8a       	std	Z+21, r13	; 0x15
      ee2:	e6 8a       	std	Z+22, r14	; 0x16
      ee4:	f7 8a       	std	Z+23, r15	; 0x17
-	driver->Speed = 150;
      ee6:	86 e9       	ldi	r24, 0x96	; 150
      ee8:	80 8f       	std	Z+24, r24	; 0x18
-	/* ustawienie portu pinów wyjœciowych sterownika */
-	driver->DriverPort->DIRSET = (1<<driver->DirectionPin);
      eea:	80 e2       	ldi	r24, 0x20	; 32
      eec:	d5 01       	movw	r26, r10
      eee:	11 96       	adiw	r26, 0x01	; 1
      ef0:	8c 93       	st	X, r24
      ef2:	11 97       	sbiw	r26, 0x01	; 1
-	driver->DriverPort->DIRSET = (1<<driver->EnablePin);
      ef4:	80 e4       	ldi	r24, 0x40	; 64
      ef6:	11 96       	adiw	r26, 0x01	; 1
      ef8:	8c 93       	st	X, r24
      efa:	11 97       	sbiw	r26, 0x01	; 1
-	driver->DriverPort->DIRSET = (1<<driver->PulsePin);
      efc:	80 e1       	ldi	r24, 0x10	; 16
      efe:	11 96       	adiw	r26, 0x01	; 1
      f00:	8c 93       	st	X, r24
-	/* parametryzacja timera */
-	driver->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;						/* preskaler= 0												*/
      f02:	18 82       	st	Y, r1
-	driver->DriverTimer->CTRLB = TC_WGMODE_FRQ_gc;						/* tryb FRQ													*/
      f04:	91 e0       	ldi	r25, 0x01	; 1
      f06:	99 83       	std	Y+1, r25	; 0x01
-	driver->DriverTimer->CTRLB |= (1<<TC1_CCAEN_bp);					/* za³¹czenie generowania impulsów na pinie wyjœciowym		*/
      f08:	89 81       	ldd	r24, Y+1	; 0x01
      f0a:	80 61       	ori	r24, 0x10	; 16
      f0c:	89 83       	std	Y+1, r24	; 0x01
-	driver->DriverTimer->INTCTRLA = TC1_OVFINTLVL0_bm;					/* odblokowanie przerwania od przepe³nienia timera			*/
      f0e:	9e 83       	std	Y+6, r25	; 0x06
-	/* ustawienie wskaŸników na funkcje */
-	driver->Start = &Driver_StartStepperDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
      f10:	8d eb       	ldi	r24, 0xBD	; 189
      f12:	96 e0       	ldi	r25, 0x06	; 6
      f14:	81 8f       	std	Z+25, r24	; 0x19
      f16:	92 8f       	std	Z+26, r25	; 0x1a
-	driver->Stop = &Driver_StopStepperDriver;							/* ustawienie wskaŸnika na funkcjê stop						*/
      f18:	86 ee       	ldi	r24, 0xE6	; 230
      f1a:	96 e0       	ldi	r25, 0x06	; 6
      f1c:	83 8f       	std	Z+27, r24	; 0x1b
      f1e:	94 8f       	std	Z+28, r25	; 0x1c
-	driver->Free = &Driver_FreeStepper;									/* ustawienie wskaŸnika na funkcjê luzuj¹c¹ silnik			*/
      f20:	86 e3       	ldi	r24, 0x36	; 54
      f22:	97 e0       	ldi	r25, 0x07	; 7
      f24:	85 8f       	std	Z+29, r24	; 0x1d
      f26:	96 8f       	std	Z+30, r25	; 0x1e
-	driver->Convert = &Driver_ConvertAngleToStep;						/* ustawienie wskaŸnika na funkcjê convert					*/
      f28:	85 e8       	ldi	r24, 0x85	; 133
      f2a:	96 e0       	ldi	r25, 0x06	; 6
      f2c:	87 8f       	std	Z+31, r24	; 0x1f
      f2e:	90 a3       	std	Z+32, r25	; 0x20
-	PMIC.CTRL |= PMIC_LOLVLEN_bm;
      f30:	a0 ea       	ldi	r26, 0xA0	; 160
      f32:	b0 e0       	ldi	r27, 0x00	; 0
      f34:	12 96       	adiw	r26, 0x02	; 2
@@ -2000,8 +1906,6 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
      f3a:	81 60       	ori	r24, 0x01	; 1
      f3c:	12 96       	adiw	r26, 0x02	; 2
      f3e:	8c 93       	st	X, r24
-	return driver;
-}
      f40:	cf 01       	movw	r24, r30
      f42:	df 91       	pop	r29
      f44:	cf 91       	pop	r28
@@ -2017,9 +1921,6 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
      f58:	08 95       	ret
 
 00000f5a <Driver_ServoDriverInit>:
-
-servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin)
-{
      f5a:	ef 92       	push	r14
      f5c:	ff 92       	push	r15
      f5e:	1f 93       	push	r17
@@ -2028,35 +1929,26 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
      f64:	eb 01       	movw	r28, r22
      f66:	7a 01       	movw	r14, r20
      f68:	12 2f       	mov	r17, r18
-	driver = (servo_driver_t *)malloc(sizeof(servo_driver_t));
      f6a:	82 e1       	ldi	r24, 0x12	; 18
      f6c:	90 e0       	ldi	r25, 0x00	; 0
      f6e:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
      f72:	fc 01       	movw	r30, r24
-	driver->DriverPort = port;
      f74:	e0 86       	std	Z+8, r14	; 0x08
      f76:	f1 86       	std	Z+9, r15	; 0x09
-	driver->DriverTimer = timer;
      f78:	c6 83       	std	Z+6, r28	; 0x06
      f7a:	d7 83       	std	Z+7, r29	; 0x07
-	driver->IsRunning = 0;
      f7c:	83 85       	ldd	r24, Z+11	; 0x0b
      f7e:	8e 7f       	andi	r24, 0xFE	; 254
      f80:	83 87       	std	Z+11, r24	; 0x0b
-	driver->MaximumPosition = 90;
      f82:	8a e5       	ldi	r24, 0x5A	; 90
      f84:	90 e0       	ldi	r25, 0x00	; 0
      f86:	82 83       	std	Z+2, r24	; 0x02
      f88:	93 83       	std	Z+3, r25	; 0x03
-	driver->MinimumPosition = 0;
      f8a:	14 82       	std	Z+4, r1	; 0x04
      f8c:	15 82       	std	Z+5, r1	; 0x05
-	driver->SetpointPosition = 0;
      f8e:	10 82       	st	Z, r1
      f90:	11 82       	std	Z+1, r1	; 0x01
-	driver->PwmPin = pwmpin;
      f92:	12 87       	std	Z+10, r17	; 0x0a
-	driver->DriverPort->DIRCLR = (1 << driver->PwmPin);
      f94:	21 2f       	mov	r18, r17
      f96:	30 e0       	ldi	r19, 0x00	; 0
      f98:	81 e0       	ldi	r24, 0x01	; 1
@@ -2070,11 +1962,9 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
      fa8:	d7 01       	movw	r26, r14
      faa:	12 96       	adiw	r26, 0x02	; 2
      fac:	4c 93       	st	X, r20
-	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;
      fae:	49 81       	ldd	r20, Y+1	; 0x01
      fb0:	45 60       	ori	r20, 0x05	; 5
      fb2:	49 83       	std	Y+1, r20	; 0x01
-	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
      fb4:	a9 81       	ldd	r26, Y+1	; 0x01
      fb6:	67 e0       	ldi	r22, 0x07	; 7
      fb8:	70 e0       	ldi	r23, 0x00	; 0
@@ -2088,7 +1978,6 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
      fc8:	e2 f7       	brpl	.-8      	; 0xfc2 <Driver_ServoDriverInit+0x68>
      fca:	4a 2b       	or	r20, r26
      fcc:	49 83       	std	Y+1, r20	; 0x01
-	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
      fce:	4f 81       	ldd	r20, Y+7	; 0x07
      fd0:	2f 5f       	subi	r18, 0xFF	; 255
      fd2:	3f 4f       	sbci	r19, 0xFF	; 255
@@ -2099,27 +1988,22 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
      fdc:	e2 f7       	brpl	.-8      	; 0xfd6 <Driver_ServoDriverInit+0x7c>
      fde:	84 2b       	or	r24, r20
      fe0:	8f 83       	std	Y+7, r24	; 0x07
-	driver->DriverTimer->PER = 40000;									/* ustawienie czêstotliwoœci pwm na 50Hz					*/
      fe2:	80 e4       	ldi	r24, 0x40	; 64
      fe4:	9c e9       	ldi	r25, 0x9C	; 156
      fe6:	8e a3       	std	Y+38, r24	; 0x26
      fe8:	9f a3       	std	Y+39, r25	; 0x27
-	driver->Start = &Driver_StartServoDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
      fea:	82 ed       	ldi	r24, 0xD2	; 210
      fec:	96 e0       	ldi	r25, 0x06	; 6
      fee:	84 87       	std	Z+12, r24	; 0x0c
      ff0:	95 87       	std	Z+13, r25	; 0x0d
-	driver->Stop = &Driver_StopServoDriver;								/* ustawienie wskaŸnika na funkcjê stop						*/
      ff2:	8b ef       	ldi	r24, 0xFB	; 251
      ff4:	96 e0       	ldi	r25, 0x06	; 6
      ff6:	86 87       	std	Z+14, r24	; 0x0e
      ff8:	97 87       	std	Z+15, r25	; 0x0f
-	driver->Convert = &Driver_ConvertAngleToPwm;						/* ustawienie wskaŸnika na funkcjê convert					*/
      ffa:	80 e2       	ldi	r24, 0x20	; 32
      ffc:	97 e0       	ldi	r25, 0x07	; 7
      ffe:	80 8b       	std	Z+16, r24	; 0x10
     1000:	91 8b       	std	Z+17, r25	; 0x11
-	PMIC.CTRL |= PMIC_MEDLVLEN_bm;
     1002:	a0 ea       	ldi	r26, 0xA0	; 160
     1004:	b0 e0       	ldi	r27, 0x00	; 0
     1006:	12 96       	adiw	r26, 0x02	; 2
@@ -2128,9 +2012,6 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
     100c:	82 60       	ori	r24, 0x02	; 2
     100e:	12 96       	adiw	r26, 0x02	; 2
     1010:	8c 93       	st	X, r24
-	
-	return driver;
-}
     1012:	cf 01       	movw	r24, r30
     1014:	df 91       	pop	r29
     1016:	cf 91       	pop	r28
@@ -2140,12 +2021,6 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
     101e:	08 95       	ret
 
 00001020 <Driver_SetStepperSpeed>:
-	pulsesPerRev = drv->MotorSteps * drv->ElectricalRatio * drv->MechanicalRatio;		
-	return (uint16_t)((pulsesPerRev / 360) * angle);
-}
-
-void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
-{
     1020:	cf 92       	push	r12
     1022:	df 92       	push	r13
     1024:	ef 92       	push	r14
@@ -2155,12 +2030,6 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
     102c:	df 93       	push	r29
     102e:	ec 01       	movw	r28, r24
     1030:	16 2f       	mov	r17, r22
-	//Er - przek³adnia elektryczna(podzia³ kroku, ustawiany switchami)
-	//Mr - prze³o¿enie mechaniczne wynikaj¹ce ze œrednic kó³ zêbatych
-	
-	float ir = 0.0;
-	float fo = 0.0;
-	ir = driver->MotorSteps * driver->ElectricalRatio * driver->MechanicalRatio;	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/
     1032:	89 89       	ldd	r24, Y+17	; 0x11
     1034:	9a 89       	ldd	r25, Y+18	; 0x12
     1036:	2b 89       	ldd	r18, Y+19	; 0x13
@@ -2179,7 +2048,6 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
     1052:	0e 94 06 0e 	call	0x1c0c	; 0x1c0c <__mulsf3>
     1056:	6b 01       	movw	r12, r22
     1058:	7c 01       	movw	r14, r24
-	fo = (speed / 60) * ir;															/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
     105a:	69 e8       	ldi	r22, 0x89	; 137
     105c:	16 9f       	mul	r17, r22
     105e:	61 2d       	mov	r22, r1
@@ -2196,7 +2064,6 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
     1076:	c7 01       	movw	r24, r14
     1078:	b6 01       	movw	r22, r12
     107a:	0e 94 06 0e 	call	0x1c0c	; 0x1c0c <__mulsf3>
-	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * fo)) - 1);			/*obliczenie wartoœci rejestru timera									*/
     107e:	09 84       	ldd	r0, Y+9	; 0x09
     1080:	da 85       	ldd	r29, Y+10	; 0x0a
     1082:	c0 2d       	mov	r28, r0
@@ -2220,8 +2087,6 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
     10ac:	0e 94 49 0d 	call	0x1a92	; 0x1a92 <__fixunssfsi>
     10b0:	68 a7       	std	Y+40, r22	; 0x28
     10b2:	79 a7       	std	Y+41, r23	; 0x29
-	
-}
     10b4:	df 91       	pop	r29
     10b6:	cf 91       	pop	r28
     10b8:	1f 91       	pop	r17
@@ -2232,12 +2097,6 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
     10c2:	08 95       	ret
 
 000010c4 <Driver_SetStepperParameters>:
-			break;
-	}
-}
-
-void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
-{
     10c4:	0f 93       	push	r16
     10c6:	1f 93       	push	r17
     10c8:	cf 93       	push	r28
@@ -2245,9 +2104,7 @@ void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_
     10cc:	ec 01       	movw	r28, r24
     10ce:	04 2f       	mov	r16, r20
     10d0:	12 2f       	mov	r17, r18
-	Driver_SetStepperSpeed(driver, speed);												/* ustawienie prêdkoœci silnika				*/
     10d2:	0e 94 10 08 	call	0x1020	; 0x1020 <Driver_SetStepperSpeed>
-	driver->SetpointPosition = driver->Convert(angle, driver);							/* ustawienie pozycji zadanej				*/
     10d6:	ef 8d       	ldd	r30, Y+31	; 0x1f
     10d8:	f8 a1       	ldd	r31, Y+32	; 0x20
     10da:	be 01       	movw	r22, r28
@@ -2255,9 +2112,7 @@ void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_
     10de:	19 95       	eicall
     10e0:	88 83       	st	Y, r24
     10e2:	99 83       	std	Y+1, r25	; 0x01
-	driver->Direction = dir;															/* ustawienie kierunku pracy				*/
     10e4:	18 87       	std	Y+8, r17	; 0x08
-}
     10e6:	df 91       	pop	r29
     10e8:	cf 91       	pop	r28
     10ea:	1f 91       	pop	r17
@@ -2265,56 +2120,36 @@ void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_
     10ee:	08 95       	ret
 
 000010f0 <Driver_SetServoParameters>:
-
-void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)
-{
     10f0:	cf 93       	push	r28
     10f2:	df 93       	push	r29
     10f4:	ec 01       	movw	r28, r24
     10f6:	86 2f       	mov	r24, r22
-	driver->SetpointPosition = driver->Convert(angle);									/* ustawienie pozycji zadanej serva			*/
     10f8:	e8 89       	ldd	r30, Y+16	; 0x10
     10fa:	f9 89       	ldd	r31, Y+17	; 0x11
     10fc:	19 95       	eicall
     10fe:	88 83       	st	Y, r24
     1100:	99 83       	std	Y+1, r25	; 0x01
-}
     1102:	df 91       	pop	r29
     1104:	cf 91       	pop	r28
     1106:	08 95       	ret
 
 00001108 <Driver_ToRunListInit>:
-
-to_run_list_t *Driver_ToRunListInit(void)
-{
-	to_run_list_t *ptrToRunList = (to_run_list_t*)malloc(sizeof(to_run_list_t));		/* alokacja pamiêci dla listy				*/
     1108:	84 e0       	ldi	r24, 0x04	; 4
     110a:	90 e0       	ldi	r25, 0x00	; 0
     110c:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
-	ptrToRunList->Head = NULL;															/* wyzerowanie wskaŸnika pocz¹tku listy		*/
     1110:	fc 01       	movw	r30, r24
     1112:	10 82       	st	Z, r1
     1114:	11 82       	std	Z+1, r1	; 0x01
-	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy		*/
     1116:	12 82       	std	Z+2, r1	; 0x02
     1118:	13 82       	std	Z+3, r1	; 0x03
-	return ptrToRunList;
-}
     111a:	08 95       	ret
 
 0000111c <Driver_AxisInit>:
-/*------------------------------------------------------------------------------------------------------------------------------*/
-
-/*-------------------------------------------Definicje funkcji------------------------------------------------------------------*/
-
-void Driver_AxisInit(void)
-{
     111c:	cf 92       	push	r12
     111e:	df 92       	push	r13
     1120:	ef 92       	push	r14
     1122:	ff 92       	push	r15
     1124:	0f 93       	push	r16
-	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 1);	
     1126:	0f 2e       	mov	r0, r31
     1128:	c1 2c       	mov	r12, r1
     112a:	d1 2c       	mov	r13, r1
@@ -2335,7 +2170,6 @@ void Driver_AxisInit(void)
     114c:	0e 94 3d 07 	call	0xe7a	; 0xe7a <Driver_StepperDriverInit>
     1150:	80 93 88 20 	sts	0x2088, r24	; 0x802088 <axisA>
     1154:	90 93 89 20 	sts	0x2089, r25	; 0x802089 <axisA+0x1>
-	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 1);
     1158:	28 ec       	ldi	r18, 0xC8	; 200
     115a:	30 e0       	ldi	r19, 0x00	; 0
     115c:	40 e8       	ldi	r20, 0x80	; 128
@@ -2347,7 +2181,6 @@ void Driver_AxisInit(void)
     116c:	0e 94 3d 07 	call	0xe7a	; 0xe7a <Driver_StepperDriverInit>
     1170:	80 93 8a 20 	sts	0x208A, r24	; 0x80208a <axisB>
     1174:	90 93 8b 20 	sts	0x208B, r25	; 0x80208b <axisB+0x1>
-	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 1);
     1178:	28 ec       	ldi	r18, 0xC8	; 200
     117a:	30 e0       	ldi	r19, 0x00	; 0
     117c:	40 e6       	ldi	r20, 0x60	; 96
@@ -2359,7 +2192,6 @@ void Driver_AxisInit(void)
     118c:	0e 94 3d 07 	call	0xe7a	; 0xe7a <Driver_StepperDriverInit>
     1190:	80 93 90 20 	sts	0x2090, r24	; 0x802090 <axisC>
     1194:	90 93 91 20 	sts	0x2091, r25	; 0x802091 <axisC+0x1>
-	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 1);
     1198:	28 ec       	ldi	r18, 0xC8	; 200
     119a:	30 e0       	ldi	r19, 0x00	; 0
     119c:	40 e4       	ldi	r20, 0x40	; 64
@@ -2371,7 +2203,6 @@ void Driver_AxisInit(void)
     11ac:	0e 94 3d 07 	call	0xe7a	; 0xe7a <Driver_StepperDriverInit>
     11b0:	80 93 84 20 	sts	0x2084, r24	; 0x802084 <axisZ>
     11b4:	90 93 85 20 	sts	0x2085, r25	; 0x802085 <axisZ+0x1>
-	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
     11b8:	20 e0       	ldi	r18, 0x00	; 0
     11ba:	40 e4       	ldi	r20, 0x40	; 64
     11bc:	56 e0       	ldi	r21, 0x06	; 6
@@ -2382,7 +2213,6 @@ void Driver_AxisInit(void)
     11ca:	0e 94 ad 07 	call	0xf5a	; 0xf5a <Driver_ServoDriverInit>
     11ce:	80 93 8c 20 	sts	0x208C, r24	; 0x80208c <axisG>
     11d2:	90 93 8d 20 	sts	0x208D, r25	; 0x80208d <axisG+0x1>
-	axisT = Driver_ServoDriverInit(axisT, &TCC0, &PORTC, 1);
     11d6:	21 e0       	ldi	r18, 0x01	; 1
     11d8:	40 e4       	ldi	r20, 0x40	; 64
     11da:	56 e0       	ldi	r21, 0x06	; 6
@@ -2393,12 +2223,9 @@ void Driver_AxisInit(void)
     11e8:	0e 94 ad 07 	call	0xf5a	; 0xf5a <Driver_ServoDriverInit>
     11ec:	80 93 8e 20 	sts	0x208E, r24	; 0x80208e <axisT>
     11f0:	90 93 8f 20 	sts	0x208F, r25	; 0x80208f <axisT+0x1>
-	
-	drvToRunList = Driver_ToRunListInit();
     11f4:	0e 94 84 08 	call	0x1108	; 0x1108 <Driver_ToRunListInit>
     11f8:	80 93 86 20 	sts	0x2086, r24	; 0x802086 <drvToRunList>
     11fc:	90 93 87 20 	sts	0x2087, r25	; 0x802087 <drvToRunList+0x1>
-}
     1200:	0f 91       	pop	r16
     1202:	ff 90       	pop	r15
     1204:	ef 90       	pop	r14
@@ -2407,117 +2234,72 @@ void Driver_AxisInit(void)
     120a:	08 95       	ret
 
 0000120c <Driver_ToRunItemInit>:
-	ptrToRunList->Tail = NULL;															/* wyzerowanie wskaŸnika koñca listy		*/
-	return ptrToRunList;
-}
-
-to_run_item_t *Driver_ToRunItemInit(to_run_drv_t *torundrv)
-{
     120c:	cf 93       	push	r28
     120e:	df 93       	push	r29
     1210:	ec 01       	movw	r28, r24
-	to_run_item_t *ptrToRunItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));		/* alokacja pamiêci dla elementu listy		*/
     1212:	84 e0       	ldi	r24, 0x04	; 4
     1214:	90 e0       	ldi	r25, 0x00	; 0
     1216:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
-	ptrToRunItem->Next = NULL;															/* zerowanie wskaŸnika na element nastêpny	*/
     121a:	fc 01       	movw	r30, r24
     121c:	10 82       	st	Z, r1
     121e:	11 82       	std	Z+1, r1	; 0x01
-	ptrToRunItem->Data = torundrv;														/* ustawienie wskaŸnika na dane elementu	*/
     1220:	c2 83       	std	Z+2, r28	; 0x02
     1222:	d3 83       	std	Z+3, r29	; 0x03
-	return ptrToRunItem;
-}
     1224:	df 91       	pop	r29
     1226:	cf 91       	pop	r28
     1228:	08 95       	ret
 
 0000122a <Driver_ToRunDrvInit>:
-
-to_run_drv_t *Driver_ToRunDrvInit(void *driver, uint8_t drvtype)
-{
     122a:	1f 93       	push	r17
     122c:	cf 93       	push	r28
     122e:	df 93       	push	r29
     1230:	ec 01       	movw	r28, r24
     1232:	16 2f       	mov	r17, r22
-	to_run_drv_t *ptrToRunDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));			/* alokacja pamiêci dla drivera				*/
     1234:	83 e0       	ldi	r24, 0x03	; 3
     1236:	90 e0       	ldi	r25, 0x00	; 0
     1238:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
-	ptrToRunDrv->DriveType = drvtype;													/* ustawienie typu drivera					*/
     123c:	fc 01       	movw	r30, r24
     123e:	10 83       	st	Z, r17
-	ptrToRunDrv->ToRunDriver = driver;													/* ustawienie wskaŸnika na driver do pracy	*/
     1240:	c1 83       	std	Z+1, r28	; 0x01
     1242:	d2 83       	std	Z+2, r29	; 0x02
-	return ptrToRunDrv;	
-}
     1244:	df 91       	pop	r29
     1246:	cf 91       	pop	r28
     1248:	1f 91       	pop	r17
     124a:	08 95       	ret
 
 0000124c <Driver_ToRunListAdd>:
-
-void Driver_ToRunListAdd(to_run_list_t *list, void *driver, uint8_t drvtype)
-{
     124c:	cf 93       	push	r28
     124e:	df 93       	push	r29
     1250:	ec 01       	movw	r28, r24
     1252:	cb 01       	movw	r24, r22
-	to_run_drv_t *newDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));					/* alokacja pamiêci napêdu do uruchomienia		*/
-	newDrv = Driver_ToRunDrvInit(driver, drvtype);										/* inicjalizacja napêdu do uruchomienia			*/
     1254:	64 2f       	mov	r22, r20
     1256:	0e 94 15 09 	call	0x122a	; 0x122a <Driver_ToRunDrvInit>
-	to_run_item_t *newItem = (to_run_item_t*)malloc(sizeof(to_run_item_t));				/* alokacja pamiêci na item listy				*/
-	newItem = Driver_ToRunItemInit(newDrv);												/* inicjalizacja elementu listy					*/
     125a:	0e 94 06 09 	call	0x120c	; 0x120c <Driver_ToRunItemInit>
-	if (list->Tail == NULL)
     125e:	2a 81       	ldd	r18, Y+2	; 0x02
     1260:	3b 81       	ldd	r19, Y+3	; 0x03
     1262:	23 2b       	or	r18, r19
     1264:	41 f4       	brne	.+16     	; 0x1276 <Driver_ToRunListAdd+0x2a>
-	{
-		list->Tail = newItem;															/* wstawienie nowego elementu na koniec listy	*/
     1266:	8a 83       	std	Y+2, r24	; 0x02
     1268:	9b 83       	std	Y+3, r25	; 0x03
-		list->Head = list->Tail;														/* ustawienie pocz¹tku listy na koniec listy	*/
     126a:	88 83       	st	Y, r24
     126c:	99 83       	std	Y+1, r25	; 0x01
-		newItem->Next = NULL;															/* zerowanie wskaŸnika na kolejny element		*/
     126e:	fc 01       	movw	r30, r24
     1270:	10 82       	st	Z, r1
     1272:	11 82       	std	Z+1, r1	; 0x01
     1274:	07 c0       	rjmp	.+14     	; 0x1284 <Driver_ToRunListAdd+0x38>
-	} 
-	else
-	{
-		newItem->Next = list->Head;														/* ustawienie wskaŸnika nowemu na stary element	*/
     1276:	28 81       	ld	r18, Y
     1278:	39 81       	ldd	r19, Y+1	; 0x01
     127a:	fc 01       	movw	r30, r24
     127c:	20 83       	st	Z, r18
     127e:	31 83       	std	Z+1, r19	; 0x01
-		list->Head = newItem;															/* wstawienie nowego elementu na pocz¹tek listy	*/
     1280:	88 83       	st	Y, r24
     1282:	99 83       	std	Y+1, r25	; 0x01
-	}
-}
     1284:	df 91       	pop	r29
     1286:	cf 91       	pop	r28
     1288:	08 95       	ret
 
 0000128a <Driver_SetDriverParameters>:
-{
-	return (uint16_t)((angle * 18.88) + 2300);						/* przeliczanie k¹ta na wartoœæ rejestru timera	*/
-}
-
-void Driver_SetDriverParameters(move_t *move)
-{
     128a:	fc 01       	movw	r30, r24
-	switch(move->AxisName)
     128c:	90 81       	ld	r25, Z
     128e:	93 34       	cpi	r25, 0x43	; 67
     1290:	e1 f1       	breq	.+120    	; 0x130a <Driver_SetDriverParameters+0x80>
@@ -2537,9 +2319,6 @@ void Driver_SetDriverParameters(move_t *move)
     12ac:	09 f0       	breq	.+2      	; 0x12b0 <Driver_SetDriverParameters+0x26>
     12ae:	7e c0       	rjmp	.+252    	; 0x13ac <Driver_SetDriverParameters+0x122>
     12b0:	58 c0       	rjmp	.+176    	; 0x1362 <Driver_SetDriverParameters+0xd8>
-	{
-		case 65:
-			Driver_SetStepperParameters(axisA, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi A										*/
     12b2:	23 81       	ldd	r18, Z+3	; 0x03
     12b4:	21 70       	andi	r18, 0x01	; 1
     12b6:	41 81       	ldd	r20, Z+1	; 0x01
@@ -2547,17 +2326,13 @@ void Driver_SetDriverParameters(move_t *move)
     12ba:	80 91 88 20 	lds	r24, 0x2088	; 0x802088 <axisA>
     12be:	90 91 89 20 	lds	r25, 0x2089	; 0x802089 <axisA+0x1>
     12c2:	0e 94 62 08 	call	0x10c4	; 0x10c4 <Driver_SetStepperParameters>
-			Driver_ToRunListAdd(drvToRunList, axisA, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     12c6:	60 91 88 20 	lds	r22, 0x2088	; 0x802088 <axisA>
     12ca:	70 91 89 20 	lds	r23, 0x2089	; 0x802089 <axisA+0x1>
     12ce:	40 e0       	ldi	r20, 0x00	; 0
     12d0:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     12d4:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     12d8:	0e 94 26 09 	call	0x124c	; 0x124c <Driver_ToRunListAdd>
-			break;
     12dc:	08 95       	ret
-		case 66:
-			Driver_SetStepperParameters(axisB, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi B										*/
     12de:	23 81       	ldd	r18, Z+3	; 0x03
     12e0:	21 70       	andi	r18, 0x01	; 1
     12e2:	41 81       	ldd	r20, Z+1	; 0x01
@@ -2565,17 +2340,13 @@ void Driver_SetDriverParameters(move_t *move)
     12e6:	80 91 8a 20 	lds	r24, 0x208A	; 0x80208a <axisB>
     12ea:	90 91 8b 20 	lds	r25, 0x208B	; 0x80208b <axisB+0x1>
     12ee:	0e 94 62 08 	call	0x10c4	; 0x10c4 <Driver_SetStepperParameters>
-			Driver_ToRunListAdd(drvToRunList, axisB, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     12f2:	60 91 8a 20 	lds	r22, 0x208A	; 0x80208a <axisB>
     12f6:	70 91 8b 20 	lds	r23, 0x208B	; 0x80208b <axisB+0x1>
     12fa:	40 e0       	ldi	r20, 0x00	; 0
     12fc:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     1300:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     1304:	0e 94 26 09 	call	0x124c	; 0x124c <Driver_ToRunListAdd>
-			break;
     1308:	08 95       	ret
-		case 67:
-			Driver_SetStepperParameters(axisC, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi C										*/
     130a:	23 81       	ldd	r18, Z+3	; 0x03
     130c:	21 70       	andi	r18, 0x01	; 1
     130e:	41 81       	ldd	r20, Z+1	; 0x01
@@ -2583,17 +2354,13 @@ void Driver_SetDriverParameters(move_t *move)
     1312:	80 91 90 20 	lds	r24, 0x2090	; 0x802090 <axisC>
     1316:	90 91 91 20 	lds	r25, 0x2091	; 0x802091 <axisC+0x1>
     131a:	0e 94 62 08 	call	0x10c4	; 0x10c4 <Driver_SetStepperParameters>
-			Driver_ToRunListAdd(drvToRunList, axisC, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     131e:	60 91 90 20 	lds	r22, 0x2090	; 0x802090 <axisC>
     1322:	70 91 91 20 	lds	r23, 0x2091	; 0x802091 <axisC+0x1>
     1326:	40 e0       	ldi	r20, 0x00	; 0
     1328:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     132c:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     1330:	0e 94 26 09 	call	0x124c	; 0x124c <Driver_ToRunListAdd>
-			break;
     1334:	08 95       	ret
-		case 90:
-			Driver_SetStepperParameters(axisZ, move->Speed, move->Angle, move->Direction);		/* parametryzacja osi Z										*/
     1336:	23 81       	ldd	r18, Z+3	; 0x03
     1338:	21 70       	andi	r18, 0x01	; 1
     133a:	41 81       	ldd	r20, Z+1	; 0x01
@@ -2601,37 +2368,28 @@ void Driver_SetDriverParameters(move_t *move)
     133e:	80 91 84 20 	lds	r24, 0x2084	; 0x802084 <axisZ>
     1342:	90 91 85 20 	lds	r25, 0x2085	; 0x802085 <axisZ+0x1>
     1346:	0e 94 62 08 	call	0x10c4	; 0x10c4 <Driver_SetStepperParameters>
-			Driver_ToRunListAdd(drvToRunList, axisZ, STEPPER);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     134a:	60 91 84 20 	lds	r22, 0x2084	; 0x802084 <axisZ>
     134e:	70 91 85 20 	lds	r23, 0x2085	; 0x802085 <axisZ+0x1>
     1352:	40 e0       	ldi	r20, 0x00	; 0
     1354:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     1358:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     135c:	0e 94 26 09 	call	0x124c	; 0x124c <Driver_ToRunListAdd>
-			break;
     1360:	08 95       	ret
-		case 71:
-			Driver_SetServoParameters(axisG, move->Angle);										/* parametryzacja osi G										*/
     1362:	61 81       	ldd	r22, Z+1	; 0x01
     1364:	80 91 8c 20 	lds	r24, 0x208C	; 0x80208c <axisG>
     1368:	90 91 8d 20 	lds	r25, 0x208D	; 0x80208d <axisG+0x1>
     136c:	0e 94 78 08 	call	0x10f0	; 0x10f0 <Driver_SetServoParameters>
-			Driver_ToRunListAdd(drvToRunList, axisG, SERVO);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     1370:	60 91 8c 20 	lds	r22, 0x208C	; 0x80208c <axisG>
     1374:	70 91 8d 20 	lds	r23, 0x208D	; 0x80208d <axisG+0x1>
     1378:	41 e0       	ldi	r20, 0x01	; 1
     137a:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     137e:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     1382:	0e 94 26 09 	call	0x124c	; 0x124c <Driver_ToRunListAdd>
-			break;
     1386:	08 95       	ret
-		case 84:
-			Driver_SetServoParameters(axisT, move->Angle);										/* parametryzacja osi T										*/
     1388:	61 81       	ldd	r22, Z+1	; 0x01
     138a:	80 91 8e 20 	lds	r24, 0x208E	; 0x80208e <axisT>
     138e:	90 91 8f 20 	lds	r25, 0x208F	; 0x80208f <axisT+0x1>
     1392:	0e 94 78 08 	call	0x10f0	; 0x10f0 <Driver_SetServoParameters>
-			Driver_ToRunListAdd(drvToRunList, axisT, SERVO);									/* umieszczenie sterownika osi na liœcie do uruchomienia	*/
     1396:	60 91 8e 20 	lds	r22, 0x208E	; 0x80208e <axisT>
     139a:	70 91 8f 20 	lds	r23, 0x208F	; 0x80208f <axisT+0x1>
     139e:	41 e0       	ldi	r20, 0x01	; 1
@@ -2641,19 +2399,12 @@ void Driver_SetDriverParameters(move_t *move)
     13ac:	08 95       	ret
 
 000013ae <Driver_ToRunListGet>:
-		list->Head = newItem;															/* wstawienie nowego elementu na pocz¹tek listy	*/
-	}
-}
-
-to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
-{
     13ae:	ef 92       	push	r14
     13b0:	ff 92       	push	r15
     13b2:	0f 93       	push	r16
     13b4:	1f 93       	push	r17
     13b6:	cf 93       	push	r28
     13b8:	df 93       	push	r29
-	if (list->Tail != NULL)
     13ba:	dc 01       	movw	r26, r24
     13bc:	12 96       	adiw	r26, 0x02	; 2
     13be:	2d 91       	ld	r18, X+
@@ -2662,13 +2413,10 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
     13c4:	23 2b       	or	r18, r19
     13c6:	d1 f1       	breq	.+116    	; 0x143c <Driver_ToRunListGet+0x8e>
     13c8:	ec 01       	movw	r28, r24
-	{
-		to_run_drv_t *copyDrv = (to_run_drv_t*)malloc(sizeof(to_run_drv_t));		/* alokacja pamiêci na kopie drivera do uruchomienia			*/
     13ca:	83 e0       	ldi	r24, 0x03	; 3
     13cc:	90 e0       	ldi	r25, 0x00	; 0
     13ce:	0e 94 73 0e 	call	0x1ce6	; 0x1ce6 <malloc>
     13d2:	8c 01       	movw	r16, r24
-		copyDrv->DriveType = list->Head->Data->DriveType;							/* wykonanie kopi typu drivera									*/
     13d4:	e8 81       	ld	r30, Y
     13d6:	f9 81       	ldd	r31, Y+1	; 0x01
     13d8:	a2 81       	ldd	r26, Z+2	; 0x02
@@ -2676,7 +2424,6 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
     13dc:	8c 91       	ld	r24, X
     13de:	d8 01       	movw	r26, r16
     13e0:	8c 93       	st	X, r24
-		copyDrv->ToRunDriver = list->Head->Data->ToRunDriver;						/* wykonanie kopi drivera										*/
     13e2:	a2 81       	ldd	r26, Z+2	; 0x02
     13e4:	b3 81       	ldd	r27, Z+3	; 0x03
     13e6:	11 96       	adiw	r26, 0x01	; 1
@@ -2688,68 +2435,43 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
     13f2:	8d 93       	st	X+, r24
     13f4:	9c 93       	st	X, r25
     13f6:	12 97       	sbiw	r26, 0x02	; 2
-		to_run_item_t *nextItem = list->Head->Next;									/* kopia wskaŸnika na nastêpny element listy					*/
     13f8:	e0 80       	ld	r14, Z
     13fa:	f1 80       	ldd	r15, Z+1	; 0x01
-		list->Head->Data->ToRunDriver = NULL;										/* zerowanie wskaŸnika											*/
     13fc:	02 80       	ldd	r0, Z+2	; 0x02
     13fe:	f3 81       	ldd	r31, Z+3	; 0x03
     1400:	e0 2d       	mov	r30, r0
     1402:	11 82       	std	Z+1, r1	; 0x01
     1404:	12 82       	std	Z+2, r1	; 0x02
-		free(list->Head->Data);														/* zwolnienie pamiêci zajmowanej przez driver do uruchomienia	*/
     1406:	e8 81       	ld	r30, Y
     1408:	f9 81       	ldd	r31, Y+1	; 0x01
     140a:	82 81       	ldd	r24, Z+2	; 0x02
     140c:	93 81       	ldd	r25, Z+3	; 0x03
     140e:	0e 94 0b 0f 	call	0x1e16	; 0x1e16 <free>
-		list->Head->Data = NULL;													/* zerowanie wskaŸnika na dane elementu							*/
     1412:	e8 81       	ld	r30, Y
     1414:	f9 81       	ldd	r31, Y+1	; 0x01
     1416:	12 82       	std	Z+2, r1	; 0x02
     1418:	13 82       	std	Z+3, r1	; 0x03
-		list->Head->Next = NULL;													/* zerowanie wskaŸnika na nastêpny element						*/
     141a:	e8 81       	ld	r30, Y
     141c:	f9 81       	ldd	r31, Y+1	; 0x01
     141e:	10 82       	st	Z, r1
     1420:	11 82       	std	Z+1, r1	; 0x01
-		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy			*/
     1422:	88 81       	ld	r24, Y
     1424:	99 81       	ldd	r25, Y+1	; 0x01
     1426:	0e 94 0b 0f 	call	0x1e16	; 0x1e16 <free>
-		list->Head = nextItem;														/* ustawienie wskaŸnika pocz¹tku listy							*/
     142a:	e8 82       	st	Y, r14
     142c:	f9 82       	std	Y+1, r15	; 0x01
-		if(list->Head == NULL) list->Tail = NULL;									/* jeœli pobrano wszystkie elementy to wyzeruj wskaŸnik koñca	*/
     142e:	ef 28       	or	r14, r15
     1430:	41 f4       	brne	.+16     	; 0x1442 <Driver_ToRunListGet+0x94>
     1432:	1a 82       	std	Y+2, r1	; 0x02
     1434:	1b 82       	std	Y+3, r1	; 0x03
-		return copyDrv;																/* zwrócenie kopi drivera do uruchomienia						*/
     1436:	80 2f       	mov	r24, r16
     1438:	91 2f       	mov	r25, r17
     143a:	05 c0       	rjmp	.+10     	; 0x1446 <Driver_ToRunListGet+0x98>
-	}
-	else
-	{
-		return NULL;																/* zwrócenie pustego wskaŸnika w przypadku gdy lista pusta		*/
     143c:	80 e0       	ldi	r24, 0x00	; 0
     143e:	90 e0       	ldi	r25, 0x00	; 0
     1440:	02 c0       	rjmp	.+4      	; 0x1446 <Driver_ToRunListGet+0x98>
-		list->Head->Data = NULL;													/* zerowanie wskaŸnika na dane elementu							*/
-		list->Head->Next = NULL;													/* zerowanie wskaŸnika na nastêpny element						*/
-		free(list->Head);															/* zwolnienie pamiêci zajmowanej przez element listy			*/
-		list->Head = nextItem;														/* ustawienie wskaŸnika pocz¹tku listy							*/
-		if(list->Head == NULL) list->Tail = NULL;									/* jeœli pobrano wszystkie elementy to wyzeruj wskaŸnik koñca	*/
-		return copyDrv;																/* zwrócenie kopi drivera do uruchomienia						*/
     1442:	80 2f       	mov	r24, r16
     1444:	91 2f       	mov	r25, r17
-	}
-	else
-	{
-		return NULL;																/* zwrócenie pustego wskaŸnika w przypadku gdy lista pusta		*/
-	}
-}
     1446:	df 91       	pop	r29
     1448:	cf 91       	pop	r28
     144a:	1f 91       	pop	r17
@@ -2759,45 +2481,24 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list)
     1452:	08 95       	ret
 
 00001454 <Driver_RunTaskAxes>:
-
-void Driver_RunTaskAxes(void)
-{
     1454:	cf 93       	push	r28
     1456:	df 93       	push	r29
-	if(drvToRunList->Tail != NULL)													/* jeœli lista osi do uruchomienia nie jest pusta		*/
     1458:	e0 91 86 20 	lds	r30, 0x2086	; 0x802086 <drvToRunList>
     145c:	f0 91 87 20 	lds	r31, 0x2087	; 0x802087 <drvToRunList+0x1>
     1460:	82 81       	ldd	r24, Z+2	; 0x02
     1462:	93 81       	ldd	r25, Z+3	; 0x03
     1464:	89 2b       	or	r24, r25
     1466:	71 f1       	breq	.+92     	; 0x14c4 <Driver_RunTaskAxes+0x70>
-    return 1;
-}
-
-static __inline__ uint8_t __iCliRetVal(void)
-{
-    cli();
     1468:	f8 94       	cli
-	{
-		to_run_drv_t *toRun;														/* element pobrany z listy								*/
-		ATOMIC_BLOCK(ATOMIC_FORCEON)												/* wykonaj poni¿sze instrukcje ATOMOWO					*/
     146a:	41 e0       	ldi	r20, 0x01	; 1
     146c:	28 c0       	rjmp	.+80     	; 0x14be <Driver_RunTaskAxes+0x6a>
-		{
-			while (drvToRunList->Tail)												/* pêtla wykonywana do opró¿nienia listy osi			*/
-			{
-				toRun = Driver_ToRunListGet(drvToRunList);							/* pobierz element z listy								*/
     146e:	0e 94 d7 09 	call	0x13ae	; 0x13ae <Driver_ToRunListGet>
     1472:	ec 01       	movw	r28, r24
-				if (toRun->DriveType == STEPPER)									/* jeœli pobrany element dotyczy osi z krokówk¹			*/
     1474:	88 81       	ld	r24, Y
     1476:	81 11       	cpse	r24, r1
     1478:	0a c0       	rjmp	.+20     	; 0x148e <Driver_RunTaskAxes+0x3a>
-				{
-					stepper_driver_t *stdt = (stepper_driver_t*)toRun->ToRunDriver;	/* pobierz driver do uruchomienia						*/
     147a:	89 81       	ldd	r24, Y+1	; 0x01
     147c:	9a 81       	ldd	r25, Y+2	; 0x02
-					stdt->Start(stdt, TC_CLKSEL_DIV8_gc);							/* uruchom driver										*/
     147e:	dc 01       	movw	r26, r24
     1480:	59 96       	adiw	r26, 0x19	; 25
     1482:	ed 91       	ld	r30, X+
@@ -2806,13 +2507,8 @@ static __inline__ uint8_t __iCliRetVal(void)
     1488:	64 e0       	ldi	r22, 0x04	; 4
     148a:	19 95       	eicall
     148c:	09 c0       	rjmp	.+18     	; 0x14a0 <Driver_RunTaskAxes+0x4c>
-				} 
-				else																/* jeœli pobrany element dotyczy osi z serwem			*/
-				{
-					servo_driver_t *svdt = (servo_driver_t*)toRun->ToRunDriver;		/* pobierz driver do uruchomienia						*/
     148e:	89 81       	ldd	r24, Y+1	; 0x01
     1490:	9a 81       	ldd	r25, Y+2	; 0x02
-					svdt->Start(svdt, TC_CLKSEL_DIV8_gc);							/* uruchom driver										*/
     1492:	dc 01       	movw	r26, r24
     1494:	1c 96       	adiw	r26, 0x0c	; 12
     1496:	ed 91       	ld	r30, X+
@@ -2820,56 +2516,21 @@ static __inline__ uint8_t __iCliRetVal(void)
     149a:	1d 97       	sbiw	r26, 0x0d	; 13
     149c:	64 e0       	ldi	r22, 0x04	; 4
     149e:	19 95       	eicall
-				}
-				toRun->ToRunDriver = NULL;											/* zerowanie wskaŸnika									*/
     14a0:	19 82       	std	Y+1, r1	; 0x01
     14a2:	1a 82       	std	Y+2, r1	; 0x02
-				free(toRun);														/* zwalnianie pamiêci									*/
     14a4:	ce 01       	movw	r24, r28
     14a6:	0e 94 0b 0f 	call	0x1e16	; 0x1e16 <free>
-	if(drvToRunList->Tail != NULL)													/* jeœli lista osi do uruchomienia nie jest pusta		*/
-	{
-		to_run_drv_t *toRun;														/* element pobrany z listy								*/
-		ATOMIC_BLOCK(ATOMIC_FORCEON)												/* wykonaj poni¿sze instrukcje ATOMOWO					*/
-		{
-			while (drvToRunList->Tail)												/* pêtla wykonywana do opró¿nienia listy osi			*/
     14aa:	80 91 86 20 	lds	r24, 0x2086	; 0x802086 <drvToRunList>
     14ae:	90 91 87 20 	lds	r25, 0x2087	; 0x802087 <drvToRunList+0x1>
     14b2:	fc 01       	movw	r30, r24
     14b4:	22 81       	ldd	r18, Z+2	; 0x02
     14b6:	33 81       	ldd	r19, Z+3	; 0x03
-void Driver_RunTaskAxes(void)
-{
-	if(drvToRunList->Tail != NULL)													/* jeœli lista osi do uruchomienia nie jest pusta		*/
-	{
-		to_run_drv_t *toRun;														/* element pobrany z listy								*/
-		ATOMIC_BLOCK(ATOMIC_FORCEON)												/* wykonaj poni¿sze instrukcje ATOMOWO					*/
     14b8:	40 e0       	ldi	r20, 0x00	; 0
-		{
-			while (drvToRunList->Tail)												/* pêtla wykonywana do opró¿nienia listy osi			*/
     14ba:	23 2b       	or	r18, r19
     14bc:	c1 f6       	brne	.-80     	; 0x146e <Driver_RunTaskAxes+0x1a>
-void Driver_RunTaskAxes(void)
-{
-	if(drvToRunList->Tail != NULL)													/* jeœli lista osi do uruchomienia nie jest pusta		*/
-	{
-		to_run_drv_t *toRun;														/* element pobrany z listy								*/
-		ATOMIC_BLOCK(ATOMIC_FORCEON)												/* wykonaj poni¿sze instrukcje ATOMOWO					*/
     14be:	41 11       	cpse	r20, r1
     14c0:	f4 cf       	rjmp	.-24     	; 0x14aa <Driver_RunTaskAxes+0x56>
-    return 1;
-}
-
-static __inline__ void __iSeiParam(const uint8_t *__s)
-{
-    sei();
     14c2:	78 94       	sei
-				toRun->ToRunDriver = NULL;											/* zerowanie wskaŸnika									*/
-				free(toRun);														/* zwalnianie pamiêci									*/
-			}
-		};
-	}
-}
     14c4:	df 91       	pop	r29
     14c6:	cf 91       	pop	r28
     14c8:	08 95       	ret

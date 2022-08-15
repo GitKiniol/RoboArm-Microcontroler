@@ -308,6 +308,17 @@ void Driver_FreeStepper(void *driver)
 	drv->DriverPort->OUTSET = (0<<drv->EnablePin);					/* luzowanie silnika				*/
 }
 
+void Driver_FreeAxes(void)
+{
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
+	{
+		axisA->Free(axisA);											/* luzowanie silnika osi A			*/
+		axisB->Free(axisB);											/* luzowanie silnika osi B			*/
+		axisC->Free(axisC);											/* luzowanie silnika osi C			*/
+		axisZ->Free(axisZ);											/* luzowanie silnika osi Z			*/
+	}
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
