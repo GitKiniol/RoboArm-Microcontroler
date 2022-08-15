@@ -74,7 +74,7 @@ void Work_RunRobot(void)
 void Work_StopRobot(void)
 {
 	Work_TimerStop(RunTaskTimer);												/* zatrzymanie timera														*/
-	Driver_StopRobot();															/* zatrzymanie robota														*/
+	Driver_EmergencyStop();														/* zatrzymanie robota														*/
 }
 
 void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
@@ -113,6 +113,13 @@ void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 
 ISR(TCF0_OVF_vect)
 {
-	Work_TimerStop(&TCF0);
-	Work_RunTask(Job, &HC05_SendStatus);
+	static uint16_t x = 0;
+	if (x >= 32000 || x == 0)
+	{
+		IsTaskInProgress = 0;
+		Work_TimerStop(&TCF0);
+		Work_RunTask(Job, &HC05_SendStatus);
+		x = 1;
+	}
+	x++;
 }

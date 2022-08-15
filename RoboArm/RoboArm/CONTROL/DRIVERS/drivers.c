@@ -349,8 +349,15 @@ void Driver_EmergencyStop(void)
 
 
 /*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/
+/* axis Z*/
 ISR(TCC1_OVF_vect)
 {
-	
+	axisZ->CurrentPosition++;
+	if (axisZ->CurrentPosition >= (axisZ->SetpointPosition * 2))
+	{
+		axisZ->Stop(axisZ);
+		axisZ->CurrentPosition = 0;
+		TCF0.CTRLA = TC_CLKSEL_DIV1024_gc;
+	}
 }
 /*------------------------------------------------------------------------------------------------------------------------------*/
