@@ -137,6 +137,9 @@ void Driver_FreeStepper(void *driver);
 
 void Driver_FreeAxes(void);
 
+void Driver_StopRobot(void);
+
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 

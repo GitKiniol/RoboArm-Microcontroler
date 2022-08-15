@@ -319,6 +319,17 @@ void Driver_FreeAxes(void)
 	}
 }
 
+void Driver_StopRobot(void)
+{
+	ATOMIC_BLOCK(ATOMIC_FORCEON)
+	{
+		axisA->Stop(axisA);											/* zatrzymanie silnika osi A		*/
+		axisB->Stop(axisB);											/* zatrzymanie silnika osi B		*/
+		axisC->Stop(axisC);											/* zatrzymanie silnika osi C		*/
+		axisZ->Stop(axisZ);											/* zatrzymanie silnika osi Z		*/
+	}
+}
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
