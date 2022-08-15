@@ -86,7 +86,7 @@ void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 	} 
 	if (IsTaskInProgress || IsParametersOk)										/* jeœli zadanie jest ju¿ uruchomione lub pobranie parametrów ok, to:		*/								
 	{
-		//Drivers_RunDrivers();													/* uruchomienie driverów													*/
+		Driver_RunTaskAxes();													/* uruchomienie driverów													*/
 		IsJobInProgress = 1;
 		IsTaskInProgress = 1;
 	}

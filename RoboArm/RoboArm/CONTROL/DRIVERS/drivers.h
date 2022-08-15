@@ -44,6 +44,7 @@ typedef struct STEPPER_DRIVER_STRUCT
 	uint8_t Speed;								/* prêdkoœæ zadana dla silnika	[obr/min]														*/
 	void(*Start)(void*, uint8_t);				/* wskaŸnik do funkcji uruchamiaj¹cej driver													*/
 	void(*Stop)(void*);							/* wskaŸnik do funkcji zatrzymuj¹cej driver														*/
+	void(*Free)(void*);							/* wskaŸnik na funkcjê luzuj¹c¹ silnik															*/
 	uint16_t (*Convert)(uint8_t, void*);		/* wskaŸnik do funkcji konwertuj¹cej k¹t na liczbê impulsów										*/
 	
 }stepper_driver_t;
@@ -132,6 +133,7 @@ to_run_drv_t *Driver_ToRunListGet(to_run_list_t *list);
 
 void Driver_RunTaskAxes(void);
 
+void Driver_FreeStepper(void *driver);
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 

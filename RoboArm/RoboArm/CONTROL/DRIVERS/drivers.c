@@ -67,6 +67,7 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 	/* ustawienie wskaŸników na funkcje */
 	driver->Start = &Driver_StartStepperDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
 	driver->Stop = &Driver_StopStepperDriver;							/* ustawienie wskaŸnika na funkcjê stop						*/
+	driver->Free = &Driver_FreeStepper;									/* ustawienie wskaŸnika na funkcjê luzuj¹c¹ silnik			*/
 	driver->Convert = &Driver_ConvertAngleToStep;						/* ustawienie wskaŸnika na funkcjê convert					*/
 	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	return driver;
@@ -299,6 +300,12 @@ void Driver_RunTaskAxes(void)
 			}
 		};
 	}
+}
+
+void Driver_FreeStepper(void *driver)
+{
+	stepper_driver_t *drv = (stepper_driver_t*)driver;
+	drv->DriverPort->OUTSET = (0<<drv->EnablePin);					/* luzowanie silnika				*/
 }
 
 /*----------------------------------------------------------------------------------------------------------------------------------*/
