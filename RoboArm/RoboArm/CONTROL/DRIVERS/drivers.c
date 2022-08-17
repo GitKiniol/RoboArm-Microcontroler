@@ -28,9 +28,17 @@ to_run_list_t *drvToRunList;							/* lista driverów przydzielona do zadania				
 void Driver_AxisInit(void)
 {
 	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 1);	
+	axisA->MaximumPosition = axisA->Convert(90, axisA);
+	axisA->MinimumPosition = axisA->Convert(-90, axisA);
 	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 1);
+	axisB->MaximumPosition = axisB->Convert(90, axisB);
+	axisB->MinimumPosition = axisB->Convert(-90, axisB);
 	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 1);
+	axisC->MaximumPosition = axisC->Convert(90, axisC);
+	axisC->MinimumPosition = axisC->Convert(-90, axisC);
 	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 1);
+	axisZ->MaximumPosition = axisZ->Convert(90, axisZ);
+	axisZ->MinimumPosition = axisZ->Convert(-90, axisZ);
 	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
 	axisT = Driver_ServoDriverInit(axisT, &TCC0, &PORTC, 1);
 	
@@ -42,8 +50,8 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 	driver = (stepper_driver_t *)malloc(sizeof(stepper_driver_t));
 	driver->CurrentPosition = 0;
 	driver->SetpointPosition = 85;
-	driver->MaximumPosition = 90;
-	driver->MinimumPosition = -90;
+	driver->MaximumPosition = 0;
+	driver->MinimumPosition = 0;
 	driver->Direction = 0;
 	driver->EnablePin = 6;
 	driver->DirectionPin = 5;
@@ -345,6 +353,20 @@ void Driver_EmergencyStop(void)
 	Driver_FreeAxes();
 }
 
+void Driver_StepperTimerIsr(stepper_driver_t *driver)
+{
+	driver->Direction ? driver->CurrentPosition++ : driver->CurrentPosition--;		/* w zale¿noœci od kierunku obrotów, zwiêkszaj lub zmniejszaj wartoœæ pozycji aktualnej	*/
+	if (driver->CurrentPosition == driver->SetpointPosition || 
+		driver->CurrentPosition >= driver->MaximumPosition ||
+		driver->CurrentPosition <= driver->MinimumPosition)							/* jeœli osi¹gniêto pozycjê zadan¹ lub skrajn¹, to:										*/		
+	{
+		driver->Stop(driver);														/* zatrzymaj napêd																		*/			
+	}
+	if (!axisA->IsRunning && !axisB->IsRunning && !axisC->IsRunning && !axisZ->IsRunning)
+	{
+		TCF0.CTRLA = TC_CLKSEL_DIV1024_gc;
+	}
+}
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
@@ -352,12 +374,6 @@ void Driver_EmergencyStop(void)
 /* axis Z*/
 ISR(TCC1_OVF_vect)
 {
-	axisZ->CurrentPosition++;
-	if (axisZ->CurrentPosition >= (axisZ->SetpointPosition * 2))
-	{
-		axisZ->Stop(axisZ);
-		axisZ->CurrentPosition = 0;
-		TCF0.CTRLA = TC_CLKSEL_DIV1024_gc;
-	}
+	Driver_StepperTimerIsr(axisZ);
 }
 /*------------------------------------------------------------------------------------------------------------------------------*/

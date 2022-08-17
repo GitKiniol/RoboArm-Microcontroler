@@ -141,6 +141,8 @@ void Driver_StopRobot(void);
 
 void Driver_EmergencyStop(void);
 
+void Driver_StepperTimerIsr(stepper_driver_t *driver);
+
 /*--------------------------------------------------------------------------------------------------------------------------*/
 
 

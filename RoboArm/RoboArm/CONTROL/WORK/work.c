@@ -114,7 +114,7 @@ void Work_RunTask(list_t *joblist, uint8_t(*sendstatus)(char *))
 ISR(TCF0_OVF_vect)
 {
 	static uint16_t x = 0;
-	if (x >= 32000 || x == 0)
+	if (x >= 32000 || IsJobInProgress == 0)
 	{
 		IsTaskInProgress = 0;
 		Work_TimerStop(&TCF0);
