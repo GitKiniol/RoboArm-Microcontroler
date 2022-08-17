@@ -45,7 +45,7 @@ typedef struct STEPPER_DRIVER_STRUCT
 	void(*Start)(void*, uint8_t);				/* wskaŸnik do funkcji uruchamiaj¹cej driver													*/
 	void(*Stop)(void*);							/* wskaŸnik do funkcji zatrzymuj¹cej driver														*/
 	void(*Free)(void*);							/* wskaŸnik na funkcjê luzuj¹c¹ silnik															*/
-	uint16_t (*Convert)(uint8_t, void*);		/* wskaŸnik do funkcji konwertuj¹cej k¹t na liczbê impulsów										*/
+	int16_t (*Convert)(int8_t, void*);			/* wskaŸnik do funkcji konwertuj¹cej k¹t na liczbê impulsów										*/
 	
 }stepper_driver_t;
 
@@ -101,7 +101,7 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 
 servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin);
 
-uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver);
+int16_t Driver_ConvertAngleToStep(int8_t angle, void *driver);
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
 

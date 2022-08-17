@@ -96,7 +96,7 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	return driver;
 }
 
-uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
+int16_t Driver_ConvertAngleToStep(int8_t angle, void *driver)
 {
 	/* ca³kowita iloœæ impulsów na obrót									*/
 	float pulsesPerRev = 0.0;	
@@ -104,7 +104,7 @@ uint16_t Driver_ConvertAngleToStep(uint8_t angle, void *driver)
 	stepper_driver_t *drv = (stepper_driver_t *)driver;		
 	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/				
 	pulsesPerRev = drv->MotorSteps * drv->ElectricalRatio * drv->MechanicalRatio;		
-	return (uint16_t)((pulsesPerRev / 360) * angle);
+	return (int16_t)((pulsesPerRev / 360) * angle);
 }
 
 void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
