@@ -12,6 +12,7 @@
 #include <util/atomic.h>
 #include "drivers.h"
 #include "../../BLUETOOTH/DATA/data.h"
+#include "../WORK/work.h"
 
 /*-------------------------------------------Deklaracje zmiennych---------------------------------------------------------------*/
 /* EXTERN: */
@@ -362,18 +363,34 @@ void Driver_StepperTimerIsr(stepper_driver_t *driver)
 	{
 		driver->Stop(driver);														/* zatrzymaj napêd																		*/			
 	}
-	if (!axisA->IsRunning && !axisB->IsRunning && !axisC->IsRunning && !axisZ->IsRunning)
+	if (!axisA->IsRunning && !axisB->IsRunning && !axisC->IsRunning && !axisZ->IsRunning)	/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:					*/
 	{
-		TCF0.CTRLA = TC_CLKSEL_DIV1024_gc;
+		Work_TimerStart(RunTaskTimer);												/* uruchom kolejne zadanie, odbywa siê to poprzez uruchomienie timera taktuj¹cego		*/
 	}
 }
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/
 
 
-/*---------------------------------Przerwania driverów--------------------------------------------------------------------------*/
+/*---------------------------------Przerwania driverów------------------------------------------------------------------------------*/
 /* axis Z*/
 ISR(TCC1_OVF_vect)
 {
 	Driver_StepperTimerIsr(axisZ);
 }
-/*------------------------------------------------------------------------------------------------------------------------------*/
+
+ISR(TCD1_OVF_vect)
+{
+	Driver_StepperTimerIsr(axisC);
+}
+
+ISR(TCE1_OVF_vect)
+{
+	Driver_StepperTimerIsr(axisB);
+}
+
+ISR(TCF1_OVF_vect)
+{
+	Driver_StepperTimerIsr(axisA);
+}
+/*----------------------------------------------------------------------------------------------------------------------------------*/

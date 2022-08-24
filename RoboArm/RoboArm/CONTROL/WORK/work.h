@@ -25,6 +25,7 @@
 
 /*-------------------------------------------------Deklaracje zmiennych-------------------------------------------------------------------------*/
 /* EXTERN:	*/
+extern TC0_t *RunTaskTimer;										/* timer taktuj¹cy wykonywanie zadañ											*/
 
 /* LOCAL:	*/
 

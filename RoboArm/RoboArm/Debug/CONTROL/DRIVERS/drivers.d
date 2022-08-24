@@ -20,7 +20,9 @@ CONTROL/DRIVERS/drivers.d CONTROL/DRIVERS/drivers.o: \
  ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/data.h \
  ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/frame.h \
  ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h \
- ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h
+ ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h \
+ ../CONTROL/DRIVERS/../WORK/work.h \
+ ../CONTROL/DRIVERS/../WORK/../../BLUETOOTH/DATA/data.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -63,3 +65,7 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/../USART/usart.h:
 
 ../CONTROL/DRIVERS/../../BLUETOOTH/DATA/../FRAMES/../USART/BUFFER/buffer.h:
+
+../CONTROL/DRIVERS/../WORK/work.h:
+
+../CONTROL/DRIVERS/../WORK/../../BLUETOOTH/DATA/data.h:

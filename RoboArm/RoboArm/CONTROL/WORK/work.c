@@ -16,11 +16,11 @@
 
 /*-------------------------------------------Deklaracje zmiennych-------------------------------------------------------------------------------------------*/
 /* EXTERN: */
+TC0_t *RunTaskTimer = &TCF0;												/* timer taktuj¹cy wykonywanie zadañ											*/
 
 /* LOCAL:  */
 uint8_t IsJobInProgress = 0;												/* czy trwa wykonywanie pracy (sekwencji zadañ) ?								*/
 uint8_t IsTaskInProgress = 0;												/* czy trwa wykonywanie zadania ?												*/
-TC0_t *RunTaskTimer = &TCF0;												/* timer taktuj¹cy wykonywanie zadañ											*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
