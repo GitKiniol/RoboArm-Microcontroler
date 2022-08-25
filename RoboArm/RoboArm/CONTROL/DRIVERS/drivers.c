@@ -356,6 +356,14 @@ void Driver_EmergencyStop(void)
 
 void Driver_StepperTimerIsr(stepper_driver_t *driver)
 {
+	static uint8_t ar = 0;
+	static uint8_t br = 0;
+	static uint8_t cr = 0;
+	static uint8_t zr = 0;
+	ar = axisA->IsRunning;
+	br = axisB->IsRunning;
+	cr = axisC->IsRunning;
+	zr = axisZ->IsRunning;
 	driver->Direction ? driver->CurrentPosition++ : driver->CurrentPosition--;		/* w zale¿noœci od kierunku obrotów, zwiêkszaj lub zmniejszaj wartoœæ pozycji aktualnej	*/
 	if (driver->CurrentPosition == driver->SetpointPosition || 
 		driver->CurrentPosition >= driver->MaximumPosition ||
@@ -363,7 +371,7 @@ void Driver_StepperTimerIsr(stepper_driver_t *driver)
 	{
 		driver->Stop(driver);														/* zatrzymaj napêd																		*/			
 	}
-	if (!axisA->IsRunning && !axisB->IsRunning && !axisC->IsRunning && !axisZ->IsRunning)	/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:					*/
+	if (ar == 0 && br == 0 && cr== 0 && zr == 0)									/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
 	{
 		Work_TimerStart(RunTaskTimer);												/* uruchom kolejne zadanie, odbywa siê to poprzez uruchomienie timera taktuj¹cego		*/
 	}
