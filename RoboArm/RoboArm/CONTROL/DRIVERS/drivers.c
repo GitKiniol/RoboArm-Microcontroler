@@ -21,23 +21,23 @@
 stepper_driver_t *axisA, *axisB, *axisC, *axisZ;		/* osie napêdzane silnikami krokowymi									*/
 servo_driver_t *axisG, *axisT;							/* osie napêdzane silnikami serwo										*/
 to_run_list_t *drvToRunList;							/* lista driverów przydzielona do zadania								*/
-
+int16_t cp = 0, sp = 0, mi = 0, mx = 0;
 /*------------------------------------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------Definicje funkcji------------------------------------------------------------------*/
 
 void Driver_AxisInit(void)
 {
-	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 1);	
+	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 23);	
 	axisA->MaximumPosition = axisA->Convert(90, axisA);
 	axisA->MinimumPosition = axisA->Convert(-90, axisA);
-	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 1);
+	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 6);
 	axisB->MaximumPosition = axisB->Convert(90, axisB);
 	axisB->MinimumPosition = axisB->Convert(-90, axisB);
-	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 1);
+	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 6);
 	axisC->MaximumPosition = axisC->Convert(90, axisC);
 	axisC->MinimumPosition = axisC->Convert(-90, axisC);
-	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 1);
+	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 6);
 	axisZ->MaximumPosition = axisZ->Convert(90, axisZ);
 	axisZ->MinimumPosition = axisZ->Convert(-90, axisZ);
 	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
@@ -122,14 +122,14 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
 	//Fo = So / 60 * Ir				=> Obliczenie czêstotoliwoœci wyjœciowej na podstawie prêdkoœci i liczby impulsów
 	//CCA = (Fi / 2 * N * Fo) - 1	=> Obliczenie rejestru CCA na podstawie czêstotliwoœci wyjœciowej
 	//Sr - liczba kroków silnika
-	//Er - przek³adnia elektryczna(podzia³ kroku, ustawiany switchami)
+	//Er - przek³adnia elektryczna(podzia³ kroku, ustawiany switch'ami)
 	//Mr - prze³o¿enie mechaniczne wynikaj¹ce ze œrednic kó³ zêbatych
 	
 	float ir = 0.0;
 	float fo = 0.0;
 	ir = driver->MotorSteps * driver->ElectricalRatio * driver->MechanicalRatio;	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/
-	fo = (speed / 60) * ir;															/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
-	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * fo)) - 1);			/*obliczenie wartoœci rejestru timera									*/
+	fo = (speed / 60.0) * ir;															/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
+	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * 1000)) - 1);			/*obliczenie wartoœci rejestru timera									*/
 	
 }
 
@@ -216,7 +216,9 @@ void Driver_SetDriverParameters(move_t *move)
 void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
 {
 	Driver_SetStepperSpeed(driver, speed);												/* ustawienie prêdkoœci silnika				*/
-	driver->SetpointPosition = driver->Convert(angle, driver);							/* ustawienie pozycji zadanej				*/
+	dir ? 
+	(driver->SetpointPosition = driver->Convert((angle * -1), driver)) : 
+	(driver->SetpointPosition = driver->Convert(angle, driver));							/* ustawienie pozycji zadanej				*/
 	driver->Direction = dir;															/* ustawienie kierunku pracy				*/
 }
 
@@ -329,6 +331,10 @@ void Driver_FreeAxes(void)
 	ATOMIC_BLOCK(ATOMIC_FORCEON)
 	{
 		axisA->Free(axisA);											/* luzowanie silnika osi A			*/
+		axisA->CurrentPosition = 0;
+		axisB->CurrentPosition = 0;
+		axisC->CurrentPosition = 0;
+		axisZ->CurrentPosition = 0;
 		axisB->Free(axisB);											/* luzowanie silnika osi B			*/
 		axisC->Free(axisC);											/* luzowanie silnika osi C			*/
 		axisZ->Free(axisZ);											/* luzowanie silnika osi Z			*/
@@ -354,24 +360,29 @@ void Driver_EmergencyStop(void)
 	Driver_FreeAxes();
 }
 
+uint8_t Driver_IsAnyAxisRunning(void)
+{
+	uint8_t aar = axisA->IsRunning;
+	uint8_t abr = axisB->IsRunning;
+	uint8_t acr = axisC->IsRunning;
+	uint8_t azr = axisZ->IsRunning;
+	uint8_t sum;
+	sum = aar + abr + acr + azr;
+	return sum;
+}
+
 void Driver_StepperTimerIsr(stepper_driver_t *driver)
 {
-	static uint8_t ar = 0;
-	static uint8_t br = 0;
-	static uint8_t cr = 0;
-	static uint8_t zr = 0;
-	ar = axisA->IsRunning;
-	br = axisB->IsRunning;
-	cr = axisC->IsRunning;
-	zr = axisZ->IsRunning;
-	driver->Direction ? driver->CurrentPosition++ : driver->CurrentPosition--;		/* w zale¿noœci od kierunku obrotów, zwiêkszaj lub zmniejszaj wartoœæ pozycji aktualnej	*/
-	if (driver->CurrentPosition == driver->SetpointPosition || 
-		driver->CurrentPosition >= driver->MaximumPosition ||
-		driver->CurrentPosition <= driver->MinimumPosition)							/* jeœli osi¹gniêto pozycjê zadan¹ lub skrajn¹, to:										*/		
+	cp = driver->CurrentPosition;
+	sp = driver->SetpointPosition;
+	mi = driver->MinimumPosition;
+	mx = driver->MaximumPosition;
+	driver->Direction ? driver->CurrentPosition-- : driver->CurrentPosition++;		/* w zale¿noœci od kierunku obrotów, zwiêkszaj lub zmniejszaj wartoœæ pozycji aktualnej	*/
+	if ((cp == sp) || (cp <= mi) || (cp >= mx))										/* jeœli osi¹gniêto pozycjê zadan¹ lub skrajn¹, to:										*/		
 	{
-		driver->Stop(driver);														/* zatrzymaj napêd																		*/			
+		driver->Stop(driver);				
 	}
-	if (ar == 0 && br == 0 && cr== 0 && zr == 0)									/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
+	if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
 	{
 		Work_TimerStart(RunTaskTimer);												/* uruchom kolejne zadanie, odbywa siê to poprzez uruchomienie timera taktuj¹cego		*/
 	}
