@@ -92,11 +92,14 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->MinimumPosition = 0;
 	driver->SetpointPosition = 0;
 	driver->PwmPin = pwmpin;
-	driver->DriverPort->DIRCLR = (1 << driver->PwmPin);
-	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;
-	driver->DriverTimer->CTRLB |= (1<<(7 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
-	driver->DriverTimer->INTCTRLB |= (1<<(1 + pwmpin));
+	driver->DriverPort->DIRSET = (1 << driver->PwmPin);					/* ustawienie pinu steruj¹cego serwem jako wejœcie (dziêki temu serwo jest od³¹czone	*/
+	if(driver->PwmPin == 0) driver->DriverTimer->CCA = 3150;			/* ustawienie serwa w pozycji wyjœciowej					*/
+	else driver->DriverTimer->CCB = 2300;								/* ustawienie serwa w pozycji wyjœciowej					*/
+	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;					/* ustawienie trybu timera na PWM Dual Slope				*/
+	driver->DriverTimer->CTRLB |= (1<<(5 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
+	driver->DriverTimer->INTCTRLB |= (1<<(1 + (2 * pwmpin)));			/* odblokowanie przerwania COMPARE or CAPTURE				*/
 	driver->DriverTimer->PER = 40000;									/* ustawienie czêstotliwoœci pwm na 50Hz					*/
+	driver->DriverTimer->CTRLA = (1<<2);								/* ustawienie preskalera i uruchomienie timera				*/
 	driver->Start = &Driver_StartServoDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
 	driver->Stop = &Driver_StopServoDriver;								/* ustawienie wskaŸnika na funkcjê stop						*/
 	driver->Convert = &Driver_ConvertAngleToPwm;						/* ustawienie wskaŸnika na funkcjê convert					*/
@@ -152,9 +155,15 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 void Driver_StartServoDriver(void *driver, uint8_t preskaler)
 {
 	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
-	drv->DriverTimer->CTRLA = preskaler;							/* uruchomienie timera							*/
 	drv->IsRunning = 1;												/* driver uruchomiony							*/
-	drv->DriverPort->DIRSET = (1 << drv->PwmPin);					/* odblokowanie pinu pwm						*/
+	if(drv->PwmPin == 0)
+	{
+		drv->DriverTimer->CCA = drv->SetpointPosition;				/* ustawienie serwa G w zadanej pozycji			*/
+	}
+	else
+	{
+		drv->DriverTimer->CCB = drv->SetpointPosition;				/* ustawienie serwa T w zadanej pozycji			*/
+	}					
 }
 
 void Driver_StopStepperDriver(void *driver)
@@ -412,4 +421,16 @@ ISR(TCF1_OVF_vect)
 {
 	Driver_StepperTimerIsr(axisA);
 }
+
+ISR(TCC0_CCA_vect)
+{
+	
+}
+
+ISR(TCC0_CCB_vect)
+{
+	
+}
+
+
 /*----------------------------------------------------------------------------------------------------------------------------------*/

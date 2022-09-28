@@ -20,7 +20,7 @@
 #include "CONTROL/WORK/work.h"
 #include "CONTROL/DRIVERS/drivers.h"
 
-TWI_t *lcdBus = &TWIC;
+TWI_t *lcdBus = &TWIE;
 
 int main(void)
 {
