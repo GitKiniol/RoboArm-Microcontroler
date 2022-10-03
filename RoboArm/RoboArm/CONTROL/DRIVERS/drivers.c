@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <avr/interrupt.h>
 #include <util/atomic.h>
+#include <util/delay.h>
 #include "drivers.h"
 #include "../../BLUETOOTH/DATA/data.h"
 #include "../WORK/work.h"
@@ -92,7 +93,7 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->MinimumPosition = 0;
 	driver->SetpointPosition = 0;
 	driver->PwmPin = pwmpin;
-	driver->DriverPort->DIRSET = (1 << driver->PwmPin);					/* ustawienie pinu steruj¹cego serwem jako wejœcie (dziêki temu serwo jest od³¹czone	*/
+	driver->DriverPort->DIRCLR = (1 << driver->PwmPin);					/* ustawienie pinu steruj¹cego serwem jako wejœcie (dziêki temu serwo jest od³¹czone	*/
 	if(driver->PwmPin == 0) driver->DriverTimer->CCA = 2300;			/* ustawienie serwa w pozycji wyjœciowej					*/
 	else driver->DriverTimer->CCB = 2300;								/* ustawienie serwa w pozycji wyjœciowej					*/
 	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;					/* ustawienie trybu timera na PWM Dual Slope				*/
@@ -155,6 +156,7 @@ void Driver_StartStepperDriver(void *driver, uint8_t preskaler)
 void Driver_StartServoDriver(void *driver, uint8_t preskaler)
 {
 	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
+	drv->DriverPort->DIRSET = (1 << drv->PwmPin);
 	drv->IsRunning = 1;												/* driver uruchomiony							*/
 	if(drv->PwmPin == 0)
 	{
@@ -176,6 +178,7 @@ void Driver_StopStepperDriver(void *driver)
 void Driver_StopServoDriver(void *driver)
 {
 	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
+	drv->DriverPort->DIRSET = (1 << drv->PwmPin);
 	drv->IsRunning = 0;												/* driver zatrzymany							*/
 	if(drv->PwmPin == 0)											/* jeœli zatrzymywany driver to oœ G, to:		*/
 	{
@@ -187,6 +190,8 @@ void Driver_StopServoDriver(void *driver)
 		drv->SetpointPosition = 2300;								/* ustaw wartoœæ zadan¹ na pozycjê wyjœciow¹	*/
 		drv->DriverTimer->CCB = drv->SetpointPosition;				/* przekrêæ oœ na pozycjê zadan¹ (wyjœciow¹)	*/
 	}
+	_delay_ms(1000);
+	drv->DriverPort->DIRCLR = (1 << drv->PwmPin);
 }
 
 uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
@@ -438,6 +443,7 @@ ISR(TCC0_CCA_vect)
 		if(g > 25)
 		{
 			axisG->IsRunning = 0;
+			axisG->DriverPort->DIRCLR = (1 << axisG->PwmPin);
 			g = 0;
 		}
 		if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
@@ -456,6 +462,7 @@ ISR(TCC0_CCB_vect)
 		if(t > 25)
 		{
 			axisT->IsRunning = 0;
+			axisT->DriverPort->DIRCLR = (1 << axisT->PwmPin);
 			t = 0;
 		}
 		if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
