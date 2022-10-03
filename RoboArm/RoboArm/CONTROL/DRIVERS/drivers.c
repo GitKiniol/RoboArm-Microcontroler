@@ -93,17 +93,17 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	driver->SetpointPosition = 0;
 	driver->PwmPin = pwmpin;
 	driver->DriverPort->DIRSET = (1 << driver->PwmPin);					/* ustawienie pinu steruj¹cego serwem jako wejœcie (dziêki temu serwo jest od³¹czone	*/
-	if(driver->PwmPin == 0) driver->DriverTimer->CCA = 3150;			/* ustawienie serwa w pozycji wyjœciowej					*/
+	if(driver->PwmPin == 0) driver->DriverTimer->CCA = 2300;			/* ustawienie serwa w pozycji wyjœciowej					*/
 	else driver->DriverTimer->CCB = 2300;								/* ustawienie serwa w pozycji wyjœciowej					*/
 	driver->DriverTimer->CTRLB |= TC_WGMODE_DS_T_gc;					/* ustawienie trybu timera na PWM Dual Slope				*/
 	driver->DriverTimer->CTRLB |= (1<<(5 - pwmpin));					/* przekazanie sterowania pinem do timer sprzêtowego		*/
-	driver->DriverTimer->INTCTRLB |= (1<<(1 + (2 * pwmpin)));			/* odblokowanie przerwania COMPARE or CAPTURE				*/
+	driver->DriverTimer->INTCTRLB |= (1<<(0 + (2 * pwmpin)));			/* odblokowanie przerwania COMPARE or CAPTURE				*/
 	driver->DriverTimer->PER = 40000;									/* ustawienie czêstotliwoœci pwm na 50Hz					*/
 	driver->DriverTimer->CTRLA = (1<<2);								/* ustawienie preskalera i uruchomienie timera				*/
 	driver->Start = &Driver_StartServoDriver;							/* ustawienie wskaŸnika na funkcjê start					*/
 	driver->Stop = &Driver_StopServoDriver;								/* ustawienie wskaŸnika na funkcjê stop						*/
 	driver->Convert = &Driver_ConvertAngleToPwm;						/* ustawienie wskaŸnika na funkcjê convert					*/
-	PMIC.CTRL |= PMIC_MEDLVLEN_bm;
+	PMIC.CTRL |= PMIC_LOLVLEN_bm;
 	
 	return driver;
 }
@@ -177,10 +177,15 @@ void Driver_StopServoDriver(void *driver)
 {
 	servo_driver_t *drv = (servo_driver_t*)driver;					/* konwersja typu parametru						*/
 	drv->IsRunning = 0;												/* driver zatrzymany							*/
-	drv->DriverPort->DIRCLR = (1<<drv->PwmPin);						/* zablokowanie pinu pwm						*/
-	if(axisT->IsRunning == 0 && axisG->IsRunning == 0)				/* jeœli servosterowniki zakoñczy³y pracê, to:	*/
+	if(drv->PwmPin == 0)											/* jeœli zatrzymywany driver to oœ G, to:		*/
 	{
-		drv->DriverTimer->CTRLA = TC_CLKSEL_OFF_gc;					/* zatrzymanie timera							*/
+		drv->SetpointPosition = 2300;								/* ustaw wartoœæ zadan¹ na pozycjê wyjœciow¹	*/
+		drv->DriverTimer->CCA = drv->SetpointPosition;				/* przekrêæ oœ na pozycjê zadan¹ (wyjœciow¹)	*/
+	}
+	else															/* jeœli zatrzymywany driver to oœ T, to:		*/
+	{
+		drv->SetpointPosition = 2300;								/* ustaw wartoœæ zadan¹ na pozycjê wyjœciow¹	*/
+		drv->DriverTimer->CCB = drv->SetpointPosition;				/* przekrêæ oœ na pozycjê zadan¹ (wyjœciow¹)	*/
 	}
 }
 
@@ -375,8 +380,10 @@ uint8_t Driver_IsAnyAxisRunning(void)
 	uint8_t abr = axisB->IsRunning;
 	uint8_t acr = axisC->IsRunning;
 	uint8_t azr = axisZ->IsRunning;
+	uint8_t agr = axisG->IsRunning;
+	uint8_t agt = axisT->IsRunning;
 	uint8_t sum;
-	sum = aar + abr + acr + azr;
+	sum = aar + abr + acr + azr + agt + agr;
 	return sum;
 }
 
@@ -424,12 +431,38 @@ ISR(TCF1_OVF_vect)
 
 ISR(TCC0_CCA_vect)
 {
-	
+	static uint8_t g = 0;
+	if (axisG->IsRunning)
+	{
+		g++;
+		if(g > 25)
+		{
+			axisG->IsRunning = 0;
+			g = 0;
+		}
+		if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
+		{
+			Work_TimerStart(RunTaskTimer);												/* uruchom kolejne zadanie, odbywa siê to poprzez uruchomienie timera taktuj¹cego		*/
+		}
+	}
 }
 
 ISR(TCC0_CCB_vect)
 {
-	
+	if (axisT->IsRunning)
+	{
+		static uint8_t t = 0;
+		t++;
+		if(t > 25)
+		{
+			axisT->IsRunning = 0;
+			t = 0;
+		}
+		if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
+		{
+			Work_TimerStart(RunTaskTimer);												/* uruchom kolejne zadanie, odbywa siê to poprzez uruchomienie timera taktuj¹cego		*/
+		}
+	}
 }
 
 
