@@ -21,7 +21,7 @@
 typedef struct MOVE_STRUCT										/* struktura zawiera parametry ruchu pojedynczej osi									*/
 {
 	char AxisName;												/* literka oznaczaj¹ca oœ: Z,A,B,C,G lub T												*/
-	uint8_t Angle;												/* k¹t obrotu osi 0° - 90°																*/
+	int16_t Angle;												/* k¹t obrotu osi 0° - 90°																*/
 	uint8_t Speed;												/* prêdkoœæ obrotowa osi 0% - 100%														*/
 	uint8_t Direction : 1;										/* kierunek obrotów osi 1 - prawo, 0 - lewo												*/
 }move_t;
@@ -52,7 +52,7 @@ extern list_t *Job;												/* lista zadañ utworzona z danych odebranych prze
 
 /*---------------------------------------------------Deklaracje funkcji---------------------------------------------------------------------------------*/
 
-move_t *Data_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir);	/* funkcja alokuje pamiêæ dla struktury typu Move						*/
+move_t *Data_CreateMove(char axis, int16_t angle, uint8_t speed, uint8_t dir);	/* funkcja alokuje pamiêæ dla struktury typu Move						*/
 
 list_element_t *Data_CreateListElement(void *data, void *next);					/* funkcja alokuje pamiêæ dla elementu listy							*/
 

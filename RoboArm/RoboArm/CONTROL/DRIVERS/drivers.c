@@ -30,17 +30,17 @@ int16_t cp = 0, sp = 0, mi = 0, mx = 0;
 void Driver_AxisInit(void)
 {
 	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 23);	
-	axisA->MaximumPosition = axisA->Convert(90, axisA);
-	axisA->MinimumPosition = axisA->Convert(-90, axisA);
-	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 6);
-	axisB->MaximumPosition = axisB->Convert(90, axisB);
-	axisB->MinimumPosition = axisB->Convert(-90, axisB);
-	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 6);
-	axisC->MaximumPosition = axisC->Convert(90, axisC);
-	axisC->MinimumPosition = axisC->Convert(-90, axisC);
+	axisA->MaximumPosition = axisA->Convert(50, axisA);
+	axisA->MinimumPosition = axisA->Convert(-50, axisA);
+	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 8);
+	axisB->MaximumPosition = axisB->Convert(304, axisB);
+	axisB->MinimumPosition = axisB->Convert(-304, axisB);
+	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 8);
+	axisC->MaximumPosition = axisC->Convert(220, axisC);
+	axisC->MinimumPosition = axisC->Convert(-220, axisC);
 	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 6);
-	axisZ->MaximumPosition = axisZ->Convert(90, axisZ);
-	axisZ->MinimumPosition = axisZ->Convert(-90, axisZ);
+	axisZ->MaximumPosition = axisZ->Convert(180, axisZ);
+	axisZ->MinimumPosition = axisZ->Convert(-180, axisZ);
 	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
 	axisT = Driver_ServoDriverInit(axisT, &TCC0, &PORTC, 1);
 	
@@ -109,7 +109,7 @@ servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, POR
 	return driver;
 }
 
-int16_t Driver_ConvertAngleToStep(int8_t angle, void *driver)
+int16_t Driver_ConvertAngleToStep(int16_t angle, void *driver)
 {
 	/* ca³kowita iloœæ impulsów na obrót									*/
 	float pulsesPerRev = 0.0;	
@@ -194,7 +194,7 @@ void Driver_StopServoDriver(void *driver)
 	drv->DriverPort->DIRCLR = (1 << drv->PwmPin);
 }
 
-uint16_t Driver_ConvertAngleToPwm(uint8_t angle)
+uint16_t Driver_ConvertAngleToPwm(int16_t angle)
 {
 	return (uint16_t)((angle * 18.88) + 2300);						/* przeliczanie k¹ta na wartoœæ rejestru timera	*/
 }
@@ -232,16 +232,16 @@ void Driver_SetDriverParameters(move_t *move)
 	}
 }
 
-void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir)
+void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, int16_t angle, uint8_t dir)
 {
 	Driver_SetStepperSpeed(driver, speed);												/* ustawienie prêdkoœci silnika				*/
 	dir ? 
 	(driver->SetpointPosition = driver->Convert((angle * -1), driver)) : 
-	(driver->SetpointPosition = driver->Convert(angle, driver));							/* ustawienie pozycji zadanej				*/
+	(driver->SetpointPosition = driver->Convert(angle, driver));						/* ustawienie pozycji zadanej				*/
 	driver->Direction = dir;															/* ustawienie kierunku pracy				*/
 }
 
-void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle)
+void Driver_SetServoParameters(servo_driver_t *driver, int16_t angle)
 {
 	driver->SetpointPosition = driver->Convert(angle);									/* ustawienie pozycji zadanej serva			*/
 }
@@ -399,9 +399,10 @@ void Driver_StepperTimerIsr(stepper_driver_t *driver)
 	mi = driver->MinimumPosition;
 	mx = driver->MaximumPosition;
 	driver->Direction ? driver->CurrentPosition-- : driver->CurrentPosition++;		/* w zale¿noœci od kierunku obrotów, zwiêkszaj lub zmniejszaj wartoœæ pozycji aktualnej	*/
-	if ((cp == sp) || (cp <= mi) || (cp >= mx))										/* jeœli osi¹gniêto pozycjê zadan¹ lub skrajn¹, to:										*/		
+	if ((cp == sp) || (cp < mi) || (cp > mx))										/* jeœli osi¹gniêto pozycjê zadan¹ lub skrajn¹, to:										*/		
 	{
-		driver->Stop(driver);				
+		driver->Stop(driver);														/* zatrzymanie pracuj¹cej osi															*/
+		driver->CurrentPosition = 0;												/* wyzerowanie pozycji																	*/				
 	}
 	if (!Driver_IsAnyAxisRunning())													/* sprawdzenie czy jeszcze pracuje któraœ z osi, jeœli nie to:							*/
 	{

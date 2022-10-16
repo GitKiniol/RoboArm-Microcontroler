@@ -45,7 +45,7 @@ typedef struct STEPPER_DRIVER_STRUCT
 	void(*Start)(void*, uint8_t);				/* wskaünik do funkcji uruchamiajπcej driver													*/
 	void(*Stop)(void*);							/* wskaünik do funkcji zatrzymujπcej driver														*/
 	void(*Free)(void*);							/* wskaünik na funkcjÍ luzujπcπ silnik															*/
-	int16_t (*Convert)(int8_t, void*);			/* wskaünik do funkcji konwertujπcej kπt na liczbÍ impulsÛw										*/
+	int16_t (*Convert)(int16_t, void*);			/* wskaünik do funkcji konwertujπcej kπt na liczbÍ impulsÛw										*/
 	
 }stepper_driver_t;
 
@@ -62,7 +62,7 @@ typedef struct SERVO_DRIVER_STRUCT
 	uint8_t IsRunning:1;						/* flaga informujπca o pracy/zatrzymaniu sterownika												*/
 	void(*Start)(void*, uint8_t);				/* wskaünik do funkcji uruchamiajπcej driver													*/
 	void(*Stop)(void*);							/* wskaünik do funkcji zatrzymujπcej driver														*/
-	uint16_t (*Convert)(uint8_t);				/* wskaünik do funkcji konwertujπcej kπt na wartoúÊ rejestru wype≥nienie impulsu PWM			*/
+	uint16_t (*Convert)(int16_t);				/* wskaünik do funkcji konwertujπcej kπt na wartoúÊ rejestru wype≥nienie impulsu PWM			*/
 
 }servo_driver_t;
 
@@ -101,17 +101,17 @@ stepper_driver_t *Driver_StepperDriverInit(stepper_driver_t *driver, TC1_t *time
 
 servo_driver_t *Driver_ServoDriverInit(servo_driver_t *driver, TC0_t *timer, PORT_t *port, uint8_t pwmpin);
 
-int16_t Driver_ConvertAngleToStep(int8_t angle, void *driver);
+int16_t Driver_ConvertAngleToStep(int16_t angle, void *driver);
 
-uint16_t Driver_ConvertAngleToPwm(uint8_t angle);
+uint16_t Driver_ConvertAngleToPwm(int16_t angle);
 
 void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed);
 
 void Driver_SetDriverParameters(move_t *move);
 
-void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, uint8_t angle, uint8_t dir);
+void Driver_SetStepperParameters(stepper_driver_t *driver, uint8_t speed, int16_t angle, uint8_t dir);
 
-void Driver_SetServoParameters(servo_driver_t *driver, uint8_t angle);
+void Driver_SetServoParameters(servo_driver_t *driver, int16_t angle);
 
 void Driver_StartStepperDriver(void *driver, uint8_t preskaler);
 

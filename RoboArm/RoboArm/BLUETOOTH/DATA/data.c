@@ -18,7 +18,7 @@ list_t *Job;														/* lista zadañ utworzona z danych odebranych przez blu
 
 /*-------------------------------------------Definicje funkcji----------------------------------------------------------------------------------------------*/
 
-move_t *Data_CreateMove(char axis, uint8_t angle, uint8_t speed, uint8_t dir)
+move_t *Data_CreateMove(char axis, int16_t angle, uint8_t speed, uint8_t dir)
 {
 	move_t *ptrMove;																/* deklaracja wskaŸnika na ruch											*/
 	ptrMove = (move_t *)malloc(sizeof(move_t));										/* alokacja pamiêci dla wskaŸnika na ruch								*/
