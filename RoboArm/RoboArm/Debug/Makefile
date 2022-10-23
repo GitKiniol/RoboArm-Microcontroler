@@ -61,6 +61,7 @@ C_SRCS +=  \
 ../CONTROL/WORK/work.c \
 ../HMI/DISPLAY/fonts.c \
 ../HMI/DISPLAY/oled_SSD1306.c \
+../HMI/MENU/menu.c \
 ../HMI/TWI_BUS/twi.c \
 ../main.c \
 ../SYS_CLOCK/sysclock.c
@@ -82,6 +83,7 @@ CONTROL/DRIVERS/drivers.o \
 CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
 HMI/DISPLAY/oled_SSD1306.o \
+HMI/MENU/menu.o \
 HMI/TWI_BUS/twi.o \
 main.o \
 SYS_CLOCK/sysclock.o
@@ -96,6 +98,7 @@ CONTROL/DRIVERS/drivers.o \
 CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
 HMI/DISPLAY/oled_SSD1306.o \
+HMI/MENU/menu.o \
 HMI/TWI_BUS/twi.o \
 main.o \
 SYS_CLOCK/sysclock.o
@@ -110,6 +113,7 @@ CONTROL/DRIVERS/drivers.d \
 CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
 HMI/DISPLAY/oled_SSD1306.d \
+HMI/MENU/menu.d \
 HMI/TWI_BUS/twi.d \
 main.d \
 SYS_CLOCK/sysclock.d
@@ -124,6 +128,7 @@ CONTROL/DRIVERS/drivers.d \
 CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
 HMI/DISPLAY/oled_SSD1306.d \
+HMI/MENU/menu.d \
 HMI/TWI_BUS/twi.d \
 main.d \
 SYS_CLOCK/sysclock.d
@@ -199,6 +204,13 @@ HMI/DISPLAY/fonts.o: ../HMI/DISPLAY/fonts.c
 	
 
 HMI/DISPLAY/oled_SSD1306.o: ../HMI/DISPLAY/oled_SSD1306.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+HMI/MENU/menu.o: ../HMI/MENU/menu.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

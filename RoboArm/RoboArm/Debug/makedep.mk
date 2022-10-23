@@ -20,6 +20,8 @@ HMI\DISPLAY\fonts.c
 
 HMI\DISPLAY\oled_SSD1306.c
 
+HMI\MENU\menu.c
+
 HMI\TWI_BUS\twi.c
 
 main.c
