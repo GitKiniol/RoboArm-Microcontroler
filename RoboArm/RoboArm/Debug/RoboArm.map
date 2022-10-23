@@ -166,6 +166,16 @@ Discarded input sections
  .text.ssd1306DrawRectangle
                 0x00000000       0xae HMI/DISPLAY/oled_SSD1306.o
  COMMON         0x00000000      0x400 HMI/DISPLAY/oled_SSD1306.o
+ .text          0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .data          0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .bss           0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .debug_info    0x00000000       0x5d HMI/KEYBORD/keyboard.o
+ .debug_abbrev  0x00000000       0x26 HMI/KEYBORD/keyboard.o
+ .debug_aranges
+                0x00000000       0x18 HMI/KEYBORD/keyboard.o
+ .debug_line    0x00000000       0x1a HMI/KEYBORD/keyboard.o
+ .debug_str     0x00000000      0x1a8 HMI/KEYBORD/keyboard.o
+ .comment       0x00000000       0x31 HMI/KEYBORD/keyboard.o
  .text          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .data          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .bss           0x00000000        0x0 HMI/TWI_BUS/twi.o
@@ -328,6 +338,7 @@ LOAD CONTROL/DRIVERS/drivers.o
 LOAD CONTROL/WORK/work.o
 LOAD HMI/DISPLAY/fonts.o
 LOAD HMI/DISPLAY/oled_SSD1306.o
+LOAD HMI/KEYBORD/keyboard.o
 LOAD HMI/TWI_BUS/twi.o
 LOAD main.o
 LOAD SYS_CLOCK/sysclock.o
