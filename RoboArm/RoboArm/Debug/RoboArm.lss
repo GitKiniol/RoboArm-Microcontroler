@@ -3354,6 +3354,12 @@ static __inline__ void __iSeiParam(const uint8_t *__s)
     1cd2:	18 95       	reti
 
 00001cd4 <ssd1306SendCmdNoPar>:
+		for (; j < 128; j++)
+		{
+			ssd1306SendByte(twiModule, oledAddress, *data++);										/* wysy³aj dane									*/
+		}
+	}
+}
     1cd4:	1f 93       	push	r17
     1cd6:	cf 93       	push	r28
     1cd8:	df 93       	push	r29
@@ -3517,6 +3523,9 @@ static __inline__ void __iSeiParam(const uint8_t *__s)
     1e3e:	08 95       	ret
 
 00001e40 <ssd1306ClrScr>:
+
+void ssd1306ClrScr(TWI_t *twiModule, uint8_t patern)
+{
     1e40:	cf 92       	push	r12
     1e42:	df 92       	push	r13
     1e44:	ff 92       	push	r15
@@ -3526,24 +3535,46 @@ static __inline__ void __iSeiParam(const uint8_t *__s)
     1e4c:	df 93       	push	r29
     1e4e:	8c 01       	movw	r16, r24
     1e50:	f6 2e       	mov	r15, r22
+	
+	uint16_t i = 0;
     1e52:	c1 2c       	mov	r12, r1
     1e54:	d1 2c       	mov	r13, r1
+	uint16_t j = 0;
+	for(; i < 8; i++)
     1e56:	14 c0       	rjmp	.+40     	; 0x1e80 <ssd1306ClrScr+0x40>
+	{
+		ssd1306Locate(twiModule, 0, i);																/* ustaw kursor w wybranej pozycji				*/
     1e58:	4c 2d       	mov	r20, r12
     1e5a:	60 e0       	ldi	r22, 0x00	; 0
     1e5c:	c8 01       	movw	r24, r16
     1e5e:	0e 94 05 0f 	call	0x1e0a	; 0x1e0a <ssd1306Locate>
+		j = 0;
     1e62:	c0 e0       	ldi	r28, 0x00	; 0
     1e64:	d0 e0       	ldi	r29, 0x00	; 0
+		for(; j < 128; j++)
     1e66:	06 c0       	rjmp	.+12     	; 0x1e74 <ssd1306ClrScr+0x34>
+		{
+			ssd1306SendByte(twiModule, SSD1306_ADDR, patern);										/* zapis 0 do GDDRAM, czyszczenie ekranu		*/
     1e68:	4f 2d       	mov	r20, r15
     1e6a:	68 e7       	ldi	r22, 0x78	; 120
     1e6c:	c8 01       	movw	r24, r16
     1e6e:	0e 94 ef 0e 	call	0x1dde	; 0x1dde <ssd1306SendByte>
+	uint16_t j = 0;
+	for(; i < 8; i++)
+	{
+		ssd1306Locate(twiModule, 0, i);																/* ustaw kursor w wybranej pozycji				*/
+		j = 0;
+		for(; j < 128; j++)
     1e72:	21 96       	adiw	r28, 0x01	; 1
     1e74:	c0 38       	cpi	r28, 0x80	; 128
     1e76:	d1 05       	cpc	r29, r1
     1e78:	b8 f3       	brcs	.-18     	; 0x1e68 <ssd1306ClrScr+0x28>
+void ssd1306ClrScr(TWI_t *twiModule, uint8_t patern)
+{
+	
+	uint16_t i = 0;
+	uint16_t j = 0;
+	for(; i < 8; i++)
     1e7a:	8f ef       	ldi	r24, 0xFF	; 255
     1e7c:	c8 1a       	sub	r12, r24
     1e7e:	d8 0a       	sbc	r13, r24
@@ -3551,6 +3582,12 @@ static __inline__ void __iSeiParam(const uint8_t *__s)
     1e82:	c8 16       	cp	r12, r24
     1e84:	d1 04       	cpc	r13, r1
     1e86:	40 f3       	brcs	.-48     	; 0x1e58 <ssd1306ClrScr+0x18>
+		for(; j < 128; j++)
+		{
+			ssd1306SendByte(twiModule, SSD1306_ADDR, patern);										/* zapis 0 do GDDRAM, czyszczenie ekranu		*/
+		}
+	}	
+}
     1e88:	df 91       	pop	r29
     1e8a:	cf 91       	pop	r28
     1e8c:	1f 91       	pop	r17

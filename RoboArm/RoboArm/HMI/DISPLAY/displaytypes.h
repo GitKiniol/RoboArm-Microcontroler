@@ -55,21 +55,21 @@ typedef struct TitemsList							/* struktura opisuje listê elementów tekstowych	
 	t_item_t *tail;									/* wskaŸnik na ostatni element tekstowy														*/
 }t_itemsList_t;
 
-typedef struct Screen								/* struktura opisuje ekran wyœwietlacza														*/
-{
-	uint8_t ID;										/* numer identyfikacyjny ekranu																*/
-	g_itemsList_t *gItems;							/* wskaŸnik na listê elementów graficznych do wyœwietlenia na ekranie						*/
-	t_itemsList_t *tItems;							/* wskaŸnik na listê elementów tekstowych do wyœwietlenia na ekranie						*/
-	void *next;										/* wskaŸnik na nastêpny ekran																*/
-	void *previous;									/* wskaŸnik na poprzedni ekran																*/
-}screen_t;
-
-typedef struct ScreensList							/* struktura opisuje listê ekranów															*/
-{
-	screen_t *current;								/* wskaŸnik na aktualny ekran																*/
-	screen_t *head;									/* wskaŸnik na pierwszy ekran																*/
-	screen_t *tail;									/* wskaŸnik na ostatni ekran																*/
-}screensList_t;
+//typedef struct Screen								/* struktura opisuje ekran wyœwietlacza														*/
+//{
+	//uint8_t ID;										/* numer identyfikacyjny ekranu																*/
+	//g_itemsList_t *gItems;							/* wskaŸnik na listê elementów graficznych do wyœwietlenia na ekranie						*/
+	//t_itemsList_t *tItems;							/* wskaŸnik na listê elementów tekstowych do wyœwietlenia na ekranie						*/
+	//void *next;										/* wskaŸnik na nastêpny ekran																*/
+	//void *previous;									/* wskaŸnik na poprzedni ekran																*/
+//}screen_t;
+//
+//typedef struct ScreensList							/* struktura opisuje listê ekranów															*/
+//{
+	//screen_t *current;								/* wskaŸnik na aktualny ekran																*/
+	//screen_t *head;									/* wskaŸnik na pierwszy ekran																*/
+	//screen_t *tail;									/* wskaŸnik na ostatni ekran																*/
+//}screensList_t;
 
 
 //typedef struct List									/* struktura opisuje listê powi¹zan¹ w postaci ogólnej										*/

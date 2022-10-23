@@ -169,12 +169,12 @@ Discarded input sections
  .text          0x00000000        0x0 HMI/MENU/menu.o
  .data          0x00000000        0x0 HMI/MENU/menu.o
  .bss           0x00000000        0x0 HMI/MENU/menu.o
- .debug_info    0x00000000       0x5d HMI/MENU/menu.o
+ .debug_info    0x00000000       0x64 HMI/MENU/menu.o
  .debug_abbrev  0x00000000       0x26 HMI/MENU/menu.o
  .debug_aranges
                 0x00000000       0x18 HMI/MENU/menu.o
  .debug_line    0x00000000       0x1a HMI/MENU/menu.o
- .debug_str     0x00000000      0x1a1 HMI/MENU/menu.o
+ .debug_str     0x00000000      0x1a6 HMI/MENU/menu.o
  .comment       0x00000000       0x31 HMI/MENU/menu.o
  .text          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .data          0x00000000        0x0 HMI/TWI_BUS/twi.o
@@ -1247,11 +1247,11 @@ END GROUP
                                 0xc1a (size before relaxing)
  .debug_str     0x00003b0b      0x10a CONTROL/WORK/work.o
                                 0x6db (size before relaxing)
- .debug_str     0x00003c15      0x324 HMI/DISPLAY/oled_SSD1306.o
+ .debug_str     0x00003c15      0x38c HMI/DISPLAY/oled_SSD1306.o
                                 0x508 (size before relaxing)
- .debug_str     0x00003f39      0x1b4 HMI/TWI_BUS/twi.o
+ .debug_str     0x00003fa1      0x1b4 HMI/TWI_BUS/twi.o
                                 0x40e (size before relaxing)
- .debug_str     0x000040ed       0x8c main.o
+ .debug_str     0x00004155       0x24 main.o
                                 0x344 (size before relaxing)
  .debug_str     0x00004179      0x124 SYS_CLOCK/sysclock.o
                                 0x2de (size before relaxing)
