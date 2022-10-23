@@ -38,5 +38,3 @@ int main(void)
 		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
     }
 }
-
-
