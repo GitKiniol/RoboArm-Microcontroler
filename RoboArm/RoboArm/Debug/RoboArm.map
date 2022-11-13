@@ -1160,7 +1160,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0xa3c1
+.debug_info     0x00000000     0xa3c2
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x3e5a C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega128a1u/avrxmega7/crtatxmega128a1u.o
  .debug_info    0x00003e5a      0x718 BLUETOOTH/DATA/data.o
@@ -1168,12 +1168,12 @@ END GROUP
  .debug_info    0x00004b5e      0xb06 BLUETOOTH/HC05/hc05.o
  .debug_info    0x00005664      0x2a8 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_info    0x0000590c      0x61d BLUETOOTH/USART/usart.o
- .debug_info    0x00005f29     0x1e2f CONTROL/DRIVERS/drivers.o
- .debug_info    0x00007d58      0xaa9 CONTROL/WORK/work.o
- .debug_info    0x00008801     0x12de HMI/DISPLAY/oled_SSD1306.o
- .debug_info    0x00009adf      0x31a HMI/TWI_BUS/twi.o
- .debug_info    0x00009df9      0x3e2 main.o
- .debug_info    0x0000a1db      0x1e6 SYS_CLOCK/sysclock.o
+ .debug_info    0x00005f29     0x1e30 CONTROL/DRIVERS/drivers.o
+ .debug_info    0x00007d59      0xaa9 CONTROL/WORK/work.o
+ .debug_info    0x00008802     0x12de HMI/DISPLAY/oled_SSD1306.o
+ .debug_info    0x00009ae0      0x31a HMI/TWI_BUS/twi.o
+ .debug_info    0x00009dfa      0x3e2 main.o
+ .debug_info    0x0000a1dc      0x1e6 SYS_CLOCK/sysclock.o
 
 .debug_abbrev   0x00000000     0x4f17
  *(.debug_abbrev)
@@ -1219,7 +1219,7 @@ END GROUP
  .debug_frame   0x00000db8       0x24 main.o
  .debug_frame   0x00000ddc       0x34 SYS_CLOCK/sysclock.o
 
-.debug_str      0x00000000     0x4235
+.debug_str      0x00000000     0x429d
  *(.debug_str)
  .debug_str     0x00000000     0x2969 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.2.141/gcc/dev/atxmega128a1u/avrxmega7/crtatxmega128a1u.o
  .debug_str     0x00002969      0x384 BLUETOOTH/DATA/data.o
@@ -1232,17 +1232,17 @@ END GROUP
                                 0x277 (size before relaxing)
  .debug_str     0x000030b4      0x1a7 BLUETOOTH/USART/usart.o
                                 0x4f2 (size before relaxing)
- .debug_str     0x0000325b      0x8b0 CONTROL/DRIVERS/drivers.o
-                                0xc1a (size before relaxing)
- .debug_str     0x00003b0b      0x10a CONTROL/WORK/work.o
+ .debug_str     0x0000325b      0x918 CONTROL/DRIVERS/drivers.o
+                                0xc1e (size before relaxing)
+ .debug_str     0x00003b73      0x10a CONTROL/WORK/work.o
                                 0x6db (size before relaxing)
- .debug_str     0x00003c15      0x324 HMI/DISPLAY/oled_SSD1306.o
+ .debug_str     0x00003c7d      0x324 HMI/DISPLAY/oled_SSD1306.o
                                 0x508 (size before relaxing)
- .debug_str     0x00003f39      0x1b4 HMI/TWI_BUS/twi.o
+ .debug_str     0x00003fa1      0x1b4 HMI/TWI_BUS/twi.o
                                 0x40e (size before relaxing)
- .debug_str     0x000040ed       0x24 main.o
+ .debug_str     0x00004155       0x24 main.o
                                 0x340 (size before relaxing)
- .debug_str     0x00004111      0x124 SYS_CLOCK/sysclock.o
+ .debug_str     0x00004179      0x124 SYS_CLOCK/sysclock.o
                                 0x2de (size before relaxing)
 
 .debug_loc      0x00000000     0x3d31

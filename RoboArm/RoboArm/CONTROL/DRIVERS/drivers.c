@@ -30,8 +30,8 @@ int16_t cp = 0, sp = 0, mi = 0, mx = 0;
 void Driver_AxisInit(void)
 {
 	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 23);	
-	axisA->MaximumPosition = axisA->Convert(50, axisA);
-	axisA->MinimumPosition = axisA->Convert(-50, axisA);
+	axisA->MaximumPosition = axisA->Convert(220, axisA);
+	axisA->MinimumPosition = axisA->Convert(-220, axisA);
 	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 8);
 	axisB->MaximumPosition = axisB->Convert(304, axisB);
 	axisB->MinimumPosition = axisB->Convert(-304, axisB);
