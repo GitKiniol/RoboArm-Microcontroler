@@ -190,6 +190,43 @@ Discarded input sections
  .comment       0x00000000       0x31 HMI/DISPLAY/oled_SSD1306.o
  .debug_frame   0x00000000      0x3cc HMI/DISPLAY/oled_SSD1306.o
  COMMON         0x00000000      0x400 HMI/DISPLAY/oled_SSD1306.o
+ .text          0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .data          0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .bss           0x00000000        0x0 HMI/KEYBORD/keyboard.o
+ .debug_info    0x00000000       0x5d HMI/KEYBORD/keyboard.o
+ .debug_abbrev  0x00000000       0x26 HMI/KEYBORD/keyboard.o
+ .debug_aranges
+                0x00000000       0x18 HMI/KEYBORD/keyboard.o
+ .debug_line    0x00000000       0x1a HMI/KEYBORD/keyboard.o
+ .debug_str     0x00000000      0x1a8 HMI/KEYBORD/keyboard.o
+ .comment       0x00000000       0x31 HMI/KEYBORD/keyboard.o
+ .text          0x00000000        0x0 HMI/MENU/menu.o
+ .data          0x00000000        0x0 HMI/MENU/menu.o
+ .bss           0x00000000        0x0 HMI/MENU/menu.o
+ .text.Menu_ListInit
+                0x00000000       0x1a HMI/MENU/menu.o
+ .text.Menu_ListItemInit
+                0x00000000       0x22 HMI/MENU/menu.o
+ .text.Menu_MenuItemInit
+                0x00000000       0x46 HMI/MENU/menu.o
+ .text.Menu_AddToList
+                0x00000000       0x4c HMI/MENU/menu.o
+ .text.Menu_GetFromList
+                0x00000000       0x18 HMI/MENU/menu.o
+ .text.Menu_ListScrollDown
+                0x00000000       0x50 HMI/MENU/menu.o
+ .text.Menu_ListScrollUp
+                0x00000000       0x4c HMI/MENU/menu.o
+ .debug_info    0x00000000      0x540 HMI/MENU/menu.o
+ .debug_abbrev  0x00000000      0x1aa HMI/MENU/menu.o
+ .debug_loc     0x00000000      0x40b HMI/MENU/menu.o
+ .debug_aranges
+                0x00000000       0x50 HMI/MENU/menu.o
+ .debug_ranges  0x00000000       0x40 HMI/MENU/menu.o
+ .debug_line    0x00000000      0x277 HMI/MENU/menu.o
+ .debug_str     0x00000000      0x38e HMI/MENU/menu.o
+ .comment       0x00000000       0x31 HMI/MENU/menu.o
+ .debug_frame   0x00000000       0xc8 HMI/MENU/menu.o
  .text          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .data          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .bss           0x00000000        0x0 HMI/TWI_BUS/twi.o
@@ -370,6 +407,8 @@ LOAD CONTROL/DRIVERS/drivers.o
 LOAD CONTROL/WORK/work.o
 LOAD HMI/DISPLAY/fonts.o
 LOAD HMI/DISPLAY/oled_SSD1306.o
+LOAD HMI/KEYBORD/keyboard.o
+LOAD HMI/MENU/menu.o
 LOAD HMI/TWI_BUS/twi.o
 LOAD main.o
 LOAD SYS_CLOCK/sysclock.o

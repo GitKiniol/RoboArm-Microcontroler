@@ -218,6 +218,18 @@
     <Compile Include="HMI\DISPLAY\oled_SSD1306.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HMI\KEYBORD\keyboard.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HMI\KEYBORD\keyboard.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HMI\MENU\menu.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HMI\MENU\menu.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HMI\TWI_BUS\twi.c">
       <SubType>compile</SubType>
     </Compile>
