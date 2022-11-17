@@ -29,16 +29,17 @@ int16_t cp = 0, sp = 0, mi = 0, mx = 0;
 
 void Driver_AxisInit(void)
 {
-	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 8);	
+	axisA = Driver_StepperDriverInit(axisA, &TCF1, &PORTF, 200, 16, 3.1);	
 	axisA->MaximumPosition = axisA->Convert(220, axisA);
 	axisA->MinimumPosition = axisA->Convert(-220, axisA);
-	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 8);
+	//axisA->CurrentPosition = axisA->Convert(-110, axisA);
+	axisB = Driver_StepperDriverInit(axisB, &TCE1, &PORTE, 200, 16, 4.25);
 	axisB->MaximumPosition = axisB->Convert(304, axisB);
 	axisB->MinimumPosition = axisB->Convert(-304, axisB);
-	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 8);
+	axisC = Driver_StepperDriverInit(axisC, &TCD1, &PORTD, 200, 16, 4.25);
 	axisC->MaximumPosition = axisC->Convert(220, axisC);
 	axisC->MinimumPosition = axisC->Convert(-220, axisC);
-	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 6);
+	axisZ = Driver_StepperDriverInit(axisZ, &TCC1, &PORTC, 200, 16, 4.25);
 	axisZ->MaximumPosition = axisZ->Convert(180, axisZ);
 	axisZ->MinimumPosition = axisZ->Convert(-180, axisZ);
 	axisG = Driver_ServoDriverInit(axisG, &TCC0, &PORTC, 0);
@@ -133,7 +134,7 @@ void Driver_SetStepperSpeed(stepper_driver_t *driver, uint8_t speed)
 	float fo = 0.0;
 	ir = driver->MotorSteps * driver->ElectricalRatio * driver->MechanicalRatio;	/*ustalenie liczby impulsów sterownika programowego na obrót silnika	*/
 	fo = (speed / 60.0) * ir;															/*obliczenie czêstotliwoœci wyjœciowej sterownika programowego			*/
-	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * 1000)) - 1);			/*obliczenie wartoœci rejestru timera									*/
+	driver->DriverTimer->CCA = (uint16_t)((F_CPU / (2.0 * 8.0 * 500)) - 1);			/*obliczenie wartoœci rejestru timera									*/
 	
 }
 
