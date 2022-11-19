@@ -57,21 +57,26 @@ menu_item_t *Menu_MenuItemInit(label_t *name, label_t *value, uint8_t x, uint8_t
 
 void Menu_AddToList(loop_list_t *list, loop_item_t *item)
 {
-	if (list->Tail == NULL && list->Head == NULL)							/*sprawdzenie czy lista jest pusta, jeœli tak to:			*/
+	if (list->Tail == NULL && list->Head == NULL)							/*sprawdzenie czy lista jest pusta, jeœli tak to:										*/
 	{
-		list->Current = item;												/*ustaw wskaŸnik aktualnego elementu						*/
-		list->Head = item;													/*ustaw wskaŸnik na pocz¹tek listy							*/
-		list->Tail = item;													/*ustaw wskaŸnik na koniec listy							*/
-		item->Next = list->Tail;											/*ustawienie wskaŸnika na nastêpny element					*/
-		item->Prev = list->Head;											/*ustawienie wskaŸnika na poprzedni element					*/
-	} 
-	else																	/*jeœli lista nie jest pusta to:							*/
-	{
-		list->Head->Next = item;											/*ustawienie wskaŸnika na nastêpny element elementowi który aktualnie jest pierwszy*/
-		list->Head = item;													/*wstawienie elementu na pocz¹tek listy						*/
-		list->Current = list->Head;											/*ustawienie wskaŸnika na element aktualny listy			*/
+		list->Current = item;												/*ustaw wskaŸnik aktualnego elementu													*/
+		list->Head = item;													/*ustaw wskaŸnik na pocz¹tek listy														*/
+		list->Tail = item;													/*ustaw wskaŸnik na koniec listy														*/
+		list->Head->Next = list->Tail;										/*ustawienie pierwszemu elementowi listy wskaŸnika na nastêpny element					*/
+		list->Head->Prev = list->Tail;										/*ustawienie pierwszemu elementowi listy wskaŸnika na poprzedni element					*/
+		list->Tail->Next = list->Head;										/*ustawienie ostatniemu elementowi listy wskaŸnika na nastêpny element					*/
+		list->Tail->Prev = list->Head;										/*ustawienie ostatniemu elementowi listy wskaŸnika na poprzedni element					*/
 	}
-	list->Count++;															/*inkrementacja licznika elementów							*/
+	else																	/*jeœli lista nie jest pusta to:														*/
+	{
+		list->Head->Next = item;											/*ustawienie wskaŸnika na nastêpny element elementowi który aktualnie jest pierwszy		*/
+		item->Prev = list->Head;											/*ustawienie nowemu elementowi wskaŸnika na element poprzedzaj¹cy go					*/
+		item->Next = list->Tail;											/*ustawienie nowemu elementowi wskaŸnika na element nastêpny							*/
+		list->Tail->Prev = item;											/*ustawienie ostatniemu elementowi listy wskaŸnika na element poprzedzaj¹cy go			*/
+		list->Head = item;													/*wstawienie elementu na pocz¹tek listy													*/
+		list->Current = list->Head;											/*ustawienie wskaŸnika na element aktualny listy										*/
+	}
+	list->Count++;															/*inkrementacja licznika elementów														*/
 }
 
 loop_item_t *Menu_GetFromList(loop_list_t *list)
@@ -81,7 +86,6 @@ loop_item_t *Menu_GetFromList(loop_list_t *list)
 		return NULL;														/*zwrócenie pustego wskaŸnika								*/
 	}
 	loop_item_t *tempitem;													/*utworzenie elementu tymczasowego							*/
-	tempitem = (loop_item_t *)malloc(sizeof(loop_item_t));					/*alokacja pamiêci dla elementu tymczasowego				*/
 	tempitem = list->Current;												/*wykonanie kopi aktualnego elementu listy					*/
 	return tempitem;														/*zwrócenie wskaŸnika na pobrany element z listy			*/
 }
@@ -91,9 +95,7 @@ void Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu)
 	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
 	{
 		loop_item_t *templistitem;											/*tymczasowy element listy									*/
-		templistitem = (loop_item_t *)malloc(sizeof(loop_item_t));			/*alokacja pamiêci dla elementu tymczasowego				*/
 		menu_item_t *tempmenuitem;											/*tymczasowy element menu									*/
-		tempmenuitem = (menu_item_t *)malloc(sizeof(menu_item_t));			/*alokacja pamiêci dla tymczasowego elementu menu			*/
 		templistitem = Menu_GetFromList(list);								/*pobranie elementu z listy									*/
 		tempmenuitem = templistitem->Data;									/*pobranie elementu menu z elementu listy					*/
 		if (tempmenuitem->IsSelected.State)
@@ -112,9 +114,7 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
 	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
 	{
 		loop_item_t *templistitem;											/*tymczasowy element listy									*/
-		templistitem = (loop_item_t *)malloc(sizeof(loop_item_t));			/*alokacja pamiêci dla elementu tymczasowego				*/
 		menu_item_t *tempmenuitem;											/*tymczasowy element menu									*/
-		tempmenuitem = (menu_item_t *)malloc(sizeof(menu_item_t));			/*alokacja pamiêci dla tymczasowego elementu menu			*/
 		templistitem = Menu_GetFromList(list);								/*pobranie elementu z listy									*/
 		tempmenuitem = templistitem->Data;									/*pobranie elementu menu z elementu listy					*/
 		if (tempmenuitem->IsSelected.State)
