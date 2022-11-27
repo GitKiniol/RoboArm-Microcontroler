@@ -25,9 +25,9 @@ TWI_t *lcdBus = &TWIE;
 int main(void)
 {
 	ClkSys32MHz();							
-	//twiMasterInit(lcdBus, TWI_BAUDRATE);
-	//ssd1306Init(lcdBus);
-	//ssd1306ClrScr(lcdBus, 0xAA);
+	twiMasterInit(lcdBus, TWI_BAUDRATE);
+	ssd1306Init(lcdBus);
+	ssd1306ClrScr(lcdBus, 0xAA);
 	Driver_AxisInit();
 	Job = Data_CreateList();
 	Bluetooth = HC05_Init(Bluetooth);

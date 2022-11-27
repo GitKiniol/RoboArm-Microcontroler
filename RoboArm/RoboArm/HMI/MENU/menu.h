@@ -64,16 +64,16 @@ typedef struct STATUS_BAR_STRUCT								/*struktura opisuje pasek statusu							
 {
 	label_t *Message;											/*wiadomoœæ wyœwietlana na pasku											*/
 	loop_list_t *Icons;											/*lista ikon do wyœwietlenia na pasku										*/
-	void(*Show)();												/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy paska				*/
-	void(*Refresh)();											/*wskaŸnik na funkcjê która odœwie¿y pasek									*/
+	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy paska				*/
+	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y pasek									*/
 	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z paska							*/
 }status_bar_t;
 
 typedef struct MENU_SCREEN_STRUCT								/*struktura opisuje menu																	*/
 {
 	loop_list_t *Parameters;									/*lista zawiera parametry danego menu										*/
-	void(*Show)();												/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy menu				*/
-	void(*Refresh)();											/*wskaŸnik na funkcjê która odœwie¿y menu									*/
+	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy menu				*/
+	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y menu									*/
 	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z menu							*/
 	bool_t IsReadOnly;											/*zmienna informuje czy menu jest tylko do odczytu							*/
 }menu_screen_t;
