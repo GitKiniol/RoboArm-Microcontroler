@@ -98,5 +98,35 @@ void Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu);								/* prze
 
 void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);									/* przewijanie listy w górê									*/
 
+/* Obs³uga menu */
+
+label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, 
+							void (*show)(uint8_t, uint8_t, char*));								/* utworzenie labelki										*/
+
+icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y,
+							void (*show)(uint8_t, uint8_t, __memx const uint8_t *));			/* utworzenie ikony											*/
+							
+status_bar_t *Menu_CreateStatusBar(label_t *message, void (*show)(void *), 
+							void (*refresh)(void *), void (*clear)());							/* utworzenie paska statusu									*/
+							
+menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *),
+							void (*refresh)(void *), void (*clear)());							/* utworzenie menu											*/
+							
+void Menu_ShowLabel(char *txt, uint8_t x, uint8_t y);											/* wyœwietlenie labelki										*/
+
+void Menu_ShowIcon(__memx const uint8_t *img, uint8_t x, uint8_t y);							/* wyœwietlenie ikony										*/
+
+void Menu_ShowStatusBar(void *statusbar);														/* wyœwietlenie paska statusu								*/
+
+void Menu_ShowMenu(void *meuscreen);															/* wyœwietlenie menu										*/
+
+void Menu_ClearStatusBar(void);																	/* czyszczenie obszaru paska statusu						*/
+
+void Menu_ClearMenu(void);																		/* czyszczenie obszaru menu									*/
+
+void Menu_RefreshStatusBar(void *ststusbar);													/* odœwie¿anie paska statusu								*/
+
+void Menu_RefreshMenu(void *menuscreen);														/* odœwie¿anie menu											*/
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #endif /* MENU_H_ */
