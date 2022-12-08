@@ -18,6 +18,8 @@ CONTROL\WORK\work.c
 
 HMI\DISPLAY\fonts.c
 
+HMI\DISPLAY\graphics.c
+
 HMI\DISPLAY\oled_SSD1306.c
 
 HMI\KEYBORD\keyboard.c

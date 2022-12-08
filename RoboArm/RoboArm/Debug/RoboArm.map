@@ -103,39 +103,57 @@ Discarded input sections
  .text          0x00000000        0x0 HMI/DISPLAY/fonts.o
  .data          0x00000000        0x0 HMI/DISPLAY/fonts.o
  .bss           0x00000000        0x0 HMI/DISPLAY/fonts.o
- .progmemx.data.rotationLeftImg
-                0x00000000       0xae HMI/DISPLAY/fonts.o
- .progmemx.data.rotationRightImg
-                0x00000000       0xae HMI/DISPLAY/fonts.o
- .progmemx.data.arrowsImg
-                0x00000000       0x82 HMI/DISPLAY/fonts.o
- .progmemx.data.grappleOpenImg
-                0x00000000       0xae HMI/DISPLAY/fonts.o
- .progmemx.data.grappleClosedImg
-                0x00000000       0xae HMI/DISPLAY/fonts.o
- .progmemx.data.arrowRightImg
-                0x00000000        0xa HMI/DISPLAY/fonts.o
- .progmemx.data.arrowLeftImg
-                0x00000000        0xa HMI/DISPLAY/fonts.o
- .progmemx.data.arrowDownImg
-                0x00000000        0xa HMI/DISPLAY/fonts.o
- .progmemx.data.arrowUpImg
-                0x00000000        0xa HMI/DISPLAY/fonts.o
- .progmemx.data.clrScrImg
-                0x00000000      0x302 HMI/DISPLAY/fonts.o
- .progmemx.data.splashImg
-                0x00000000      0x282 HMI/DISPLAY/fonts.o
- .progmemx.data.lightingImg
-                0x00000000       0x22 HMI/DISPLAY/fonts.o
  .progmemx.data.font7x5
                 0x00000000      0x300 HMI/DISPLAY/fonts.o
- .debug_info    0x00000000      0x163 HMI/DISPLAY/fonts.o
- .debug_abbrev  0x00000000       0x4d HMI/DISPLAY/fonts.o
+ .debug_info    0x00000000       0x77 HMI/DISPLAY/fonts.o
+ .debug_abbrev  0x00000000       0x3c HMI/DISPLAY/fonts.o
  .debug_aranges
                 0x00000000       0x18 HMI/DISPLAY/fonts.o
  .debug_line    0x00000000       0x34 HMI/DISPLAY/fonts.o
- .debug_str     0x00000000      0x250 HMI/DISPLAY/fonts.o
+ .debug_str     0x00000000      0x1b2 HMI/DISPLAY/fonts.o
  .comment       0x00000000       0x31 HMI/DISPLAY/fonts.o
+ .text          0x00000000        0x0 HMI/DISPLAY/graphics.o
+ .data          0x00000000        0x0 HMI/DISPLAY/graphics.o
+ .bss           0x00000000        0x0 HMI/DISPLAY/graphics.o
+ .progmemx.data.rotationLeftImg
+                0x00000000       0xae HMI/DISPLAY/graphics.o
+ .progmemx.data.rotationRightImg
+                0x00000000       0xae HMI/DISPLAY/graphics.o
+ .progmemx.data.arrowsImg
+                0x00000000       0x82 HMI/DISPLAY/graphics.o
+ .progmemx.data.grappleOpenImg
+                0x00000000       0xae HMI/DISPLAY/graphics.o
+ .progmemx.data.grappleClosedImg
+                0x00000000       0xae HMI/DISPLAY/graphics.o
+ .progmemx.data.arrowRightImg
+                0x00000000        0xa HMI/DISPLAY/graphics.o
+ .progmemx.data.arrowLeftImg
+                0x00000000        0xa HMI/DISPLAY/graphics.o
+ .progmemx.data.arrowDownImg
+                0x00000000        0xa HMI/DISPLAY/graphics.o
+ .progmemx.data.arrowUpImg
+                0x00000000        0xa HMI/DISPLAY/graphics.o
+ .progmemx.data.clrScrImg
+                0x00000000      0x302 HMI/DISPLAY/graphics.o
+ .progmemx.data.splashImg
+                0x00000000      0x282 HMI/DISPLAY/graphics.o
+ .progmemx.data.lightingImg
+                0x00000000       0x22 HMI/DISPLAY/graphics.o
+ .progmemx.data.EmptyMenu
+                0x00000000      0x302 HMI/DISPLAY/graphics.o
+ .progmemx.data.EmptyStatus
+                0x00000000      0x102 HMI/DISPLAY/graphics.o
+ .progmemx.data.RunIcon
+                0x00000000       0x22 HMI/DISPLAY/graphics.o
+ .progmemx.data.EmptyIcon
+                0x00000000       0x22 HMI/DISPLAY/graphics.o
+ .debug_info    0x00000000      0x190 HMI/DISPLAY/graphics.o
+ .debug_abbrev  0x00000000       0x4d HMI/DISPLAY/graphics.o
+ .debug_aranges
+                0x00000000       0x18 HMI/DISPLAY/graphics.o
+ .debug_line    0x00000000       0x37 HMI/DISPLAY/graphics.o
+ .debug_str     0x00000000      0x26e HMI/DISPLAY/graphics.o
+ .comment       0x00000000       0x31 HMI/DISPLAY/graphics.o
  .text          0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
  .data          0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
  .bss           0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
@@ -193,16 +211,42 @@ Discarded input sections
                 0x00000000       0x50 HMI/MENU/menu.o
  .text.Menu_ListScrollUp
                 0x00000000       0x4c HMI/MENU/menu.o
- .debug_info    0x00000000      0x552 HMI/MENU/menu.o
- .debug_abbrev  0x00000000      0x1aa HMI/MENU/menu.o
- .debug_loc     0x00000000      0x40b HMI/MENU/menu.o
+ .text.Menu_CreateLabel
+                0x00000000       0x38 HMI/MENU/menu.o
+ .text.Menu_CreateIcon
+                0x00000000       0x3e HMI/MENU/menu.o
+ .text.Menu_CreateStatusBar
+                0x00000000       0x56 HMI/MENU/menu.o
+ .text.Menu_CreateMenu
+                0x00000000       0x56 HMI/MENU/menu.o
+ .rodata        0x00000000        0xc HMI/MENU/menu.o
+ .text.Menu_ShowLabel
+                0x00000000       0x9c HMI/MENU/menu.o
+ .text.Menu_ShowIcon
+                0x00000000       0x90 HMI/MENU/menu.o
+ .text.Menu_ShowStatusBar
+                0x00000000       0xa0 HMI/MENU/menu.o
+ .text.Menu_ShowMenu
+                0x00000000       0x9c HMI/MENU/menu.o
+ .text.Menu_ClearStatusBar
+                0x00000000       0x42 HMI/MENU/menu.o
+ .text.Menu_ClearMenu
+                0x00000000       0x42 HMI/MENU/menu.o
+ .text.Menu_RefreshStatusBar
+                0x00000000       0x1a HMI/MENU/menu.o
+ .text.Menu_RefreshMenu
+                0x00000000       0x1a HMI/MENU/menu.o
+ .data.TwiBus   0x00000000        0x2 HMI/MENU/menu.o
+ .debug_info    0x00000000      0xe51 HMI/MENU/menu.o
+ .debug_abbrev  0x00000000      0x31d HMI/MENU/menu.o
+ .debug_loc     0x00000000     0x107e HMI/MENU/menu.o
  .debug_aranges
-                0x00000000       0x50 HMI/MENU/menu.o
- .debug_ranges  0x00000000       0x40 HMI/MENU/menu.o
- .debug_line    0x00000000      0x295 HMI/MENU/menu.o
- .debug_str     0x00000000      0x38e HMI/MENU/menu.o
+                0x00000000       0xb0 HMI/MENU/menu.o
+ .debug_ranges  0x00000000       0xd0 HMI/MENU/menu.o
+ .debug_line    0x00000000      0x613 HMI/MENU/menu.o
+ .debug_str     0x00000000      0x690 HMI/MENU/menu.o
  .comment       0x00000000       0x31 HMI/MENU/menu.o
- .debug_frame   0x00000000       0xc8 HMI/MENU/menu.o
+ .debug_frame   0x00000000      0x308 HMI/MENU/menu.o
  .text          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .data          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .bss           0x00000000        0x0 HMI/TWI_BUS/twi.o
@@ -364,6 +408,7 @@ LOAD BLUETOOTH/USART/usart.o
 LOAD CONTROL/DRIVERS/drivers.o
 LOAD CONTROL/WORK/work.o
 LOAD HMI/DISPLAY/fonts.o
+LOAD HMI/DISPLAY/graphics.o
 LOAD HMI/DISPLAY/oled_SSD1306.o
 LOAD HMI/KEYBORD/keyboard.o
 LOAD HMI/MENU/menu.o

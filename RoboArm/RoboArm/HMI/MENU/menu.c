@@ -8,16 +8,21 @@
 
 #include <avr/io.h>
 #include <stdlib.h>
+#include "avr/pgmspace.h"
 #include "menu.h"
+#include "../DISPLAY/oled_SSD1306.h"
+#include "../DISPLAY/fonts.h"
+#include "../DISPLAY/graphics.h"
 
 /*---------------------------------------------------------Deklaracje zmiennych---------------------------------------------------------*/
 
 /*LOCAL:	*/
-
+TWI_t *TwiBus = &TWIE;
 
 /*--------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*---------------------------------------------------------Definicje funkcji------------------------------------------------------------*/
+/* Obs³uga listy danych:	*/
 
 loop_list_t *Menu_ListInit(void)
 {
@@ -126,6 +131,154 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
 		}
 		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/
 	}
+}
+
+/* Obs³uga menu */
+
+label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, char*, uint8_t))
+{
+	label_t *templabel;														/*deklaracja labelki										*/
+	templabel = (label_t *)malloc(sizeof(label_t));							/*alokacja pamiêci dla labelki								*/
+	templabel->X = x;														/*ustawienie pozycji poziomej								*/
+	templabel->Y = y;														/*ustawienie pozycji pionowej								*/
+	templabel->Text = txt;													/*przyporz¹dkowanie tekstu									*/
+	templabel->Show = show;													/*ustawienie wskaŸnika na funkcjê wyœwietlaj¹c¹ labelkê		*/
+	return templabel;														/*zwrócenie wskaŸnika na labelkê							*/
+}
+
+icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, __memx const uint8_t *))
+{
+	icon_t *tempicon;														/*deklaracja ikony											*/
+	tempicon = (icon_t *)malloc(sizeof(icon_t));							/*alokacja pamiêci dla ikony								*/
+	tempicon->X = x;														/*ustawienie pozycji poziomej								*/
+	tempicon->Y = y;														/*ustawienie pozycji pionowej								*/
+	tempicon->Image = img;													/*przyporz¹dkowanie obrazka ikony							*/
+	tempicon->Show = show;													/*ustawienie wskaŸnika na funkcjê wyœwietlaj¹c¹ ikonê		*/
+	return tempicon;														/*zwrócenie wskaŸnika na ikonê								*/
+}
+
+status_bar_t *Menu_CreateStatusBar(label_t *message, void (*show)(void *), void (*refresh)(void *), void (*clear)())
+{
+	status_bar_t *tempbar;													/*deklaracja paska statusu									*/
+	tempbar = (status_bar_t *)malloc(sizeof(status_bar_t));					/*alokacja pamiêci dla paska statusu						*/
+	tempbar->Icons = Menu_ListInit();										/*utworzenie listy ikon										*/
+	tempbar->Message = message;												/*ustawienie wskaŸnika na labelkê z wiadomoœci¹				*/
+	tempbar->Clear = clear;													/*ustawienie wskaŸnika na funkcjê czyszcz¹c¹ pasek statusu	*/
+	tempbar->Refresh = refresh;												/*ustawienie wskaŸnika na funkcjê odœwie¿aj¹c¹ pasek statusu*/
+	tempbar->Show = show;													/*ustawienie wskaŸnika na funkcjê wyœwietlaj¹c¹ pasek		*/
+	return tempbar;															/*zwrócenie wskaŸnika na pasek statusu						*/									
+}
+
+menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *), void (*refresh)(void *), void (*clear)())
+{
+	menu_screen_t *tempmenu;												/*deklaracja menu											*/
+	tempmenu = (menu_screen_t *)malloc(sizeof(menu_screen_t));				/*alokacja pamiêci dla menu									*/
+	tempmenu->Parameters = Menu_ListInit();									/*utworzenie listy parametrów								*/
+	tempmenu->IsReadOnly.State = isreadonly;								/*okreœlenie czy menu jest tylko do odczytu					*/
+	tempmenu->Clear = clear;												/*ustawienie wskaŸnika na funkcjê czyszcz¹c¹ menu			*/
+	tempmenu->Refresh = refresh;											/*ustawienie wskaŸnika na funkcjê odœwie¿aj¹c¹ menu			*/
+	tempmenu->Show = show;													/*ustawienie wskaŸnika na funkcjê wyœwietlaj¹c¹ menu		*/
+	return tempmenu;														/*zwrócenie wskaŸnika na menu								*/
+}
+
+void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select)
+{
+	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,32};				/*pusty ³añcuch 12 x "space"								*/
+	t_point_t labelpos;														/*zmienna okreœla pozycjê labelki na ekranie				*/
+	labelpos.X = x;															/*ustawienie pozycji X										*/
+	labelpos.Y = y;															/*ustawienie pozycji Y										*/
+	ssd1306WriteTxt(TwiBus, labelpos, font7x5, emptystring, 0);				/*czyszczenie miejsca pod napis z labelki					*/
+	ssd1306WriteTxt(TwiBus, labelpos, font7x5, txt, select);				/*wyœwietlenie napisu z labelki								*/			
+}
+
+void Menu_ShowIcon(uint8_t x, uint8_t y, __memx const uint8_t *img)
+{															
+	t_point_t iconpos;														/*zmienna okreœlaj¹ca pozycjê ikony							*/
+	iconpos.X = x;															/*ustawienie pozycji x										*/
+	iconpos.Y = y;															/*ustawienie pozycji y										*/
+	g_size_t iconsize;														/*zmienna okreœla rozmiar ikonki							*/
+	iconsize.height = EmptyIcon[1];											/*pobranie z obrazka informacji o jego wysokoœci			*/
+	iconsize.width = EmptyIcon[0];											/*pobranie z obrazka informacji o jego szerokoœci			*/
+	ssd1306FillAreaFromFlash(TwiBus, iconpos, iconsize, &EmptyIcon[2]);		/*czyszczenie miejsca pod ikonkê							*/
+	ssd1306FillAreaFromFlash(TwiBus, iconpos, iconsize, img);				/*wyœwietlenie ikonki										*/
+}
+
+void Menu_ShowStatusBar(void *statusbar)
+{
+	status_bar_t *status = (status_bar_t *)statusbar;						/*rzutowanie parametru typu void do typu status_bar_t		*/
+	if (status->Message->Text != NULL)										/*jeœli wiadomoœæ paska statusu nie jest pusta, to:			*/
+	{
+		label_t *label = status->Message;									/*pobierz wiadomoœæ z paska									*/
+		status->Message->Show(label->X, label->Y, label->Text, 0);			/*wyœwietl treœæ wiadomoœci									*/
+	}
+	if (status->Icons->Count != 0)											/*czy lista ikon zawiera elementy ? Jeœli tak, to:			*/
+	{
+		uint8_t i = 0;														/*deklaracja zmiennej iteracyjnej							*/
+		for (; i <= status->Icons->Count; i++)								/*iteracja po liœcie ikon									*/
+		{
+			loop_item_t *item = Menu_GetFromList(status->Icons);			/*pobierz element z listy									*/
+			icon_t *icon = item->Data;										/*pobierz ikonê z elementu listy							*/
+			status->Icons->Current = item->Prev;							/*przesuwanie wskaŸnika na poprzedni element				*/
+			icon->Show(icon->X, icon->Y, icon->Image);						/*wyœwietlenie ikony na pasku statusu						*/
+		}
+		status->Icons->Current = status->Icons->Head;						/*przesuñ wskaŸnik bie¿¹cego elementu na wartoœæ domyœl¹	*/
+	}
+}
+
+void Menu_ShowMenu(void *menuscreen)
+{
+	menu_screen_t *menu = (menu_screen_t*)menuscreen;						/*rzutowanie parametru na typ menu_screen_t					*/
+	if (menu->Parameters->Count > 0)										/*czy lista parametrów zawiera elementy? jeœli tak, to:		*/
+	{
+		uint8_t i = 0;														/*deklaracja zmiennej iteracyjnej							*/
+		for (; i <= menu->Parameters->Count; i++)							/*iteracja po liœcie parametrów								*/
+		{
+			loop_item_t *litem = Menu_GetFromList(menu->Parameters);		/*pobranie elementu listy									*/
+			menu_item_t *mitem = litem->Data;								/*pobranie elementu menu z elementu listy					*/
+			menu->Parameters->Current = litem->Prev;						/*przesuniêcie wskaŸnika na poprzedni element listy			*/
+			label_t *nlabel = mitem->Name;									/*pobranie labelki z nazw¹ parametru						*/
+			label_t *vlabel = mitem->Value;									/*pobranie labelki z wartoœci¹ parametru					*/
+			nlabel->Show(nlabel->X, nlabel->Y, nlabel->Text, mitem->IsSelected.State);			/*wyœwietlenie labelki z nazw¹			*/
+			vlabel->Show(vlabel->X, vlabel->Y, vlabel->Text, 0);								/*wyœwietlenie labelki z wartoœci¹		*/
+		}
+		menu->Parameters->Current = menu->Parameters->Head;					/*przesuñ wskaŸnik bie¿¹cego elementu na wartoœæ domyœl¹	*/		
+	}
+}
+
+void Menu_ClearStatusBar(void)
+{
+	t_point_t clrpos;														/*pozycja pocz¹tku czyszczenia paska statusu				*/
+	clrpos.X = 0;															/*okreœlenie pozycji x										*/
+	clrpos.Y = 0;															/*okreœlenie pozycji y										*/
+	g_size_t clrsize;														/*zmienna okreœla obszar czyszczenia						*/
+	clrsize.height = EmptyStatus[0];										/*wysokoœæ czyszczenia (2 wiersze)							*/
+	clrsize.width = EmptyStatus[1];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
+	ssd1306FillAreaFromFlash(TwiBus, clrpos, clrsize, &EmptyStatus[2]);		/*czyszczenie paska statusu									*/
+}
+
+void Menu_ClearMenu(void)
+{
+	t_point_t clrpos;														/*pozycja pocz¹tku czyszczenia pola menu					*/
+	clrpos.X = 0;															/*okreœlenie pozycji x										*/
+	clrpos.Y = 0;															/*okreœlenie pozycji y										*/
+	g_size_t clrsize;														/*zmienna okreœla obszar czyszczenia						*/
+	clrsize.height = EmptyMenu[0];											/*wysokoœæ czyszczenia (2 wiersze)							*/
+	clrsize.width = EmptyMenu[1];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
+	ssd1306FillAreaFromFlash(TwiBus, clrpos, clrsize, &EmptyMenu[2]);		/*czyszczenie pola menu										*/
+}
+
+void Menu_RefreshStatusBar(void *statusbar)
+{
+	status_bar_t *status = (status_bar_t *) statusbar;
+	status->Clear();
+	status->Show(status);
+}
+
+void Menu_RefreshMenu(void *menuscreen)
+{
+	status_bar_t *menu = (status_bar_t *) menuscreen;
+	menu->Clear();
+	menu->Show(menu);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------*/

@@ -212,6 +212,12 @@
     <Compile Include="HMI\DISPLAY\fonts.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="HMI\DISPLAY\graphics.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="HMI\DISPLAY\graphics.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="HMI\DISPLAY\oled_SSD1306.c">
       <SubType>compile</SubType>
     </Compile>

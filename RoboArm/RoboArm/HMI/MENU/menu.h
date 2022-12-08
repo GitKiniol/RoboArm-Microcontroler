@@ -15,67 +15,67 @@
 																																
 typedef struct BOOL_STRUCT										/*struktura opisuj¹ca typ danych "bool"														*/
 {
-	uint8_t State :1;											/*jedno bitowa zmienna okreœlaj¹ca stany 0-False i 1-True					*/
+	uint8_t State :1;											/*jedno bitowa zmienna okreœlaj¹ca stany 0-False i 1-True									*/
 }bool_t;
 
 typedef struct LABEL_STRUCT										/*struktura opisuj¹ca labelkê																*/
 {
-	char *Text;													/*wskaŸnik na adres w pamiêci pod którym zapisany jest tekst				*/
-	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)								*/
-	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)									*/
-	void(*Show)(uint8_t, uint8_t, char *);						/*wskaŸnik na funkcjê która wyœwietli tekst na ekranie						*/
-	/*          X        Y        text																										*/
+	char *Text;													/*wskaŸnik na adres w pamiêci pod którym zapisany jest tekst								*/
+	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
+	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
+	void(*Show)(uint8_t, uint8_t, char *, uint8_t);				/*wskaŸnik na funkcjê która wyœwietli tekst na ekranie										*/
+	/*          X        Y        text	  zaznaczenie																										*/
 }label_t;	
 
 typedef struct ICON_STRUCT										/*struktura opisuj¹ca ikonkê																*/
 {
-	__memx const uint8_t *Image;								/*wskaŸnik na adres w pamiêci flash pod którym zapisany jest obrazek		*/
-	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)								*/
-	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)									*/
-	void(*Show)(uint8_t, uint8_t, __memx const uint8_t *);		/*wskaŸnik na funkcjê która wyœwietli obraz na ekranie						*/
-	/*          X        Y        image																										*/
+	__memx const uint8_t *Image;								/*wskaŸnik na adres w pamiêci flash pod którym zapisany jest obrazek						*/
+	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
+	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
+	void(*Show)(uint8_t, uint8_t, __memx const uint8_t *);		/*wskaŸnik na funkcjê która wyœwietli obraz na ekranie										*/
+	/*          X        Y        image																														*/
 }icon_t;																														
 
 typedef struct MENU_ITEM_STRUCT									/*struktura opisuje element menu															*/
 {
-	label_t *Name;												/*nazwa parametru menu														*/
-	label_t *Value;												/*wartoœæ parametru															*/
-	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)								*/
-	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)									*/
-	bool_t IsSelected;											/*zmienna okreœla stan podœwietlenia wartoœci								*/																					
+	label_t *Name;												/*nazwa parametru menu																		*/
+	label_t *Value;												/*wartoœæ parametru																			*/
+	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
+	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
+	bool_t IsSelected;											/*zmienna okreœla stan podœwietlenia wartoœci												*/																					
 }menu_item_t;
 
 typedef struct LOOP_LIST_ITEM_STRUCT							/*struktura opisuje element listy typu 'loop'												*/
 {
-	void *Next;													/*wskaŸnik na kolejny element listy											*/
-	void *Prev;													/*wskaŸnik na poprzedni element listy										*/
-	void *Data;													/*wskaŸnik na dane b\ed\ace zawartoœci¹ tego elementu						*/	
+	void *Next;													/*wskaŸnik na kolejny element listy															*/
+	void *Prev;													/*wskaŸnik na poprzedni element listy														*/
+	void *Data;													/*wskaŸnik na dane b\ed\ace zawartoœci¹ tego elementu										*/	
 }loop_item_t;
 
 typedef struct LOOP_LIST_STRUCT									/*struktura opisuje listê typu 'loop'														*/
 {
-	loop_item_t *Head;											/*wskaŸnik na pocz¹tek listy(pierwszy wstawiony element)					*/
-	loop_item_t *Tail;											/*wskaŸnik na koniec listy(ostatni wstawiony element)						*/
-	loop_item_t *Current;										/*aktualny element listy													*/
-	uint8_t	Count;												/*licznik elementów listy													*/
+	loop_item_t *Head;											/*wskaŸnik na pocz¹tek listy(pierwszy wstawiony element)									*/
+	loop_item_t *Tail;											/*wskaŸnik na koniec listy(ostatni wstawiony element)										*/
+	loop_item_t *Current;										/*aktualny element listy																	*/
+	uint8_t	Count;												/*licznik elementów listy																	*/
 }loop_list_t;
 
 typedef struct STATUS_BAR_STRUCT								/*struktura opisuje pasek statusu															*/
 {
-	label_t *Message;											/*wiadomoœæ wyœwietlana na pasku											*/
-	loop_list_t *Icons;											/*lista ikon do wyœwietlenia na pasku										*/
-	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy paska				*/
-	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y pasek									*/
-	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z paska							*/
+	label_t *Message;											/*wiadomoœæ wyœwietlana na pasku															*/
+	loop_list_t *Icons;											/*lista ikon do wyœwietlenia na pasku														*/
+	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy paska								*/
+	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y pasek													*/
+	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z paska											*/
 }status_bar_t;
 
 typedef struct MENU_SCREEN_STRUCT								/*struktura opisuje menu																	*/
 {
-	loop_list_t *Parameters;									/*lista zawiera parametry danego menu										*/
-	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy menu				*/
-	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y menu									*/
-	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z menu							*/
-	bool_t IsReadOnly;											/*zmienna informuje czy menu jest tylko do odczytu							*/
+	loop_list_t *Parameters;									/*lista zawiera parametry danego menu														*/
+	void(*Show)(void *);										/*wskaŸnik na funkcjê która wyœwietli wszystkie elementy menu								*/
+	void(*Refresh)(void *);										/*wskaŸnik na funkcjê która odœwie¿y menu													*/
+	void(*Clear)();												/*wskaŸnik na funkcjê która usunie wszystko z menu											*/
+	bool_t IsReadOnly;											/*zmienna informuje czy menu jest tylko do odczytu											*/
 }menu_screen_t;
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
@@ -101,7 +101,7 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);									/* przew
 /* Obs³uga menu */
 
 label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, 
-							void (*show)(uint8_t, uint8_t, char*));								/* utworzenie labelki										*/
+							void (*show)(uint8_t, uint8_t, char*, uint8_t));					/* utworzenie labelki										*/
 
 icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y,
 							void (*show)(uint8_t, uint8_t, __memx const uint8_t *));			/* utworzenie ikony											*/
@@ -112,19 +112,19 @@ status_bar_t *Menu_CreateStatusBar(label_t *message, void (*show)(void *),
 menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *),
 							void (*refresh)(void *), void (*clear)());							/* utworzenie menu											*/
 							
-void Menu_ShowLabel(char *txt, uint8_t x, uint8_t y);											/* wyœwietlenie labelki										*/
+void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select);							/* wyœwietlenie labelki										*/
 
-void Menu_ShowIcon(__memx const uint8_t *img, uint8_t x, uint8_t y);							/* wyœwietlenie ikony										*/
+void Menu_ShowIcon(uint8_t x, uint8_t y, __memx const uint8_t *img);							/* wyœwietlenie ikony										*/
 
 void Menu_ShowStatusBar(void *statusbar);														/* wyœwietlenie paska statusu								*/
 
-void Menu_ShowMenu(void *meuscreen);															/* wyœwietlenie menu										*/
+void Menu_ShowMenu(void *menuscreen);															/* wyœwietlenie menu										*/
 
 void Menu_ClearStatusBar(void);																	/* czyszczenie obszaru paska statusu						*/
 
 void Menu_ClearMenu(void);																		/* czyszczenie obszaru menu									*/
 
-void Menu_RefreshStatusBar(void *ststusbar);													/* odœwie¿anie paska statusu								*/
+void Menu_RefreshStatusBar(void *statusbar);													/* odœwie¿anie paska statusu								*/
 
 void Menu_RefreshMenu(void *menuscreen);														/* odœwie¿anie menu											*/
 

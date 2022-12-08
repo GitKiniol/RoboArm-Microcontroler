@@ -60,6 +60,7 @@ C_SRCS +=  \
 ../CONTROL/DRIVERS/drivers.c \
 ../CONTROL/WORK/work.c \
 ../HMI/DISPLAY/fonts.c \
+../HMI/DISPLAY/graphics.c \
 ../HMI/DISPLAY/oled_SSD1306.c \
 ../HMI/KEYBORD/keyboard.c \
 ../HMI/MENU/menu.c \
@@ -83,6 +84,7 @@ BLUETOOTH/USART/usart.o \
 CONTROL/DRIVERS/drivers.o \
 CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
+HMI/DISPLAY/graphics.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/KEYBORD/keyboard.o \
 HMI/MENU/menu.o \
@@ -99,6 +101,7 @@ BLUETOOTH/USART/usart.o \
 CONTROL/DRIVERS/drivers.o \
 CONTROL/WORK/work.o \
 HMI/DISPLAY/fonts.o \
+HMI/DISPLAY/graphics.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/KEYBORD/keyboard.o \
 HMI/MENU/menu.o \
@@ -115,6 +118,7 @@ BLUETOOTH/USART/usart.d \
 CONTROL/DRIVERS/drivers.d \
 CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
+HMI/DISPLAY/graphics.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/KEYBORD/keyboard.d \
 HMI/MENU/menu.d \
@@ -131,6 +135,7 @@ BLUETOOTH/USART/usart.d \
 CONTROL/DRIVERS/drivers.d \
 CONTROL/WORK/work.d \
 HMI/DISPLAY/fonts.d \
+HMI/DISPLAY/graphics.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/KEYBORD/keyboard.d \
 HMI/MENU/menu.d \
@@ -202,6 +207,13 @@ CONTROL/WORK/work.o: ../CONTROL/WORK/work.c
 	
 
 HMI/DISPLAY/fonts.o: ../HMI/DISPLAY/fonts.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+HMI/DISPLAY/graphics.o: ../HMI/DISPLAY/graphics.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.2.141\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
