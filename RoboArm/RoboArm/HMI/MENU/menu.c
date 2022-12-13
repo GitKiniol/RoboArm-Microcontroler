@@ -55,8 +55,9 @@ menu_item_t *Menu_MenuItemInit(label_t *name, label_t *value, uint8_t x, uint8_t
 	tempitem->Y = y;														/*pozycja w pionie											*/
 	name->X = tempitem->X;													/*ustawienie pozycji x labelki z nazw¹						*/	
 	name->Y = tempitem->Y;													/*ustawienie pozycji y labelki z nazw¹						*/
-	value->X = tempitem->X + 50;											/*ustawienie pozycji x labelki z wartoœci¹					*/
-	value->Y = tempitem->Y;													/*ustawienie pozycji x labelki z wartoœci¹					*/		
+	value->X = tempitem->X + 64;											/*ustawienie pozycji x labelki z wartoœci¹					*/
+	value->Y = tempitem->Y;													/*ustawienie pozycji x labelki z wartoœci¹					*/	
+	tempitem->IsSelected.State = 1;											/*element domyœlnie nie jest zaznaczony						*/
 	return tempitem;														/*zwrócenie wskaŸnika na element							*/	
 }
 
@@ -183,11 +184,11 @@ menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *), void (*
 
 void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select)
 {
-	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,32};				/*pusty ³añcuch 12 x "space"								*/
+	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,0};				/*pusty ³añcuch 12 x "space"								*/
 	t_point_t labelpos;														/*zmienna okreœla pozycjê labelki na ekranie				*/
 	labelpos.X = x;															/*ustawienie pozycji X										*/
 	labelpos.Y = y;															/*ustawienie pozycji Y										*/
-	ssd1306WriteTxt(TwiBus, labelpos, font7x5, emptystring, 0);				/*czyszczenie miejsca pod napis z labelki					*/
+	ssd1306WriteTxt(TwiBus, labelpos, font7x5, emptystring, 1);				/*czyszczenie miejsca pod napis z labelki					*/
 	ssd1306WriteTxt(TwiBus, labelpos, font7x5, txt, select);				/*wyœwietlenie napisu z labelki								*/			
 }
 
@@ -200,7 +201,7 @@ void Menu_ShowIcon(uint8_t x, uint8_t y, __memx const uint8_t *img)
 	iconsize.height = EmptyIcon[1];											/*pobranie z obrazka informacji o jego wysokoœci			*/
 	iconsize.width = EmptyIcon[0];											/*pobranie z obrazka informacji o jego szerokoœci			*/
 	ssd1306FillAreaFromFlash(TwiBus, iconpos, iconsize, &EmptyIcon[2]);		/*czyszczenie miejsca pod ikonkê							*/
-	ssd1306FillAreaFromFlash(TwiBus, iconpos, iconsize, img);				/*wyœwietlenie ikonki										*/
+	ssd1306FillAreaFromFlash(TwiBus, iconpos, iconsize, &img[2]);			/*wyœwietlenie ikonki										*/
 }
 
 void Menu_ShowStatusBar(void *statusbar)
@@ -209,12 +210,12 @@ void Menu_ShowStatusBar(void *statusbar)
 	if (status->Message->Text != NULL)										/*jeœli wiadomoœæ paska statusu nie jest pusta, to:			*/
 	{
 		label_t *label = status->Message;									/*pobierz wiadomoœæ z paska									*/
-		status->Message->Show(label->X, label->Y, label->Text, 0);			/*wyœwietl treœæ wiadomoœci									*/
+		status->Message->Show(label->X, label->Y, label->Text, 1);			/*wyœwietl treœæ wiadomoœci									*/
 	}
 	if (status->Icons->Count != 0)											/*czy lista ikon zawiera elementy ? Jeœli tak, to:			*/
 	{
 		uint8_t i = 0;														/*deklaracja zmiennej iteracyjnej							*/
-		for (; i <= status->Icons->Count; i++)								/*iteracja po liœcie ikon									*/
+		for (; i < status->Icons->Count; i++)								/*iteracja po liœcie ikon									*/
 		{
 			loop_item_t *item = Menu_GetFromList(status->Icons);			/*pobierz element z listy									*/
 			icon_t *icon = item->Data;										/*pobierz ikonê z elementu listy							*/
@@ -231,7 +232,7 @@ void Menu_ShowMenu(void *menuscreen)
 	if (menu->Parameters->Count > 0)										/*czy lista parametrów zawiera elementy? jeœli tak, to:		*/
 	{
 		uint8_t i = 0;														/*deklaracja zmiennej iteracyjnej							*/
-		for (; i <= menu->Parameters->Count; i++)							/*iteracja po liœcie parametrów								*/
+		for (; i < menu->Parameters->Count; i++)							/*iteracja po liœcie parametrów								*/
 		{
 			loop_item_t *litem = Menu_GetFromList(menu->Parameters);		/*pobranie elementu listy									*/
 			menu_item_t *mitem = litem->Data;								/*pobranie elementu menu z elementu listy					*/
@@ -239,7 +240,7 @@ void Menu_ShowMenu(void *menuscreen)
 			label_t *nlabel = mitem->Name;									/*pobranie labelki z nazw¹ parametru						*/
 			label_t *vlabel = mitem->Value;									/*pobranie labelki z wartoœci¹ parametru					*/
 			nlabel->Show(nlabel->X, nlabel->Y, nlabel->Text, mitem->IsSelected.State);			/*wyœwietlenie labelki z nazw¹			*/
-			vlabel->Show(vlabel->X, vlabel->Y, vlabel->Text, 0);								/*wyœwietlenie labelki z wartoœci¹		*/
+			vlabel->Show(vlabel->X, vlabel->Y, vlabel->Text, 1);								/*wyœwietlenie labelki z wartoœci¹		*/
 		}
 		menu->Parameters->Current = menu->Parameters->Head;					/*przesuñ wskaŸnik bie¿¹cego elementu na wartoœæ domyœl¹	*/		
 	}
@@ -251,8 +252,8 @@ void Menu_ClearStatusBar(void)
 	clrpos.X = 0;															/*okreœlenie pozycji x										*/
 	clrpos.Y = 0;															/*okreœlenie pozycji y										*/
 	g_size_t clrsize;														/*zmienna okreœla obszar czyszczenia						*/
-	clrsize.height = EmptyStatus[0];										/*wysokoœæ czyszczenia (2 wiersze)							*/
-	clrsize.width = EmptyStatus[1];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
+	clrsize.height = EmptyStatus[1];										/*wysokoœæ czyszczenia (2 wiersze)							*/
+	clrsize.width = EmptyStatus[0];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
 	ssd1306FillAreaFromFlash(TwiBus, clrpos, clrsize, &EmptyStatus[2]);		/*czyszczenie paska statusu									*/
 }
 
@@ -260,10 +261,10 @@ void Menu_ClearMenu(void)
 {
 	t_point_t clrpos;														/*pozycja pocz¹tku czyszczenia pola menu					*/
 	clrpos.X = 0;															/*okreœlenie pozycji x										*/
-	clrpos.Y = 0;															/*okreœlenie pozycji y										*/
+	clrpos.Y = 2;															/*okreœlenie pozycji y										*/
 	g_size_t clrsize;														/*zmienna okreœla obszar czyszczenia						*/
-	clrsize.height = EmptyMenu[0];											/*wysokoœæ czyszczenia (2 wiersze)							*/
-	clrsize.width = EmptyMenu[1];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
+	clrsize.height = EmptyMenu[1];											/*wysokoœæ czyszczenia (2 wiersze)							*/
+	clrsize.width = EmptyMenu[0];											/*szerokoœæ czyszczenia (128 pixeli	)						*/
 	ssd1306FillAreaFromFlash(TwiBus, clrpos, clrsize, &EmptyMenu[2]);		/*czyszczenie pola menu										*/
 }
 
