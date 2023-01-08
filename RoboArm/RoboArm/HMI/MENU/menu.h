@@ -78,6 +78,15 @@ typedef struct MENU_SCREEN_STRUCT								/*struktura opisuje menu															
 	bool_t IsReadOnly;											/*zmienna informuje czy menu jest tylko do odczytu											*/
 }menu_screen_t;
 
+typedef struct PARAM_VALUE_STRUCT								/*struktura opisuj¹ca parametr																*/
+{
+	loop_list_t *Values;										/*lista wartoœci parametru																	*/
+	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
+	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
+	void(*Show)(uint8_t, uint8_t, char *, uint8_t);				/*wskaŸnik na funkcjê która wyœwietli tekst na ekranie										*/
+	/*          X        Y        text	  zaznaczenie																										*/
+}par_values_t;
+
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
 /*-------------------------------------------------deklaracja funkcji---------------------------------------------------------------------------------------*/
