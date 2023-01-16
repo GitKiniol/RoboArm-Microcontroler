@@ -147,6 +147,21 @@ label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, void (*show)(uint8_t,
 	return templabel;														/*zwrócenie wskaŸnika na labelkê							*/
 }
 
+par_values_t *Menu_CreateParameterValues(char **txt, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, char*, uint8_t))
+{
+	par_values_t *parametervalues;											/*deklaracja wartoœci dla parametru							*/
+	parametervalues = (par_values_t *)malloc(sizeof(par_values_t));			/*alokacja pamiêci dla wartoœci parametru					*/
+	loop_list_t *values;													/*deklaracja listy wartoœci									*/
+	values = Menu_ListInit();												/*inicjalizacja listy wartoœci								*/
+	loop_item_t *value;														/*deklaracja pojedynczej wartoœci							*/
+	while (*txt++)															/*jeœli lista tekstów nie jest pusta, to:					*/
+	{
+		value = Menu_ListItemInit((void *)**txt);									/*przypisz tekst do wartoœci								*/
+		Menu_AddToList(values, value);										/*dodaj wartoœæ do listy wartoœci							*/
+	}
+	return parametervalues;
+}
+
 icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, __memx const uint8_t *))
 {
 	icon_t *tempicon;														/*deklaracja ikony											*/

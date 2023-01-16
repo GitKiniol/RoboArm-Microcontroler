@@ -111,6 +111,9 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);									/* przew
 
 label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, 
 							void (*show)(uint8_t, uint8_t, char*, uint8_t));					/* utworzenie labelki										*/
+							
+par_values_t *Menu_CreateParameterValues(char **txt, uint8_t x, uint8_t y,
+							void (*show)(uint8_t, uint8_t, char*, uint8_t));
 
 icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y,
 							void (*show)(uint8_t, uint8_t, __memx const uint8_t *));			/* utworzenie ikony											*/
