@@ -36,15 +36,6 @@ typedef struct ICON_STRUCT										/*struktura opisuj¹ca ikonkê																
 	/*          X        Y        image																														*/
 }icon_t;																														
 
-typedef struct MENU_ITEM_STRUCT									/*struktura opisuje element menu															*/
-{
-	label_t *Name;												/*nazwa parametru menu																		*/
-	label_t *Value;												/*wartoœæ parametru																			*/
-	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
-	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
-	bool_t IsSelected;											/*zmienna okreœla stan podœwietlenia wartoœci												*/																					
-}menu_item_t;
-
 typedef struct LOOP_LIST_ITEM_STRUCT							/*struktura opisuje element listy typu 'loop'												*/
 {
 	void *Next;													/*wskaŸnik na kolejny element listy															*/
@@ -83,9 +74,18 @@ typedef struct PARAM_VALUE_STRUCT								/*struktura opisuj¹ca parametr									
 	loop_list_t *Values;										/*lista wartoœci parametru																	*/
 	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
 	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
-	void(*Show)(uint8_t, uint8_t, char *, uint8_t);				/*wskaŸnik na funkcjê która wyœwietli tekst na ekranie										*/
-	/*          X        Y        text	  zaznaczenie																										*/
+	void(*Show)(void *, uint8_t);								/*wskaŸnik na funkcjê która wyœwietli wartoœæ na ekranie									*/
+	/*          parameter	  zaznaczenie																													*/
 }par_values_t;
+
+typedef struct MENU_ITEM_STRUCT									/*struktura opisuje element menu															*/
+{
+	label_t *Name;												/*nazwa parametru menu																		*/
+	par_values_t *Value;										/*wartoœci parametru																		*/
+	uint8_t X;													/*pozycja w osi poziomej wyœwietlacza (0-127)												*/
+	uint8_t Y;													/*pozycja w osi pionowej wyœwietlacza (0-7)													*/
+	bool_t IsSelected;											/*zmienna okreœla stan podœwietlenia wartoœci												*/
+}menu_item_t;
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
@@ -97,7 +97,7 @@ loop_list_t *Menu_ListInit(void);																/* inicjalizacja listy									
 
 loop_item_t *Menu_ListItemInit(void *data);														/* inicjalizacje elementu listy								*/
 
-menu_item_t *Menu_MenuItemInit(label_t *name, label_t *value, uint8_t x, uint8_t y);			/* inicjalizacja elementu menu	(wiersz menu)				*/
+menu_item_t *Menu_MenuItemInit(label_t *name, par_values_t *value, uint8_t x, uint8_t y);		/* inicjalizacja elementu menu	(wiersz menu)				*/
 
 void Menu_AddToList(loop_list_t *list, loop_item_t *item);										/* wstawienie elementu do listy								*/
 
@@ -112,8 +112,8 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);									/* przew
 label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, 
 							void (*show)(uint8_t, uint8_t, char*, uint8_t));					/* utworzenie labelki										*/
 							
-par_values_t *Menu_CreateParameterValues(char **txt, uint8_t x, uint8_t y,
-							void (*show)(uint8_t, uint8_t, char*, uint8_t));
+par_values_t *Menu_CreateParameterValues(char **vtxt, uint8_t vcount, uint8_t x, uint8_t y,
+							void (*show)(void*, uint8_t));
 
 icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y,
 							void (*show)(uint8_t, uint8_t, __memx const uint8_t *));			/* utworzenie ikony											*/
@@ -125,6 +125,8 @@ menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *),
 							void (*refresh)(void *), void (*clear)());							/* utworzenie menu											*/
 							
 void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select);							/* wyœwietlenie labelki										*/
+
+void Menu_ShowParameterValue(void *parameter, uint8_t select);									/* wyœwietla wartoœæ parametru								*/
 
 void Menu_ShowIcon(uint8_t x, uint8_t y, __memx const uint8_t *img);							/* wyœwietlenie ikony										*/
 

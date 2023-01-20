@@ -22,7 +22,13 @@
 
 #include "HMI/MENU/menu.h"
 
-TWI_t *lcdBus = &TWIE;
+//TWI_t *lcdBus = &TWIE;
+
+char *parvalues[] = {"val1", "val2", "val3"};
+char *v1;
+char *v2;
+char *v3;
+par_values_t *vvalues;
 
 int main(void)
 {
@@ -33,6 +39,8 @@ int main(void)
 	//Driver_AxisInit();
 	//Job = Data_CreateList();
 	//Bluetooth = HC05_Init(Bluetooth);
+	v1 = *parvalues;
+	vvalues = Menu_CreateParameterValues(parvalues, 3, 3, 3, &Menu_ShowParameterValue);
 	
 	sei();
     while (1) 

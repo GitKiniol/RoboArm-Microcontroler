@@ -45,7 +45,7 @@ loop_item_t *Menu_ListItemInit(void *data)
 	return tempitem;														/*zwrócenie wskaŸnika do elementu							*/
 }
 
-menu_item_t *Menu_MenuItemInit(label_t *name, label_t *value, uint8_t x, uint8_t y)
+menu_item_t *Menu_MenuItemInit(label_t *name, par_values_t *value, uint8_t x, uint8_t y)
 {
 	menu_item_t *tempitem;													/*element tymczasowy										*/
 	tempitem = (menu_item_t *)malloc(sizeof(menu_item_t));					/*alokacja pamiêci dla elementu								*/
@@ -147,19 +147,23 @@ label_t *Menu_CreateLabel(char *txt, uint8_t x, uint8_t y, void (*show)(uint8_t,
 	return templabel;														/*zwrócenie wskaŸnika na labelkê							*/
 }
 
-par_values_t *Menu_CreateParameterValues(char **txt, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, char*, uint8_t))
+par_values_t *Menu_CreateParameterValues(char **vtxt, uint8_t vcount, uint8_t x, uint8_t y, void (*show)(void*, uint8_t))
 {
 	par_values_t *parametervalues;											/*deklaracja wartoœci dla parametru							*/
 	parametervalues = (par_values_t *)malloc(sizeof(par_values_t));			/*alokacja pamiêci dla wartoœci parametru					*/
 	loop_list_t *values;													/*deklaracja listy wartoœci									*/
 	values = Menu_ListInit();												/*inicjalizacja listy wartoœci								*/
 	loop_item_t *value;														/*deklaracja pojedynczej wartoœci							*/
-	while (*txt++)															/*jeœli lista tekstów nie jest pusta, to:					*/
+	for (uint8_t i = 0; i < vcount; i++)
 	{
-		value = Menu_ListItemInit((void *)**txt);									/*przypisz tekst do wartoœci								*/
+		value = Menu_ListItemInit((void *)*vtxt++);							/*przypisz tekst do wartoœci								*/
 		Menu_AddToList(values, value);										/*dodaj wartoœæ do listy wartoœci							*/
 	}
-	return parametervalues;
+	parametervalues->Values = values;										/*przypisanie listy wartoœci								*/
+	parametervalues->Show = show;											/*przypisanie funkcji wyœwietlaj¹cej wartoœæ				*/
+	parametervalues->X = x;													/*przypisanie pozycji X										*/
+	parametervalues->Y = y;													/*przypisanie pozycji Y										*/
+	return parametervalues;													/*zwrócenie wskaŸnika na parametr							*/
 }
 
 icon_t *Menu_CreateIcon(__memx const uint8_t *img, uint8_t x, uint8_t y, void (*show)(uint8_t, uint8_t, __memx const uint8_t *))
@@ -195,6 +199,22 @@ menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *), void (*
 	tempmenu->Refresh = refresh;											/*ustawienie wskaŸnika na funkcjê odœwie¿aj¹c¹ menu			*/
 	tempmenu->Show = show;													/*ustawienie wskaŸnika na funkcjê wyœwietlaj¹c¹ menu		*/
 	return tempmenu;														/*zwrócenie wskaŸnika na menu								*/
+}
+
+void Menu_ShowParameterValue(void *parameter, uint8_t select)
+{
+	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,0};				/*pusty ³añcuch 12 x "space"								*/
+	par_values_t *param;													/*parametr tymczasowy										*/
+	param = (par_values_t *)parameter;										/*rzutowanie parametru wejœciowego na odpowiedni typ		*/
+	char *txt;																/*tekst bêd¹cy wartoœci¹ aktualn¹ parametru					*/
+	loop_item_t *item;														/*element zawieraj¹cy aktualn¹ wartoœæ parametru			*/
+	item = Menu_GetFromList(param->Values);									/*pobranie elementu z listy wartoœci						*/
+	txt = (char *)item->Data;												/*pobranie wartoœci aktualnej								*/
+	t_point_t position;														/*zmienna okreœla pozycjê parametru na ekranie				*/
+	position.X = param->X;													/*ustalenie pozycji poziomej								*/
+	position.Y = param->Y;													/*ustalenie pozycji pionowej								*/
+	ssd1306WriteTxt(TwiBus, position, font7x5, emptystring, 1);				/*czyszczenie ekranu w miejscu na wartoœæ parametru			*/
+	ssd1306WriteTxt(TwiBus, position, font7x5, txt, select);				/*wyœwietlenie aktualnej wartoœci parametru					*/
 }
 
 void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select)
@@ -253,9 +273,9 @@ void Menu_ShowMenu(void *menuscreen)
 			menu_item_t *mitem = litem->Data;								/*pobranie elementu menu z elementu listy					*/
 			menu->Parameters->Current = litem->Prev;						/*przesuniêcie wskaŸnika na poprzedni element listy			*/
 			label_t *nlabel = mitem->Name;									/*pobranie labelki z nazw¹ parametru						*/
-			label_t *vlabel = mitem->Value;									/*pobranie labelki z wartoœci¹ parametru					*/
+			par_values_t *vlabel = mitem->Value;							/*pobranie labelki z wartoœci¹ parametru					*/
 			nlabel->Show(nlabel->X, nlabel->Y, nlabel->Text, mitem->IsSelected.State);			/*wyœwietlenie labelki z nazw¹			*/
-			vlabel->Show(vlabel->X, vlabel->Y, vlabel->Text, 1);								/*wyœwietlenie labelki z wartoœci¹		*/
+			vlabel->Show(vlabel, 1);										/*wyœwietlenie wartoœci parametru							*/
 		}
 		menu->Parameters->Current = menu->Parameters->Head;					/*przesuñ wskaŸnik bie¿¹cego elementu na wartoœæ domyœl¹	*/		
 	}
