@@ -128,6 +128,10 @@ void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select);							/* wy
 
 void Menu_ShowParameterValue(void *parameter, uint8_t select);									/* wyœwietla wartoœæ parametru								*/
 
+void Menu_NextParameterValue(menu_item_t *menuitem);											/* prze³¹czenie na kolejn¹ wartoœæ parametru				*/
+
+void Menu_PrevParameterValue(menu_item_t *menuitem);											/* prze³¹czenie na poprzedni¹ wartoœæ parametru				*/
+
 void Menu_ShowIcon(uint8_t x, uint8_t y, __memx const uint8_t *img);							/* wyœwietlenie ikony										*/
 
 void Menu_ShowStatusBar(void *statusbar);														/* wyœwietlenie paska statusu								*/

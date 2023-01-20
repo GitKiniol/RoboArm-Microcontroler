@@ -201,6 +201,20 @@ menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *), void (*
 	return tempmenu;														/*zwrócenie wskaŸnika na menu								*/
 }
 
+void Menu_NextParameterValue(menu_item_t *menuitem)
+{
+	loop_list_t *vals;
+	vals = menuitem->Value->Values;
+	vals->Current = (loop_item_t *)vals->Current->Next;
+}
+
+void Menu_PrevParameterValue(menu_item_t *menuitem)
+{
+	loop_list_t *vals;
+	vals = menuitem->Value->Values;
+	vals->Current = (loop_item_t *)vals->Current->Prev;
+}
+
 void Menu_ShowParameterValue(void *parameter, uint8_t select)
 {
 	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,0};				/*pusty ³añcuch 12 x "space"								*/
