@@ -96,7 +96,7 @@ loop_item_t *Menu_GetFromList(loop_list_t *list)
 	return tempitem;														/*zwrócenie wskaŸnika na pobrany element z listy			*/
 }
 
-void Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu)
+menu_item_t *Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu)
 {
 	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
 	{
@@ -111,11 +111,13 @@ void Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu)
 			templistitem = Menu_GetFromList(list);							/*pobranie elementu z listy									*/
 			tempmenuitem = templistitem->Data;								/*pobranie elementu menu z elementu listy					*/
 		}
-		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/							
+		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/	
+		return tempmenuitem;												/*zwrócenie aktualnego elementu menu						*/						
 	}
+	return NULL;															/*jeœli menu tylko do odczytu to zwróæ pusty element		*/
 }
 
-void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
+menu_item_t *Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
 {
 	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
 	{
@@ -131,7 +133,9 @@ void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
 			tempmenuitem = templistitem->Data;								/*pobranie elementu menu z elementu listy					*/
 		}
 		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/
+		return tempmenuitem;												/*zwrócenie aktualnego elementu menu						*/	
 	}
+	return NULL;															/*jeœli menu tylko do odczytu to zwróæ pusty element		*/
 }
 
 /* Obs³uga menu */
@@ -203,16 +207,18 @@ menu_screen_t *Menu_CreateMenu(uint8_t isreadonly, void (*show)(void *), void (*
 
 void Menu_NextParameterValue(menu_item_t *menuitem)
 {
-	loop_list_t *vals;
-	vals = menuitem->Value->Values;
-	vals->Current = (loop_item_t *)vals->Current->Next;
+	if (menuitem == NULL) return;											/*jeœli menuitem jest pusty to zakoñcz funkcjê				*/
+	loop_list_t *vals;														/*tymczasowa lista wartoœci parametru						*/
+	vals = menuitem->Value->Values;											/*ustawienie wskaŸnika na listê w elemencie menu			*/
+	vals->Current = (loop_item_t *)vals->Current->Next;						/*przesuniêcie wskaŸnika na kolejn¹ wartoœæ					*/
 }
 
 void Menu_PrevParameterValue(menu_item_t *menuitem)
 {
-	loop_list_t *vals;
-	vals = menuitem->Value->Values;
-	vals->Current = (loop_item_t *)vals->Current->Prev;
+	if (menuitem == NULL) return;											/*jeœli menuitem jest pusty to zakoñcz funkcjê				*/
+	loop_list_t *vals;														/*tymczasowa lista wartoœci parametru						*/
+	vals = menuitem->Value->Values;											/*ustawienie wskaŸnika na listê w elemencie menu			*/
+	vals->Current = (loop_item_t *)vals->Current->Prev;						/*przesuniêcie wskaŸnika na kolejn¹ wartoœæ					*/
 }
 
 void Menu_ShowParameterValue(void *parameter, uint8_t select)

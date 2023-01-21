@@ -103,9 +103,9 @@ void Menu_AddToList(loop_list_t *list, loop_item_t *item);										/* wstawieni
 
 loop_item_t *Menu_GetFromList(loop_list_t *list);												/* pobranie aktualnego elementu listy						*/
 
-void Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu);								/* przewijanie listy w dó³									*/
+menu_item_t *Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu);						/* przewijanie listy w dó³									*/
 
-void Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);									/* przewijanie listy w górê									*/
+menu_item_t *Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu);							/* przewijanie listy w górê									*/
 
 /* Obs³uga menu */
 

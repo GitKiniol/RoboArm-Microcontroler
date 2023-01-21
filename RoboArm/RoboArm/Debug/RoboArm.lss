@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000298  00000000  00000000  00000de8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000056fc  00000000  00000000  00001080  2**0
+  6 .debug_info   000056fe  00000000  00000000  00001080  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00002c6b  00000000  00000000  0000677c  2**0
+  7 .debug_abbrev 00002c6b  00000000  00000000  0000677e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001a6b  00000000  00000000  000093e7  2**0
+  8 .debug_line   00001a8f  00000000  00000000  000093e9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000099c  00000000  00000000  0000ae54  2**2
+  9 .debug_frame  0000099c  00000000  00000000  0000ae78  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00002705  00000000  00000000  0000b7f0  2**0
+ 10 .debug_str    00002705  00000000  00000000  0000b814  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000300b  00000000  00000000  0000def5  2**0
+ 11 .debug_loc    00003097  00000000  00000000  0000df19  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000240  00000000  00000000  00010f00  2**0
+ 12 .debug_ranges 00000240  00000000  00000000  00010fb0  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -954,12 +954,12 @@ void ssd1306WriteTxt(TWI_t *twiModule, t_point_t pozycja, __memx const char *tab
  7d6:	08 95       	ret
 
 000007d8 <Menu_ListInit>:
-
 void Menu_PrevParameterValue(menu_item_t *menuitem)
 {
-	loop_list_t *vals;
-	vals = menuitem->Value->Values;
-	vals->Current = (loop_item_t *)vals->Current->Prev;
+	if (menuitem == NULL) return;											/*jeœli menuitem jest pusty to zakoñcz funkcjê				*/
+	loop_list_t *vals;														/*tymczasowa lista wartoœci parametru						*/
+	vals = menuitem->Value->Values;											/*ustawienie wskaŸnika na listê w elemencie menu			*/
+	vals->Current = (loop_item_t *)vals->Current->Prev;						/*przesuniêcie wskaŸnika na kolejn¹ wartoœæ					*/
  7d8:	87 e0       	ldi	r24, 0x07	; 7
  7da:	90 e0       	ldi	r25, 0x00	; 0
  7dc:	0e 94 32 05 	call	0xa64	; 0xa64 <malloc>
