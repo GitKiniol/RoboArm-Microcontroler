@@ -21,13 +21,16 @@ Allocating common symbols
 Common symbol       size              file
 
 Job                 0x2               BLUETOOTH/DATA/data.o
+li                  0x2               main.o
 gddramBuff          0x400             HMI/DISPLAY/oled_SSD1306.o
-v1                  0x2               main.o
-v3                  0x2               main.o
+scr                 0x2               main.o
 __brkval            0x2               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
-vvalues             0x2               main.o
-v2                  0x2               main.o
+mi                  0x2               main.o
 SendingString       0x2               BLUETOOTH/USART/usart.o
+s                   0x2               main.o
+pn                  0x2               main.o
+pv                  0x2               main.o
+parsvals            0x2               main.o
 __flp               0x2               c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
 ReceivedChars       0x10              BLUETOOTH/USART/usart.o
 ReceivedString      0x2               BLUETOOTH/USART/usart.o
@@ -193,21 +196,12 @@ Discarded input sections
                 0x00000000      0x282 HMI/DISPLAY/graphics.o
  .progmemx.data.lightingImg
                 0x00000000       0x22 HMI/DISPLAY/graphics.o
- .progmemx.data.EmptyMenu
-                0x00000000      0x302 HMI/DISPLAY/graphics.o
  .progmemx.data.EmptyStatus
                 0x00000000      0x102 HMI/DISPLAY/graphics.o
  .progmemx.data.RunIcon
                 0x00000000       0x22 HMI/DISPLAY/graphics.o
  .progmemx.data.EmptyIcon
                 0x00000000       0x22 HMI/DISPLAY/graphics.o
- .debug_info    0x00000000      0x190 HMI/DISPLAY/graphics.o
- .debug_abbrev  0x00000000       0x4d HMI/DISPLAY/graphics.o
- .debug_aranges
-                0x00000000       0x18 HMI/DISPLAY/graphics.o
- .debug_line    0x00000000       0x37 HMI/DISPLAY/graphics.o
- .debug_str     0x00000000      0x268 HMI/DISPLAY/graphics.o
- .comment       0x00000000       0x31 HMI/DISPLAY/graphics.o
  .text          0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
  .data          0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
  .bss           0x00000000        0x0 HMI/DISPLAY/oled_SSD1306.o
@@ -225,8 +219,6 @@ Discarded input sections
                 0x00000000       0x76 HMI/DISPLAY/oled_SSD1306.o
  .text.ssd1306FillArea
                 0x00000000       0x98 HMI/DISPLAY/oled_SSD1306.o
- .text.ssd1306FillAreaFromFlash
-                0x00000000       0xbe HMI/DISPLAY/oled_SSD1306.o
  .text.ssd1306FillFromFash
                 0x00000000       0x8a HMI/DISPLAY/oled_SSD1306.o
  .text.ssd1306ClrScr
@@ -257,39 +249,25 @@ Discarded input sections
  .text          0x00000000        0x0 HMI/MENU/menu.o
  .data          0x00000000        0x0 HMI/MENU/menu.o
  .bss           0x00000000        0x0 HMI/MENU/menu.o
- .text.Menu_MenuItemInit
-                0x00000000       0x5a HMI/MENU/menu.o
  .text.Menu_ListScrollDown
                 0x00000000       0x5a HMI/MENU/menu.o
  .text.Menu_ListScrollUp
                 0x00000000       0x56 HMI/MENU/menu.o
- .text.Menu_CreateLabel
-                0x00000000       0x38 HMI/MENU/menu.o
  .text.Menu_CreateIcon
                 0x00000000       0x3e HMI/MENU/menu.o
  .text.Menu_CreateStatusBar
-                0x00000000       0x56 HMI/MENU/menu.o
- .text.Menu_CreateMenu
                 0x00000000       0x56 HMI/MENU/menu.o
  .text.Menu_NextParameterValue
                 0x00000000       0x22 HMI/MENU/menu.o
  .text.Menu_PrevParameterValue
                 0x00000000       0x26 HMI/MENU/menu.o
- .text.Menu_ShowLabel
-                0x00000000       0x9e HMI/MENU/menu.o
  .text.Menu_ShowIcon
                 0x00000000       0x92 HMI/MENU/menu.o
  .text.Menu_ShowStatusBar
                 0x00000000       0xa0 HMI/MENU/menu.o
- .text.Menu_ShowMenu
-                0x00000000       0x96 HMI/MENU/menu.o
  .text.Menu_ClearStatusBar
                 0x00000000       0x3c HMI/MENU/menu.o
- .text.Menu_ClearMenu
-                0x00000000       0x3c HMI/MENU/menu.o
  .text.Menu_RefreshStatusBar
-                0x00000000       0x1a HMI/MENU/menu.o
- .text.Menu_RefreshMenu
                 0x00000000       0x1a HMI/MENU/menu.o
  .text          0x00000000        0x0 HMI/TWI_BUS/twi.o
  .data          0x00000000        0x0 HMI/TWI_BUS/twi.o
@@ -512,7 +490,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xcb8
+.text           0x00000000     0x13de
  *(.vectors)
  .vectors       0x00000000      0x178 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
                 0x00000000                __vector_default
@@ -531,35 +509,38 @@ END GROUP
  .progmemx.data.font7x5
                 0x00000178      0x300 HMI/DISPLAY/fonts.o
                 0x00000178                font7x5
-                0x00000478                . = ALIGN (0x2)
+ .progmemx.data.EmptyMenu
+                0x00000478      0x302 HMI/DISPLAY/graphics.o
+                0x00000478                EmptyMenu
+                0x0000077a                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x00000478                __ctors_start = .
+                0x0000077a                __ctors_start = .
  *(.ctors)
-                0x00000478                __ctors_end = .
-                0x00000478                __dtors_start = .
+                0x0000077a                __ctors_end = .
+                0x0000077a                __dtors_start = .
  *(.dtors)
-                0x00000478                __dtors_end = .
+                0x0000077a                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x00000478        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
-                0x00000478                __init
+ .init0         0x0000077a        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
+                0x0000077a                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x00000478        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
+ .init2         0x0000077a        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x00000484       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_copy_data.o)
-                0x00000484                __do_copy_data
- .init4         0x0000049a       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_clear_bss.o)
-                0x0000049a                __do_clear_bss
+ .init4         0x00000786       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_copy_data.o)
+                0x00000786                __do_copy_data
+ .init4         0x0000079c       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_clear_bss.o)
+                0x0000079c                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -570,171 +551,198 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x000004aa        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
+ .init9         0x000007ac        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  *(.init9)
  *(.text)
- .text          0x000004b2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
-                0x000004b2                __vector_38
-                0x000004b2                __vector_22
-                0x000004b2                __vector_63
-                0x000004b2                __vector_28
-                0x000004b2                __vector_67
-                0x000004b2                __vector_1
-                0x000004b2                __vector_32
-                0x000004b2                __vector_75
-                0x000004b2                __vector_71
-                0x000004b2                __vector_91
-                0x000004b2                __vector_34
-                0x000004b2                __vector_62
-                0x000004b2                __vector_77
-                0x000004b2                __vector_24
-                0x000004b2                __vector_12
-                0x000004b2                __vector_55
-                0x000004b2                __vector_69
-                0x000004b2                __vector_81
-                0x000004b2                __vector_90
-                0x000004b2                __vector_46
-                0x000004b2                __bad_interrupt
-                0x000004b2                __vector_72
-                0x000004b2                __vector_6
-                0x000004b2                __vector_31
-                0x000004b2                __vector_92
-                0x000004b2                __vector_35
-                0x000004b2                __vector_78
-                0x000004b2                __vector_74
-                0x000004b2                __vector_39
-                0x000004b2                __vector_3
-                0x000004b2                __vector_23
-                0x000004b2                __vector_68
-                0x000004b2                __vector_30
-                0x000004b2                __vector_73
-                0x000004b2                __vector_45
-                0x000004b2                __vector_25
-                0x000004b2                __vector_93
-                0x000004b2                __vector_61
-                0x000004b2                __vector_11
-                0x000004b2                __vector_54
-                0x000004b2                __vector_13
-                0x000004b2                __vector_17
-                0x000004b2                __vector_19
-                0x000004b2                __vector_56
-                0x000004b2                __vector_7
-                0x000004b2                __vector_49
-                0x000004b2                __vector_41
-                0x000004b2                __vector_86
-                0x000004b2                __vector_64
-                0x000004b2                __vector_43
-                0x000004b2                __vector_27
-                0x000004b2                __vector_5
-                0x000004b2                __vector_33
-                0x000004b2                __vector_76
-                0x000004b2                __vector_47
-                0x000004b2                __vector_52
-                0x000004b2                __vector_37
-                0x000004b2                __vector_4
-                0x000004b2                __vector_44
-                0x000004b2                __vector_82
-                0x000004b2                __vector_51
-                0x000004b2                __vector_9
-                0x000004b2                __vector_2
-                0x000004b2                __vector_21
-                0x000004b2                __vector_15
-                0x000004b2                __vector_66
-                0x000004b2                __vector_36
-                0x000004b2                __vector_79
-                0x000004b2                __vector_58
-                0x000004b2                __vector_70
-                0x000004b2                __vector_83
-                0x000004b2                __vector_29
-                0x000004b2                __vector_60
-                0x000004b2                __vector_40
-                0x000004b2                __vector_85
-                0x000004b2                __vector_8
-                0x000004b2                __vector_26
-                0x000004b2                __vector_48
-                0x000004b2                __vector_80
-                0x000004b2                __vector_14
-                0x000004b2                __vector_84
-                0x000004b2                __vector_57
-                0x000004b2                __vector_53
-                0x000004b2                __vector_10
-                0x000004b2                __vector_50
-                0x000004b2                __vector_16
-                0x000004b2                __vector_59
-                0x000004b2                __vector_18
-                0x000004b2                __vector_20
-                0x000004b2                __vector_42
-                0x000004b2                __vector_87
-                0x000004b2                __vector_65
-                0x000004b6                . = ALIGN (0x2)
+ .text          0x000007b4        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
+                0x000007b4                __vector_38
+                0x000007b4                __vector_22
+                0x000007b4                __vector_63
+                0x000007b4                __vector_28
+                0x000007b4                __vector_67
+                0x000007b4                __vector_1
+                0x000007b4                __vector_32
+                0x000007b4                __vector_75
+                0x000007b4                __vector_71
+                0x000007b4                __vector_91
+                0x000007b4                __vector_34
+                0x000007b4                __vector_62
+                0x000007b4                __vector_77
+                0x000007b4                __vector_24
+                0x000007b4                __vector_12
+                0x000007b4                __vector_55
+                0x000007b4                __vector_69
+                0x000007b4                __vector_81
+                0x000007b4                __vector_90
+                0x000007b4                __vector_46
+                0x000007b4                __bad_interrupt
+                0x000007b4                __vector_72
+                0x000007b4                __vector_6
+                0x000007b4                __vector_31
+                0x000007b4                __vector_92
+                0x000007b4                __vector_35
+                0x000007b4                __vector_78
+                0x000007b4                __vector_74
+                0x000007b4                __vector_39
+                0x000007b4                __vector_3
+                0x000007b4                __vector_23
+                0x000007b4                __vector_68
+                0x000007b4                __vector_30
+                0x000007b4                __vector_73
+                0x000007b4                __vector_45
+                0x000007b4                __vector_25
+                0x000007b4                __vector_93
+                0x000007b4                __vector_61
+                0x000007b4                __vector_11
+                0x000007b4                __vector_54
+                0x000007b4                __vector_13
+                0x000007b4                __vector_17
+                0x000007b4                __vector_19
+                0x000007b4                __vector_56
+                0x000007b4                __vector_7
+                0x000007b4                __vector_49
+                0x000007b4                __vector_41
+                0x000007b4                __vector_86
+                0x000007b4                __vector_64
+                0x000007b4                __vector_43
+                0x000007b4                __vector_27
+                0x000007b4                __vector_5
+                0x000007b4                __vector_33
+                0x000007b4                __vector_76
+                0x000007b4                __vector_47
+                0x000007b4                __vector_52
+                0x000007b4                __vector_37
+                0x000007b4                __vector_4
+                0x000007b4                __vector_44
+                0x000007b4                __vector_82
+                0x000007b4                __vector_51
+                0x000007b4                __vector_9
+                0x000007b4                __vector_2
+                0x000007b4                __vector_21
+                0x000007b4                __vector_15
+                0x000007b4                __vector_66
+                0x000007b4                __vector_36
+                0x000007b4                __vector_79
+                0x000007b4                __vector_58
+                0x000007b4                __vector_70
+                0x000007b4                __vector_83
+                0x000007b4                __vector_29
+                0x000007b4                __vector_60
+                0x000007b4                __vector_40
+                0x000007b4                __vector_85
+                0x000007b4                __vector_8
+                0x000007b4                __vector_26
+                0x000007b4                __vector_48
+                0x000007b4                __vector_80
+                0x000007b4                __vector_14
+                0x000007b4                __vector_84
+                0x000007b4                __vector_57
+                0x000007b4                __vector_53
+                0x000007b4                __vector_10
+                0x000007b4                __vector_50
+                0x000007b4                __vector_16
+                0x000007b4                __vector_59
+                0x000007b4                __vector_18
+                0x000007b4                __vector_20
+                0x000007b4                __vector_42
+                0x000007b4                __vector_87
+                0x000007b4                __vector_65
+                0x000007b8                . = ALIGN (0x2)
  *(.text.*)
  .text.Buffer_InsertString
-                0x000004b6       0x3c BLUETOOTH/USART/BUFFER/buffer.o
-                0x000004b6                Buffer_InsertString
+                0x000007b8       0x3c BLUETOOTH/USART/BUFFER/buffer.o
+                0x000007b8                Buffer_InsertString
  .text.Usart_GetString
-                0x000004f2       0x66 BLUETOOTH/USART/usart.o
-                0x000004f2                Usart_GetString
+                0x000007f4       0x66 BLUETOOTH/USART/usart.o
+                0x000007f4                Usart_GetString
  .text.__vector_89
-                0x00000558       0x74 BLUETOOTH/USART/usart.o
-                0x00000558                __vector_89
+                0x0000085a       0x74 BLUETOOTH/USART/usart.o
+                0x0000085a                __vector_89
  .text.__vector_88
-                0x000005cc       0x74 BLUETOOTH/USART/usart.o
-                0x000005cc                __vector_88
+                0x000008ce       0x74 BLUETOOTH/USART/usart.o
+                0x000008ce                __vector_88
  .text.ssd1306SendCmdNoPar
-                0x00000640       0x3c HMI/DISPLAY/oled_SSD1306.o
-                0x00000640                ssd1306SendCmdNoPar
+                0x00000942       0x3c HMI/DISPLAY/oled_SSD1306.o
+                0x00000942                ssd1306SendCmdNoPar
  .text.ssd1306SendByte
-                0x0000067c       0x2c HMI/DISPLAY/oled_SSD1306.o
-                0x0000067c                ssd1306SendByte
+                0x0000097e       0x2c HMI/DISPLAY/oled_SSD1306.o
+                0x0000097e                ssd1306SendByte
  .text.ssd1306Locate
-                0x000006a8       0x36 HMI/DISPLAY/oled_SSD1306.o
-                0x000006a8                ssd1306Locate
+                0x000009aa       0x36 HMI/DISPLAY/oled_SSD1306.o
+                0x000009aa                ssd1306Locate
+ .text.ssd1306FillAreaFromFlash
+                0x000009e0       0xbe HMI/DISPLAY/oled_SSD1306.o
+                0x000009e0                ssd1306FillAreaFromFlash
  .text.ssd1306WriteTxt
-                0x000006de       0xfa HMI/DISPLAY/oled_SSD1306.o
-                0x000006de                ssd1306WriteTxt
+                0x00000a9e       0xfa HMI/DISPLAY/oled_SSD1306.o
+                0x00000a9e                ssd1306WriteTxt
  .text.Menu_ListInit
-                0x000007d8       0x1a HMI/MENU/menu.o
-                0x000007d8                Menu_ListInit
+                0x00000b98       0x1a HMI/MENU/menu.o
+                0x00000b98                Menu_ListInit
  .text.Menu_ListItemInit
-                0x000007f2       0x22 HMI/MENU/menu.o
-                0x000007f2                Menu_ListItemInit
+                0x00000bb2       0x22 HMI/MENU/menu.o
+                0x00000bb2                Menu_ListItemInit
+ .text.Menu_MenuItemInit
+                0x00000bd4       0x5a HMI/MENU/menu.o
+                0x00000bd4                Menu_MenuItemInit
  .text.Menu_AddToList
-                0x00000814       0x8c HMI/MENU/menu.o
-                0x00000814                Menu_AddToList
+                0x00000c2e       0x8c HMI/MENU/menu.o
+                0x00000c2e                Menu_AddToList
  .text.Menu_GetFromList
-                0x000008a0       0x18 HMI/MENU/menu.o
-                0x000008a0                Menu_GetFromList
+                0x00000cba       0x18 HMI/MENU/menu.o
+                0x00000cba                Menu_GetFromList
+ .text.Menu_CreateLabel
+                0x00000cd2       0x38 HMI/MENU/menu.o
+                0x00000cd2                Menu_CreateLabel
  .text.Menu_CreateParameterValues
-                0x000008b8       0x88 HMI/MENU/menu.o
-                0x000008b8                Menu_CreateParameterValues
+                0x00000d0a       0x88 HMI/MENU/menu.o
+                0x00000d0a                Menu_CreateParameterValues
+ .text.Menu_CreateMenu
+                0x00000d92       0x56 HMI/MENU/menu.o
+                0x00000d92                Menu_CreateMenu
  .text.Menu_ShowParameterValue
-                0x00000940       0xb6 HMI/MENU/menu.o
-                0x00000940                Menu_ShowParameterValue
+                0x00000de8       0xb6 HMI/MENU/menu.o
+                0x00000de8                Menu_ShowParameterValue
+ .text.Menu_ShowLabel
+                0x00000e9e       0x9e HMI/MENU/menu.o
+                0x00000e9e                Menu_ShowLabel
+ .text.Menu_ShowMenu
+                0x00000f3c       0x96 HMI/MENU/menu.o
+                0x00000f3c                Menu_ShowMenu
+ .text.Menu_ClearMenu
+                0x00000fd2       0x3c HMI/MENU/menu.o
+                0x00000fd2                Menu_ClearMenu
+ .text.Menu_RefreshMenu
+                0x0000100e       0x1a HMI/MENU/menu.o
+                0x0000100e                Menu_RefreshMenu
  .text.twiSendAddress
-                0x000009f6        0xc HMI/TWI_BUS/twi.o
-                0x000009f6                twiSendAddress
+                0x00001028        0xc HMI/TWI_BUS/twi.o
+                0x00001028                twiSendAddress
  .text.twiSendData
-                0x00000a02        0xc HMI/TWI_BUS/twi.o
-                0x00000a02                twiSendData
- .text.twiStop  0x00000a0e        0xa HMI/TWI_BUS/twi.o
-                0x00000a0e                twiStop
- .text.main     0x00000a18       0x32 main.o
-                0x00000a18                main
+                0x00001034        0xc HMI/TWI_BUS/twi.o
+                0x00001034                twiSendData
+ .text.twiStop  0x00001040        0xa HMI/TWI_BUS/twi.o
+                0x00001040                twiStop
+ .text.MenuTest
+                0x0000104a       0xe8 main.o
+                0x0000104a                MenuTest
+ .text.main     0x00001132       0x3e main.o
+                0x00001132                main
  .text.ClkSys32MHz
-                0x00000a4a       0x1a SYS_CLOCK/sysclock.o
-                0x00000a4a                ClkSys32MHz
+                0x00001170       0x1a SYS_CLOCK/sysclock.o
+                0x00001170                ClkSys32MHz
  .text.avr-libc
-                0x00000a64      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
-                0x00000a64                malloc
-                0x00000b94                free
+                0x0000118a      0x242 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
+                0x0000118a                malloc
+                0x000012ba                free
  .text.avr-libc
-                0x00000ca6        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strcpy.o)
-                0x00000ca6                strcpy
-                0x00000cb4                . = ALIGN (0x2)
+                0x000013cc        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(strcpy.o)
+                0x000013cc                strcpy
+                0x000013da                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000cb4        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
-                0x00000cb4                _exit
-                0x00000cb4                exit
+ .fini9         0x000013da        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+                0x000013da                _exit
+                0x000013da                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -753,11 +761,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000cb4        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
+ .fini0         0x000013da        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/avrxmega2\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000cb8                _etext = .
+                0x000013de                _etext = .
 
-.data           0x00802000       0x2a load address 0x00000cb8
+.data           0x00802000       0x68 load address 0x000013de
                 0x00802000                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00802000        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
@@ -767,57 +775,69 @@ END GROUP
  *(.data*)
  .data.TwiBus   0x00802006        0x2 HMI/MENU/menu.o
                 0x00802006                TwiBus
- .data.parvalues
+ .data.parnames
                 0x00802008        0x6 main.o
-                0x00802008                parvalues
+                0x00802008                parnames
+ .data.par3values
+                0x0080200e        0x6 main.o
+                0x0080200e                par3values
+ .data.par2values
+                0x00802014        0x6 main.o
+                0x00802014                par2values
+ .data.par1values
+                0x0080201a        0x6 main.o
+                0x0080201a                par1values
  *(.gnu.linkonce.d*)
  *(.rodata)
- .rodata        0x0080200e        0xc HMI/MENU/menu.o
+ .rodata        0x00802020        0xc HMI/MENU/menu.o
  *(.rodata*)
  .rodata.str1.1
-                0x0080201a        0xf main.o
+                0x0080202c       0x3c main.o
  *(.gnu.linkonce.r*)
-                0x0080202a                . = ALIGN (0x2)
- *fill*         0x00802029        0x1 
-                0x0080202a                _edata = .
-                0x0080202a                PROVIDE (__data_end, .)
+                0x00802068                . = ALIGN (0x2)
+                0x00802068                _edata = .
+                0x00802068                PROVIDE (__data_end, .)
 
-.bss            0x0080202a       0x26
-                0x0080202a                PROVIDE (__bss_start, .)
+.bss            0x00802068       0x2d
+                0x00802068                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
  .bss.ReceivingBuffer
-                0x0080202a        0x2 BLUETOOTH/USART/BUFFER/buffer.o
-                0x0080202a                ReceivingBuffer
- .bss.i.3983    0x0080202c        0x1 BLUETOOTH/USART/usart.o
+                0x00802068        0x2 BLUETOOTH/USART/BUFFER/buffer.o
+                0x00802068                ReceivingBuffer
+ .bss.i.3983    0x0080206a        0x1 BLUETOOTH/USART/usart.o
  .bss.CharsCount.3977
-                0x0080202d        0x1 BLUETOOTH/USART/usart.o
+                0x0080206b        0x1 BLUETOOTH/USART/usart.o
  .bss.RS232Port
-                0x0080202e        0x2 BLUETOOTH/USART/usart.o
-                0x0080202e                RS232Port
+                0x0080206c        0x2 BLUETOOTH/USART/usart.o
+                0x0080206c                RS232Port
+ .bss.i.3989    0x0080206e        0x1 main.o
  *(COMMON)
- COMMON         0x00802030       0x14 BLUETOOTH/USART/usart.o
-                0x00802030                SendingString
-                0x00802032                ReceivedChars
-                0x00802042                ReceivedString
- COMMON         0x00802044        0x8 main.o
-                0x00802044                v1
-                0x00802046                v3
-                0x00802048                vvalues
-                0x0080204a                v2
- COMMON         0x0080204c        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
-                0x0080204c                __brkval
-                0x0080204e                __flp
-                0x00802050                PROVIDE (__bss_end, .)
-                0x00000cb8                __data_load_start = LOADADDR (.data)
-                0x00000ce2                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080206f       0x14 BLUETOOTH/USART/usart.o
+                0x0080206f                SendingString
+                0x00802071                ReceivedChars
+                0x00802081                ReceivedString
+ COMMON         0x00802083        0xe main.o
+                0x00802083                li
+                0x00802085                scr
+                0x00802087                mi
+                0x00802089                s
+                0x0080208b                pn
+                0x0080208d                pv
+                0x0080208f                parsvals
+ COMMON         0x00802091        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avrxmega2\libc.a(malloc.o)
+                0x00802091                __brkval
+                0x00802093                __flp
+                0x00802095                PROVIDE (__bss_end, .)
+                0x000013de                __data_load_start = LOADADDR (.data)
+                0x00001446                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00802050        0x0
+.noinit         0x00802095        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00802050                _end = .
-                0x00802050                PROVIDE (__heap_start, .)
+                0x00802095                _end = .
+                0x00802095                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
@@ -862,6 +882,7 @@ END GROUP
                                  0x31 (size before relaxing)
  .comment       0x00000030       0x31 BLUETOOTH/USART/usart.o
  .comment       0x00000030       0x31 HMI/DISPLAY/fonts.o
+ .comment       0x00000030       0x31 HMI/DISPLAY/graphics.o
  .comment       0x00000030       0x31 HMI/DISPLAY/oled_SSD1306.o
  .comment       0x00000030       0x31 HMI/MENU/menu.o
  .comment       0x00000030       0x31 HMI/TWI_BUS/twi.o
@@ -889,7 +910,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x298
+.debug_aranges  0x00000000      0x2b8
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x38 BLUETOOTH/USART/BUFFER/buffer.o
@@ -898,66 +919,71 @@ END GROUP
  .debug_aranges
                 0x00000078       0x18 HMI/DISPLAY/fonts.o
  .debug_aranges
-                0x00000090       0xb8 HMI/DISPLAY/oled_SSD1306.o
+                0x00000090       0x18 HMI/DISPLAY/graphics.o
  .debug_aranges
-                0x00000148       0xd0 HMI/MENU/menu.o
+                0x000000a8       0xb8 HMI/DISPLAY/oled_SSD1306.o
  .debug_aranges
-                0x00000218       0x38 HMI/TWI_BUS/twi.o
+                0x00000160       0xd0 HMI/MENU/menu.o
  .debug_aranges
-                0x00000250       0x20 main.o
+                0x00000230       0x38 HMI/TWI_BUS/twi.o
  .debug_aranges
-                0x00000270       0x28 SYS_CLOCK/sysclock.o
+                0x00000268       0x28 main.o
+ .debug_aranges
+                0x00000290       0x28 SYS_CLOCK/sysclock.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x56fe
+.debug_info     0x00000000     0x5b58
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000     0x22d1 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  .debug_info    0x000022d1      0x2a8 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_info    0x00002579      0x5da BLUETOOTH/USART/usart.o
  .debug_info    0x00002b53       0x77 HMI/DISPLAY/fonts.o
- .debug_info    0x00002bca     0x12de HMI/DISPLAY/oled_SSD1306.o
- .debug_info    0x00003ea8     0x1107 HMI/MENU/menu.o
- .debug_info    0x00004faf      0x31a HMI/TWI_BUS/twi.o
- .debug_info    0x000052c9      0x266 main.o
- .debug_info    0x0000552f      0x1cf SYS_CLOCK/sysclock.o
+ .debug_info    0x00002bca      0x190 HMI/DISPLAY/graphics.o
+ .debug_info    0x00002d5a     0x12de HMI/DISPLAY/oled_SSD1306.o
+ .debug_info    0x00004038     0x1107 HMI/MENU/menu.o
+ .debug_info    0x0000513f      0x31a HMI/TWI_BUS/twi.o
+ .debug_info    0x00005459      0x530 main.o
+ .debug_info    0x00005989      0x1cf SYS_CLOCK/sysclock.o
 
-.debug_abbrev   0x00000000     0x2c6b
+.debug_abbrev   0x00000000     0x2d16
  *(.debug_abbrev)
  .debug_abbrev  0x00000000     0x20f8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  .debug_abbrev  0x000020f8      0x16a BLUETOOTH/USART/BUFFER/buffer.o
  .debug_abbrev  0x00002262      0x1fd BLUETOOTH/USART/usart.o
  .debug_abbrev  0x0000245f       0x3c HMI/DISPLAY/fonts.o
- .debug_abbrev  0x0000249b      0x209 HMI/DISPLAY/oled_SSD1306.o
- .debug_abbrev  0x000026a4      0x312 HMI/MENU/menu.o
- .debug_abbrev  0x000029b6       0xed HMI/TWI_BUS/twi.o
- .debug_abbrev  0x00002aa3      0x10d main.o
- .debug_abbrev  0x00002bb0       0xbb SYS_CLOCK/sysclock.o
+ .debug_abbrev  0x0000249b       0x4d HMI/DISPLAY/graphics.o
+ .debug_abbrev  0x000024e8      0x209 HMI/DISPLAY/oled_SSD1306.o
+ .debug_abbrev  0x000026f1      0x312 HMI/MENU/menu.o
+ .debug_abbrev  0x00002a03       0xed HMI/TWI_BUS/twi.o
+ .debug_abbrev  0x00002af0      0x16b main.o
+ .debug_abbrev  0x00002c5b       0xbb SYS_CLOCK/sysclock.o
 
-.debug_line     0x00000000     0x1a8f
+.debug_line     0x00000000     0x1b3d
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x2cb C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  .debug_line    0x000002cb      0x224 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_line    0x000004ef      0x2be BLUETOOTH/USART/usart.o
  .debug_line    0x000007ad       0x34 HMI/DISPLAY/fonts.o
- .debug_line    0x000007e1      0x7c9 HMI/DISPLAY/oled_SSD1306.o
- .debug_line    0x00000faa      0x72a HMI/MENU/menu.o
- .debug_line    0x000016d4      0x184 HMI/TWI_BUS/twi.o
- .debug_line    0x00001858       0xe8 main.o
- .debug_line    0x00001940      0x14f SYS_CLOCK/sysclock.o
+ .debug_line    0x000007e1       0x37 HMI/DISPLAY/graphics.o
+ .debug_line    0x00000818      0x7c9 HMI/DISPLAY/oled_SSD1306.o
+ .debug_line    0x00000fe1      0x72a HMI/MENU/menu.o
+ .debug_line    0x0000170b      0x184 HMI/TWI_BUS/twi.o
+ .debug_line    0x0000188f      0x15f main.o
+ .debug_line    0x000019ee      0x14f SYS_CLOCK/sysclock.o
 
-.debug_frame    0x00000000      0x99c
+.debug_frame    0x00000000      0x9b8
  *(.debug_frame)
  .debug_frame   0x00000000       0x90 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_frame   0x00000090       0xcc BLUETOOTH/USART/usart.o
  .debug_frame   0x0000015c      0x3cc HMI/DISPLAY/oled_SSD1306.o
  .debug_frame   0x00000528      0x3c8 HMI/MENU/menu.o
  .debug_frame   0x000008f0       0x54 HMI/TWI_BUS/twi.o
- .debug_frame   0x00000944       0x24 main.o
- .debug_frame   0x00000968       0x34 SYS_CLOCK/sysclock.o
+ .debug_frame   0x00000944       0x40 main.o
+ .debug_frame   0x00000984       0x34 SYS_CLOCK/sysclock.o
 
-.debug_str      0x00000000     0x2705
+.debug_str      0x00000000     0x27ea
  *(.debug_str)
  .debug_str     0x00000000     0x172c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/XMEGAA_DFP/1.3.146/gcc/dev/atxmega16a4/avrxmega2/crtatxmega16a4.o
  .debug_str     0x0000172c      0x232 BLUETOOTH/USART/BUFFER/buffer.o
@@ -966,24 +992,27 @@ END GROUP
                                 0x508 (size before relaxing)
  .debug_str     0x00001c4f       0x1f HMI/DISPLAY/fonts.o
                                 0x1ac (size before relaxing)
- .debug_str     0x00001c6e      0x32d HMI/DISPLAY/oled_SSD1306.o
+ .debug_str     0x00001c6e       0xe0 HMI/DISPLAY/graphics.o
+                                0x268 (size before relaxing)
+ .debug_str     0x00001d4e      0x32d HMI/DISPLAY/oled_SSD1306.o
                                 0x502 (size before relaxing)
- .debug_str     0x00001f9b      0x46b HMI/MENU/menu.o
+ .debug_str     0x0000207b      0x446 HMI/MENU/menu.o
                                 0x75e (size before relaxing)
- .debug_str     0x00002406      0x1b4 HMI/TWI_BUS/twi.o
+ .debug_str     0x000024c1      0x1b4 HMI/TWI_BUS/twi.o
                                 0x408 (size before relaxing)
- .debug_str     0x000025ba       0x2f main.o
-                                0x271 (size before relaxing)
- .debug_str     0x000025e9      0x11c SYS_CLOCK/sysclock.o
+ .debug_str     0x00002675       0x59 main.o
+                                0x3a1 (size before relaxing)
+ .debug_str     0x000026ce      0x11c SYS_CLOCK/sysclock.o
                                 0x2d0 (size before relaxing)
 
-.debug_loc      0x00000000     0x3097
+.debug_loc      0x00000000     0x30c6
  *(.debug_loc)
  .debug_loc     0x00000000      0x257 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_loc     0x00000257      0x264 BLUETOOTH/USART/usart.o
  .debug_loc     0x000004bb     0x165d HMI/DISPLAY/oled_SSD1306.o
  .debug_loc     0x00001b18     0x1557 HMI/MENU/menu.o
  .debug_loc     0x0000306f       0x28 HMI/TWI_BUS/twi.o
+ .debug_loc     0x00003097       0x2f main.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1003,15 +1032,15 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x240
+.debug_ranges   0x00000000      0x248
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 BLUETOOTH/USART/BUFFER/buffer.o
  .debug_ranges  0x00000028       0x30 BLUETOOTH/USART/usart.o
  .debug_ranges  0x00000058       0xa8 HMI/DISPLAY/oled_SSD1306.o
  .debug_ranges  0x00000100       0xf0 HMI/MENU/menu.o
  .debug_ranges  0x000001f0       0x28 HMI/TWI_BUS/twi.o
- .debug_ranges  0x00000218       0x10 main.o
- .debug_ranges  0x00000228       0x18 SYS_CLOCK/sysclock.o
+ .debug_ranges  0x00000218       0x18 main.o
+ .debug_ranges  0x00000230       0x18 SYS_CLOCK/sysclock.o
 
 .debug_macro
  *(.debug_macro)
