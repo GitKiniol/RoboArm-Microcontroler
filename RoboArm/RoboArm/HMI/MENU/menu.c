@@ -13,6 +13,7 @@
 #include "../DISPLAY/oled_SSD1306.h"
 #include "../DISPLAY/fonts.h"
 #include "../DISPLAY/graphics.h"
+#include "../DISPLAY/displaytypes.h"
 
 /*---------------------------------------------------------Deklaracje zmiennych---------------------------------------------------------*/
 
@@ -223,7 +224,7 @@ void Menu_PrevParameterValue(menu_item_t *menuitem)
 
 void Menu_ShowParameterValue(void *parameter, uint8_t select)
 {
-	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,0};				/*pusty ³añcuch 12 x "space"								*/
+	char emptystring[] = {32,32,32,32,32,32,0};								/*pusty ³añcuch 6 x "space"									*/
 	par_values_t *param;													/*parametr tymczasowy										*/
 	param = (par_values_t *)parameter;										/*rzutowanie parametru wejœciowego na odpowiedni typ		*/
 	char *txt;																/*tekst bêd¹cy wartoœci¹ aktualn¹ parametru					*/
@@ -237,9 +238,9 @@ void Menu_ShowParameterValue(void *parameter, uint8_t select)
 	ssd1306WriteTxt(TwiBus, position, font7x5, txt, select);				/*wyœwietlenie aktualnej wartoœci parametru					*/
 }
 
-void Menu_ShowLabel(uint8_t x, uint8_t y,char *txt, uint8_t select)
+void Menu_ShowLabel(uint8_t x, uint8_t y, char *txt, uint8_t select)
 {
-	char emptystring[] = {32,32,32,32,32,32,32,32,32,32,32,0};				/*pusty ³añcuch 12 x "space"								*/
+	char emptystring[] = {32,32,32,32,32,32,32,32,32,0};					/*pusty ³añcuch 10 x "space"								*/
 	t_point_t labelpos;														/*zmienna okreœla pozycjê labelki na ekranie				*/
 	labelpos.X = x;															/*ustawienie pozycji X										*/
 	labelpos.Y = y;															/*ustawienie pozycji Y										*/

@@ -5,6 +5,14 @@
  *  Author: rybka
  */ 
 
+/*
+key right = PB4
+key left  = PB1
+key up    = PB3
+key down  = PB0
+key enter = PB2
+
+*/
 
 #ifndef KEYBOARD_H_
 #define KEYBOARD_H_
