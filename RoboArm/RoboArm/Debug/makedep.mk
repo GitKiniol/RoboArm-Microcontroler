@@ -26,6 +26,10 @@ HMI\KEYBORD\keyboard.c
 
 HMI\MENU\menu.c
 
+HMI\MENU\screen.c
+
+HMI\MENU\screendata.c
+
 HMI\TWI_BUS\twi.c
 
 main.c

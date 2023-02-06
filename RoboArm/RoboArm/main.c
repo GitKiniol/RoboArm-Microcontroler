@@ -20,25 +20,15 @@
 #include "BLUETOOTH/DATA/data.h"
 #include "CONTROL/WORK/work.h"
 #include "CONTROL/DRIVERS/drivers.h"
-
+#include "HMI/KEYBORD/keyboard.h"
+#include "HMI/MENU/screen.h"
 #include "HMI/MENU/menu.h"
 
 TWI_t *lcdBus = &TWIE;
 
-char ***parsvals;
-char *par1values[] = {"p1v1", "p1v2", "p1v3"};
-char *par2values[] = {"p2v1", "p2v2", "p2v3"};
-char *par3values[] = {"p3v1", "p3v2", "p3v3"};
-char *parnames[] = {"name1", "name2", "name3"};
-	
-par_values_t *pv;						/*wartoœci parametru						*/
-label_t *pn;							/*nazwa parametru							*/
-loop_item_t *li;						/*element listy	(kontener)					*/
-menu_item_t *mi;						/*element menu								*/
-menu_screen_t *scr;						/*menu										*/
-
-void MenuTest(void);
-char *s;
+keyboard_t *Keyboard;
+loop_list_t *Screens;
+menu_screen_t *Screen;
 
 int main(void)
 {
@@ -50,43 +40,20 @@ int main(void)
 	Driver_AxisInit();
 	Job = Data_CreateList();
 	Bluetooth = HC05_Init(Bluetooth);
-	parsvals = (char ***)malloc(sizeof(char **) * 4);
-	parsvals[0] = parnames;
-	parsvals[1] = par1values;
-	parsvals[2] = par2values;
-	parsvals[3] = par3values;
-	MenuTest();
+
+	Keyboard = Keyboard_Init();
 	
-	scr->Show(scr);
+	Screen = Screen_CreateScreen(Scr1Names, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1);
 	
 	sei();
     while (1) 
     {
-		Bluetooth->Read();						/* cykliczne odbieranie ramek danych z telefonu	*/
+		Bluetooth->Read();									/* cykliczne odbieranie ramek danych z telefonu	*/
+		Keyboard->Listner(Keyboard, Screens);				/* nas³uch klawiatury							*/
     }
 }
 
 
-void MenuTest(void)
-{
-	
-	static uint8_t i = 0;
-	
-	do 
-	{
-		pn = Menu_CreateLabel(parsvals[0][i], 1, i + 3, &Menu_ShowLabel);
-		i++;
-		pv = Menu_CreateParameterValues(parsvals[i], 3, 1, i + 2, &Menu_ShowParameterValue);
-		mi = Menu_MenuItemInit(pn, pv, 0, i+3);
-		li = Menu_ListItemInit(mi);
-		if (scr == NULL)
-		{
-			scr = Menu_CreateMenu(0, &Menu_ShowMenu, &Menu_RefreshMenu, &Menu_ClearMenu);
-		}
-		Menu_AddToList(scr->Parameters, li);
-	} while (/*scr->Parameters->Count*/i < 3);
-	
-	i = 0;
-}
+
 
 

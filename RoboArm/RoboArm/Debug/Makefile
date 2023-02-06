@@ -64,6 +64,8 @@ C_SRCS +=  \
 ../HMI/DISPLAY/oled_SSD1306.c \
 ../HMI/KEYBORD/keyboard.c \
 ../HMI/MENU/menu.c \
+../HMI/MENU/screen.c \
+../HMI/MENU/screendata.c \
 ../HMI/TWI_BUS/twi.c \
 ../main.c \
 ../SYS_CLOCK/sysclock.c
@@ -88,6 +90,8 @@ HMI/DISPLAY/graphics.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/KEYBORD/keyboard.o \
 HMI/MENU/menu.o \
+HMI/MENU/screen.o \
+HMI/MENU/screendata.o \
 HMI/TWI_BUS/twi.o \
 main.o \
 SYS_CLOCK/sysclock.o
@@ -105,6 +109,8 @@ HMI/DISPLAY/graphics.o \
 HMI/DISPLAY/oled_SSD1306.o \
 HMI/KEYBORD/keyboard.o \
 HMI/MENU/menu.o \
+HMI/MENU/screen.o \
+HMI/MENU/screendata.o \
 HMI/TWI_BUS/twi.o \
 main.o \
 SYS_CLOCK/sysclock.o
@@ -122,6 +128,8 @@ HMI/DISPLAY/graphics.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/KEYBORD/keyboard.d \
 HMI/MENU/menu.d \
+HMI/MENU/screen.d \
+HMI/MENU/screendata.d \
 HMI/TWI_BUS/twi.d \
 main.d \
 SYS_CLOCK/sysclock.d
@@ -139,6 +147,8 @@ HMI/DISPLAY/graphics.d \
 HMI/DISPLAY/oled_SSD1306.d \
 HMI/KEYBORD/keyboard.d \
 HMI/MENU/menu.d \
+HMI/MENU/screen.d \
+HMI/MENU/screendata.d \
 HMI/TWI_BUS/twi.d \
 main.d \
 SYS_CLOCK/sysclock.d
@@ -235,6 +245,20 @@ HMI/KEYBORD/keyboard.o: ../HMI/KEYBORD/keyboard.c
 	
 
 HMI/MENU/menu.o: ../HMI/MENU/menu.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+HMI/MENU/screen.o: ../HMI/MENU/screen.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+HMI/MENU/screendata.o: ../HMI/MENU/screendata.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG -DF_CPU=32000000 -DTRUE=1 -DFALSE=0  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atxmega128a1u -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\XMEGAA_DFP\1.3.146\gcc\dev\atxmega128a1u" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

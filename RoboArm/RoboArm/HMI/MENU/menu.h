@@ -89,7 +89,7 @@ typedef struct MENU_ITEM_STRUCT									/*struktura opisuje element menu								
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 
-/*-------------------------------------------------deklaracja funkcji---------------------------------------------------------------------------------------*/
+/*-------------------------------------------------------------deklaracja funkcji---------------------------------------------------------------------------*/
 
 /* Obs³uga listy danych:	*/
 
@@ -145,6 +145,8 @@ void Menu_ClearMenu(void);																		/* czyszczenie obszaru menu									
 void Menu_RefreshStatusBar(void *statusbar);													/* odœwie¿anie paska statusu								*/
 
 void Menu_RefreshMenu(void *menuscreen);														/* odœwie¿anie menu											*/
+
+loop_list_t *Menu_CreateScreens(void);															/* funkcja generuje listê ekranów							*/
 
 /*----------------------------------------------------------------------------------------------------------------------------------------------------------*/
 #endif /* MENU_H_ */
