@@ -97,46 +97,20 @@ loop_item_t *Menu_GetFromList(loop_list_t *list)
 	return tempitem;														/*zwrócenie wskaŸnika na pobrany element z listy			*/
 }
 
-menu_item_t *Menu_ListScrollDown(loop_list_t *list, menu_screen_t* menu)
+void Menu_ListScrollDown(loop_list_t *list)
 {
-	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
+	if (list->Head != NULL)
 	{
-		loop_item_t *templistitem;											/*tymczasowy element listy									*/
-		menu_item_t *tempmenuitem;											/*tymczasowy element menu									*/
-		templistitem = Menu_GetFromList(list);								/*pobranie elementu z listy									*/
-		tempmenuitem = templistitem->Data;									/*pobranie elementu menu z elementu listy					*/
-		if (tempmenuitem->IsSelected.State)
-		{
-			tempmenuitem->IsSelected.State = 0;								/*wy³¹czenie zaznaczenia elementu							*/
-			list->Current = templistitem->Prev;								/*przesuniêcie aktualnego elementu listy w dó³				*/
-			templistitem = Menu_GetFromList(list);							/*pobranie elementu z listy									*/
-			tempmenuitem = templistitem->Data;								/*pobranie elementu menu z elementu listy					*/
-		}
-		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/	
-		return tempmenuitem;												/*zwrócenie aktualnego elementu menu						*/						
+		list->Current = list->Current->Prev;							/*przestawienie wskaŸnika na poprzedni element					*/
 	}
-	return NULL;															/*jeœli menu tylko do odczytu to zwróæ pusty element		*/
 }
 
-menu_item_t *Menu_ListScrollUp(loop_list_t *list, menu_screen_t* menu)
+void Menu_ListScrollUp(loop_list_t *list)
 {
-	if (!menu->IsReadOnly.State)											/*czy aktualne menu jest tylko do odczytu?, jeœli tak to:	*/
+	if (list->Head != NULL)
 	{
-		loop_item_t *templistitem;											/*tymczasowy element listy									*/
-		menu_item_t *tempmenuitem;											/*tymczasowy element menu									*/
-		templistitem = Menu_GetFromList(list);								/*pobranie elementu z listy									*/
-		tempmenuitem = templistitem->Data;									/*pobranie elementu menu z elementu listy					*/
-		if (tempmenuitem->IsSelected.State)
-		{
-			tempmenuitem->IsSelected.State = 0;								/*wy³¹czenie zaznaczenia elementu							*/
-			list->Current = templistitem->Next;								/*przesuniêcie aktualnego elementu listy w górê				*/
-			templistitem = Menu_GetFromList(list);							/*pobranie elementu z listy									*/
-			tempmenuitem = templistitem->Data;								/*pobranie elementu menu z elementu listy					*/
-		}
-		tempmenuitem->IsSelected.State = 1;									/*zaznacz element											*/
-		return tempmenuitem;												/*zwrócenie aktualnego elementu menu						*/	
+		list->Current = list->Current->Next;							/*przestawienie wskaŸnika na nastêpny element					*/
 	}
-	return NULL;															/*jeœli menu tylko do odczytu to zwróæ pusty element		*/
 }
 
 /* Obs³uga menu */
@@ -285,6 +259,7 @@ void Menu_ShowStatusBar(void *statusbar)
 void Menu_ShowMenu(void *menuscreen)
 {
 	menu_screen_t *menu = (menu_screen_t*)menuscreen;						/*rzutowanie parametru na typ menu_screen_t					*/
+	
 	if (menu->Parameters->Count > 0)										/*czy lista parametrów zawiera elementy? jeœli tak, to:		*/
 	{
 		uint8_t i = 0;														/*deklaracja zmiennej iteracyjnej							*/
@@ -297,8 +272,7 @@ void Menu_ShowMenu(void *menuscreen)
 			par_values_t *vlabel = mitem->Value;							/*pobranie labelki z wartoœci¹ parametru					*/
 			nlabel->Show(nlabel->X, nlabel->Y, nlabel->Text, mitem->IsSelected.State);			/*wyœwietlenie labelki z nazw¹			*/
 			vlabel->Show(vlabel, 1);										/*wyœwietlenie wartoœci parametru							*/
-		}
-		menu->Parameters->Current = menu->Parameters->Head;					/*przesuñ wskaŸnik bie¿¹cego elementu na wartoœæ domyœl¹	*/		
+		}	
 	}
 }
 
@@ -333,7 +307,7 @@ void Menu_RefreshStatusBar(void *statusbar)
 
 void Menu_RefreshMenu(void *menuscreen)
 {
-	status_bar_t *menu = (status_bar_t *) menuscreen;
+	menu_screen_t *menu = (menu_screen_t *) menuscreen;
 	menu->Clear();
 	menu->Show(menu);
 }

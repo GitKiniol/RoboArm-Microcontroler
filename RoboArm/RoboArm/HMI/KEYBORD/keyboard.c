@@ -103,27 +103,78 @@ void Keyboard_Listner(void *keyboard, loop_list_t *scr)
 
 void Keyboard_UpKeyEvent(loop_list_t *scr)
 {
-	
+	menu_screen_t *current;											/*aktualny ekran											*/
+	current = (menu_screen_t *)scr->Current->Data;					/*pobranie adresu aktualnego ekranu							*/
+	if (current->IsReadOnly.State == 0)
+	{
+		Screen_ParameterScrollDown(current->Parameters, current);	/*przesuniêcie wskaŸnika na kolejny parametr				*/
+		current->Refresh(current);									/*odœwie¿anie aktualnego ekranu								*/
+	}
 }
 
 void Keyboard_DownKeyEvent(loop_list_t *scr)
 {
-	
+	menu_screen_t *current;											/*aktualny ekran											*/
+	current = (menu_screen_t *)scr->Current->Data;					/*pobranie adresu aktualnego ekranu							*/
+	if (current->IsReadOnly.State == 0)
+	{
+		Screen_ParameterScrollUp(current->Parameters, current);		/*przesuniêcie wskaŸnika na poprzedni parametr				*/
+		current->Refresh(current);									/*odœwie¿anie aktualnego ekranu								*/
+	}
 }
 
 void Keyboard_RightKeyEvent(loop_list_t *scr)
 {
+	menu_screen_t *currentscreen;													/*aktualny ekran							*/
+	currentscreen = (menu_screen_t *)scr->Current->Data;							/*pobranie adresu aktualnego ekranu			*/	
+	menu_item_t *menuitem;															/*aktualny element menu						*/
+	menuitem = (menu_item_t *)currentscreen->Parameters->Current->Data;				/*pobranie adresu aktualnego elementu		*/
 	
+	if (menuitem->IsSelected.State == 0)											/*jeœli zaznaczono parametr, to :			*/
+	{
+		Menu_ListScrollUp(menuitem->Value->Values);									/*zmiana wartoœci aktualnego parametru		*/
+		menuitem->Value->Show(menuitem->Value, 1);									/*odœwie¿enie ekranu						*/
+	}
+	else
+	{
+		Menu_ListScrollUp(scr);														/*przesuniêcie wskaŸnika aktualnego ekranu	*/
+		currentscreen = (menu_screen_t *)scr->Current->Data;						/*pobranie adresu aktualnego ekranu			*/
+		currentscreen->Refresh(currentscreen);										/*odœwie¿enie ekranu						*/
+	}
 }
 
 void Keyboard_LeftKeyEvent(loop_list_t *scr)
 {
+	menu_screen_t *currentscreen;													/*aktualny ekran							*/
+	currentscreen = (menu_screen_t *)scr->Current->Data;							/*pobranie adresu aktualnego ekranu			*/
+	menu_item_t *menuitem;															/*aktualny element menu						*/
+	menuitem = (menu_item_t *)currentscreen->Parameters->Current->Data;				/*pobranie adresu aktualnego elementu		*/
 	
+	if (menuitem->IsSelected.State == 0)
+	{
+		Menu_ListScrollDown(menuitem->Value->Values);								/*zmiana wartoœci aktualnego parametru		*/
+		menuitem->Value->Show(menuitem->Value, 1);									/*odœwie¿enie ekranu						*/
+	}
+	else
+	{
+		Menu_ListScrollDown(scr);													/*przesuniêcie wskaŸnika aktualnego ekranu	*/
+		currentscreen = (menu_screen_t *)scr->Current->Data;						/*pobranie adresu aktualnego ekranu			*/
+		currentscreen->Refresh(currentscreen);										/*odœwie¿enie ekranu						*/
+	}
 }
 
 void Keyboard_EnterKeyEvent(loop_list_t *scr)
 {
+	menu_screen_t *currentscreen;													/*aktualny ekran							*/
+	currentscreen = (menu_screen_t *)scr->Current->Data;							/*pobranie adresu aktualnego ekranu			*/
+	menu_item_t *menuitem;															/*aktualny element menu						*/
+	menuitem = (menu_item_t *)currentscreen->Parameters->Current->Data;				/*pobranie adresu aktualnego elementu		*/
 	
+	if (menuitem->IsSelected.State == 0)											/*jeœli jakiœ parametr jest zaznaczony, to:	*/
+	{
+		menuitem->IsSelected.State = 1;												/*odznacz parametr							*/
+		currentscreen->Refresh(currentscreen);										/*odœwie¿enie ekranu						*/
+	}
 }
 
 /*--------------------------------------------------------------------------------------------------------------------------------------*/

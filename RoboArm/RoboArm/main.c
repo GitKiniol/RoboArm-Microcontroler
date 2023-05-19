@@ -28,7 +28,8 @@ TWI_t *lcdBus = &TWIE;
 
 keyboard_t *Keyboard;
 loop_list_t *Screens;
-menu_screen_t *Screen;
+menu_screen_t *CurentScreen;
+
 
 int main(void)
 {
@@ -43,13 +44,18 @@ int main(void)
 
 	Keyboard = Keyboard_Init();
 	
-	Screen = Screen_CreateScreen(Scr1Names, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1, ScrValuesSet1);
+	Screens = Screen_CreateScreens();
+	//CurentScreen = (menu_screen_t *)malloc(sizeof(menu_screen_t));
+	CurentScreen = (menu_screen_t *)Screens->Current->Data;
+	
+	CurentScreen->Show(CurentScreen);
 	
 	sei();
     while (1) 
     {
 		Bluetooth->Read();									/* cykliczne odbieranie ramek danych z telefonu	*/
 		Keyboard->Listner(Keyboard, Screens);				/* nas³uch klawiatury							*/
+		
     }
 }
 
